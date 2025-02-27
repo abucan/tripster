@@ -1,16 +1,18 @@
 import { useRef, useState } from 'react';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import Swiper from 'react-native-swiper';
 
 import { Button } from '@/components/Button';
 import ChooseAuthSheet from '@/components/ChooseAuthSheet';
 import { Slide } from '@/components/Slide';
 import { Slides } from '@/constants/Slides';
-import { colors } from '@/lib/theme';
+import { colors, useTheme } from '@/lib/theme';
 import BottomSheet from '@gorhom/bottom-sheet';
 
 export default function Index() {
+  const { theme } = useTheme();
+
   const swiper = useRef<Swiper>(null);
   const [slideIndex, setSlideIndex] = useState(0);
   const isLastSlide = slideIndex === Slides.length - 1;
@@ -31,7 +33,12 @@ export default function Index() {
   };
 
   return (
-    <>
+    <SafeAreaView
+      style={[
+        styles.safeArea,
+        { backgroundColor: theme === 'light' ? '#F7F7F7' : '#121212' },
+      ]}
+    >
       <View style={styles.container}>
         <Swiper
           ref={swiper}
@@ -68,11 +75,14 @@ export default function Index() {
         bottomSheetRef={authSheetRef}
         onClose={() => authSheetRef.current?.close()}
       />
-    </>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     position: 'relative',

@@ -5,7 +5,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { loadTheme, saveTheme, ThemeContext, ThemeType } from '@/lib/theme';
 
@@ -49,18 +48,11 @@ export default function RootLayout() {
         <View
           style={[
             styles.container,
-            { backgroundColor: theme === 'light' ? '#ffffff' : '#121212' },
+            { backgroundColor: theme === 'light' ? '#F7F7F7' : '#121212' },
           ]}
         >
           <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
-          <SafeAreaView
-            style={[
-              styles.safeArea,
-              { backgroundColor: theme === 'light' ? '#f5f5f5' : '#121212' },
-            ]}
-          >
-            <Slot />
-          </SafeAreaView>
+          <Slot />
         </View>
       </ThemeContext.Provider>
     </GestureHandlerRootView>
@@ -69,9 +61,6 @@ export default function RootLayout() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  safeArea: {
     flex: 1,
   },
 });

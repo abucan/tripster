@@ -12,3 +12,8 @@ export type TextInputProps = {
   textContentType?: 'emailAddress' | 'password';
   autoComplete?: 'email' | 'password';
 };
+
+export type FeatureItemProps = {
+  icon: React.ReactElement;
+  title: string;
+};
