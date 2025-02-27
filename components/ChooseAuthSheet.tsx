@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
+import { router } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 import BottomSheet, {
@@ -58,7 +59,12 @@ export default function ChooseAuthSheet({
       <BottomSheetView style={styles.sheetContainer}>
         <View style={styles.contentContainer}>
           <View style={styles.buttonContainer}>
-            <Button title="Create Account" variant="default" size="lg" />
+            <Button
+              title="Create Account"
+              variant="default"
+              size="lg"
+              onPress={() => router.push('/(auth)/register')}
+            />
             <SignUpButtons />
           </View>
           <View style={styles.altTextContainer}>

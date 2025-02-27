@@ -53,7 +53,12 @@ export default function RootLayout() {
           ]}
         >
           <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
-          <SafeAreaView style={styles.safeArea}>
+          <SafeAreaView
+            style={[
+              styles.safeArea,
+              { backgroundColor: theme === 'light' ? '#f5f5f5' : '#121212' },
+            ]}
+          >
             <Slot />
           </SafeAreaView>
         </View>
