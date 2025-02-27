@@ -34,7 +34,7 @@ export default function LoginScreen() {
     const result = await signIn(data.email, data.password);
 
     if (result.success) {
-      // router.replace('/(protected)/(tabs)/home/index');
+      router.replace('/(tabs)/home' as any);
     }
   };
 
