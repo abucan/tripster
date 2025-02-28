@@ -1,50 +1,34 @@
-# Welcome to your Expo app 👋
+## Packages Used
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# Navigation and Routing
 
-## Get started
+- expo-router (v4.0.17): File-based routing system for Expo apps
 
-1. Install dependencies
+# UI Components and Styling
 
-   ```bash
-   npm install
-   ```
+- @expo/vector-icons (v14.0.2): Icon library for Expo apps
+- @gorhom/bottom-sheet (v5.1.1): Bottom sheet component with gestures
+- react-native-otp-entry (v1.8.2): OTP input component
+- react-native-swiper (v1.6.0): Swiper/carousel component
 
-2. Start the app
+# State Management and Forms
 
-   ```bash
-    npx expo start
-   ```
+- zustand (v5.0.3): Lightweight state management
+- react-hook-form (v7.54.2): Form handling library
+- @hookform/resolvers (v4.1.2): Form validation resolvers
+- zod (v3.24.2): TypeScript-first schema validation
 
-In the output, you'll find options to open the app in a
+# Storage and Backend
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- expo-secure-store (v14.0.1): Secure key-value storage
+- @supabase/supabase-js (v2.49.1): Supabase client library
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+# Device Features and Utilities
 
-## Get a fresh project
+- react-native-keyboard-aware-scroll-view (v0.9.5): Handles keyboard appearance in scrollviews
+- react-native-safe-area-context (v4.12.0): Safe area handling
 
-When you're ready, run:
+# Development and Testing
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- eslint: Code linting
+- react-native-svg & react-native-svg-transformer: SVG handling

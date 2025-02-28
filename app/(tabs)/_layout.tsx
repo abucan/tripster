@@ -18,7 +18,11 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="create-trip/index"
         options={{
+          title: 'Create Trip',
           headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="plus" color={color} size={size} />
+          ),
         }}
       />
     </Tabs>
