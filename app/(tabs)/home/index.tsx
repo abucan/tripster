@@ -1,7 +1,8 @@
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+
 import { FeaturesList } from '@/components/FeatureList';
 import { LogoIcon } from '@/components/logo/LogoIcon';
 import { SearchBar } from '@/components/SearchBar';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function HomeScreen() {
   return (

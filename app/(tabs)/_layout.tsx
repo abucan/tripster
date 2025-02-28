@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 export default function TabsLayout() {
   return (
@@ -21,7 +21,7 @@ export default function TabsLayout() {
           title: 'Create Trip',
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <AntDesign name="plus" color={color} size={size} />
+            <Ionicons name="add-circle-outline" size={size} color={color} />
           ),
         }}
       />
