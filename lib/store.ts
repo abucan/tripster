@@ -8,6 +8,7 @@ interface AuthStore {
   // user and session
   user: User | null;
   session: Session | null;
+  setSession: (session: Session | null) => void;
   userEmail: string | null;
   signUp: (
     email: string,
@@ -36,6 +37,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   isEmailVerified: false,
   isLoading: false,
   error: null,
+  setSession: (session: Session | null) => set({ session }),
   setIsLoading: (loading: boolean) => set({ isLoading: loading }),
   setError: (error: string | null) => set({ error }),
 

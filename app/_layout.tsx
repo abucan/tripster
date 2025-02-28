@@ -3,17 +3,25 @@ import { useFonts } from 'expo-font';
 import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { useProtectedRoute } from '@/hooks/useProtectedRoute';
+import { useAuthStore } from '@/lib/store';
+import { supabase } from '@/lib/supabase';
 import { loadTheme, saveTheme, ThemeContext, ThemeType } from '@/lib/theme';
 
 import 'react-native-reanimated';
-
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [theme, setTheme] = useState<ThemeType>('light');
+  const { session, setSession, isLoading, setIsLoading } = useAuthStore();
 
   const [loaded] = useFonts({
     'Helvetica-Now-Display-Regular': require('@/assets/fonts/HelveticaNowDisplay-Regular.ttf'),
@@ -22,25 +30,60 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    loadTheme().then(setTheme);
+  }, []);
+
+  useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
-      loadTheme().then((savedTheme) => setTheme(savedTheme));
+      setIsLoading(true);
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session);
+        setIsLoading(false);
+        SplashScreen.hideAsync();
+      });
+
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((_event, session) => {
+        setSession(session);
+      });
 
       if (process.env.NODE_ENV === 'development') {
         console.log('DEV: Fonts and theme loaded.');
       }
-    }
-  }, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
+      return () => subscription.unsubscribe();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaded]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     saveTheme(newTheme);
   };
+
+  useProtectedRoute(session, isLoading);
+
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: theme === 'light' ? '#ffffff' : '#121212',
+        }}
+      >
+        <StatusBar style={theme === 'light' ? 'dark' : 'light'} />
+        <SafeAreaView style={{ flex: 1 }}>
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <ActivityIndicator size="large" color="#02023d" />
+          </View>
+        </SafeAreaView>
+      </View>
+    );
+  }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
