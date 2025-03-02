@@ -13,6 +13,19 @@ export type TextInputProps = {
   autoComplete?: 'email' | 'password';
 };
 
+export type MyInputProps = {
+  onChangeText?: (text: string) => void;
+  isTextArea?: boolean;
+  height?: number;
+  value?: string;
+  label?: string;
+  icon?: keyof typeof Ionicons.glyphMap;
+  placeholder?: string;
+  secureTextEntry?: boolean;
+  error?: string;
+  editable?: boolean;
+};
+
 export type FeatureItemProps = {
   icon: React.ReactElement;
   title: string;

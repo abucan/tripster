@@ -12,7 +12,7 @@ import { colors, useTheme } from '../lib/theme';
 import { Button } from './Button';
 import { SignUpButtons } from './SignUpButtons';
 
-interface EditActivitySheetProps {
+interface ChooseAuthSheetProps {
   bottomSheetRef: React.RefObject<BottomSheet>;
   onClose: () => void;
 }
@@ -20,7 +20,7 @@ interface EditActivitySheetProps {
 export default function ChooseAuthSheet({
   bottomSheetRef,
   onClose,
-}: EditActivitySheetProps) {
+}: ChooseAuthSheetProps) {
   const { theme } = useTheme();
   const themeColors = colors[theme];
 
@@ -30,7 +30,7 @@ export default function ChooseAuthSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose],
+    [onClose]
   );
 
   const renderBackdrop = useCallback(
@@ -41,7 +41,7 @@ export default function ChooseAuthSheet({
         disappearsOnIndex={-1}
       />
     ),
-    [],
+    []
   );
 
   return (
