@@ -1,6 +1,8 @@
 import { FlatList } from 'react-native';
-import { FeatureItem } from './FeatureItem';
+
 import { features } from '@/types/features';
+
+import { FeatureItem } from './FeatureItem';
 
 export const FeaturesList = () => {
   return (

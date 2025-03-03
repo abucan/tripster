@@ -1,13 +1,15 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import dayjs from 'dayjs';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import DateTimePicker, { DateType } from 'react-native-ui-datepicker';
+
+import { MaterialIcons } from '@expo/vector-icons';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
-import { useTheme, colors } from '../lib/theme';
-import DateTimePicker, { DateType } from 'react-native-ui-datepicker';
-import { MaterialIcons } from '@expo/vector-icons';
-import dayjs from 'dayjs';
+
+import { colors, useTheme } from '../lib/theme';
 
 interface SelectDateRangeSheetProps {
   bottomSheetRef: React.RefObject<BottomSheet>;
@@ -26,7 +28,7 @@ export default function SelectDateRangeSheet({
   const { theme } = useTheme();
   const themeColors = colors[theme];
 
-  const snapPoints = useMemo(() => ['50%'], []);
+  const snapPoints = useMemo(() => ['75%'], []);
 
   const [dateRange, setDateRange] = React.useState<{
     startDate: DateType;
@@ -44,7 +46,7 @@ export default function SelectDateRangeSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose]
+    [onClose],
   );
 
   const renderBackdrop = useCallback(
@@ -55,12 +57,16 @@ export default function SelectDateRangeSheet({
         disappearsOnIndex={-1}
       />
     ),
-    []
+    [],
   );
 
   const onChange = (params: any) => {
-    console.log(params);
     setDateRange(params);
+
+    onDateRangeChange({
+      startDate: params.startDate,
+      endDate: params.endDate,
+    });
   };
 
   return (
@@ -90,10 +96,13 @@ export default function SelectDateRangeSheet({
         </View>
         {/* Date range picker */}
         <DateTimePicker
-          style={{ marginHorizontal: 20 }}
+          style={{
+            marginHorizontal: 20,
+            flex: 1,
+            maxHeight: '70%',
+          }}
           mode="range"
           navigationPosition="right"
-          containerHeight={300}
           startDate={dateRange.startDate}
           endDate={dateRange.endDate}
           onChange={onChange}
@@ -151,6 +160,24 @@ export default function SelectDateRangeSheet({
             ),
           }}
         />
+
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginHorizontal: 20,
+            gap: 16,
+          }}
+        >
+          <View style={styles.footer}>
+            <Text style={styles.footerSubtitle}>Start Date</Text>
+            <Text style={styles.footerDate}>{from}</Text>
+          </View>
+          <View style={styles.footer}>
+            <Text style={styles.footerSubtitle}>End Date</Text>
+            <Text style={styles.footerDate}>{to}</Text>
+          </View>
+        </View>
       </BottomSheetView>
     </BottomSheet>
   );
@@ -185,5 +212,25 @@ const styles = StyleSheet.create({
   pickerContainer: {
     flex: 1,
     alignItems: 'center',
+  },
+  footer: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 8,
+    gap: 4,
+  },
+  footerSubtitle: {
+    fontFamily: 'Helvetica-Now-Display-Regular',
+    fontSize: 12,
+    color: colors.light.textSecondary,
+  },
+  footerDate: {
+    fontFamily: 'Helvetica-Now-Display-Medium',
+    fontSize: 16,
   },
 });

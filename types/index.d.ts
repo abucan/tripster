@@ -1,3 +1,5 @@
+import { ViewStyle } from 'react-native';
+
 import { Ionicons } from '@expo/vector-icons';
 
 export type TextInputProps = {
@@ -24,6 +26,7 @@ export type MyInputProps = {
   secureTextEntry?: boolean;
   error?: string;
   editable?: boolean;
+  customStyle?: ViewStyle | ViewStyle[];
 };
 
 export type FeatureItemProps = {

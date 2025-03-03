@@ -14,10 +14,11 @@ export const MyInput = ({
   placeholder,
   error,
   editable = true,
+  customStyle,
   ...props
 }: MyInputProps) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, customStyle]}>
       <View
         style={[styles.wrapper, error && { borderColor: 'red' }, { height }]}
       >
