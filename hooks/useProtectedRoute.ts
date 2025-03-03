@@ -8,15 +8,17 @@ export function useProtectedRoute(session: Session | null, isLoading: boolean) {
   const segments = useSegments();
   const router = useRouter();
 
+  const protectedGroups = ['(tabs)'];
+
   useEffect(() => {
     if (isLoading) return;
 
     const isAuthGroup = segments[0] === '(auth)';
-    const isTabsGroup = segments[0] === '(tabs)';
+    const isProtectedGroup = protectedGroups.includes(segments[0]);
 
     if (!session && !isAuthGroup) {
       router.replace('/login');
-    } else if (session && !isTabsGroup) {
+    } else if (session && !isProtectedGroup) {
       router.replace('/(tabs)/home');
     }
   }, [session, segments, isLoading, router]);

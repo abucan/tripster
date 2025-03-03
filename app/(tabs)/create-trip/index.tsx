@@ -209,7 +209,9 @@ export default function CreateTripScreen() {
                 >
                   <MyInput
                     onChangeText={onChange}
-                    value={`${dayjs(value?.startDate).format('MMM DD, YYYY') || ''} - ${dayjs(value?.endDate).format('MMM DD, YYYY') || ''}`}
+                    value={`${
+                      dayjs(value?.startDate).format('MMM DD, YYYY') || ''
+                    } - ${dayjs(value?.endDate).format('MMM DD, YYYY') || ''}`}
                     placeholder="Select travel dates"
                     label="Travel Dates"
                     error={errors.range?.message}
