@@ -46,7 +46,7 @@ export default function SelectDateRangeSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose],
+    [onClose]
   );
 
   const renderBackdrop = useCallback(
@@ -57,7 +57,7 @@ export default function SelectDateRangeSheet({
         disappearsOnIndex={-1}
       />
     ),
-    [],
+    []
   );
 
   const onChange = (params: any) => {
@@ -97,18 +97,20 @@ export default function SelectDateRangeSheet({
         {/* Date range picker */}
         <DateTimePicker
           style={{
-            marginHorizontal: 20,
             flex: 1,
-            maxHeight: '70%',
+            maxHeight: '60%',
+            marginHorizontal: 20,
+            paddingHorizontal: 12,
+            borderRadius: 8,
+            borderWidth: StyleSheet.hairlineWidth,
           }}
           mode="range"
-          navigationPosition="right"
+          navigationPosition="around"
           startDate={dateRange.startDate}
           endDate={dateRange.endDate}
           onChange={onChange}
           styles={{
             header: {
-              // marginHorizontal: 10,
               marginBottom: 10,
             },
             month_selector_label: {
@@ -119,8 +121,9 @@ export default function SelectDateRangeSheet({
               fontFamily: 'Helvetica-Now-Display-Bold',
               fontSize: 20,
             },
-            button_next: {
-              marginLeft: -10,
+            weekday_label: {
+              fontFamily: 'Helvetica-Now-Display-Bold',
+              fontSize: 16,
             },
             range_start: {
               backgroundColor: 'red',
@@ -166,16 +169,17 @@ export default function SelectDateRangeSheet({
             flexDirection: 'row',
             alignItems: 'center',
             marginHorizontal: 20,
+            marginTop: 16,
             gap: 16,
           }}
         >
           <View style={styles.footer}>
             <Text style={styles.footerSubtitle}>Start Date</Text>
-            <Text style={styles.footerDate}>{from}</Text>
+            <Text style={styles.footerDate}>{from || 'No Date'}</Text>
           </View>
           <View style={styles.footer}>
             <Text style={styles.footerSubtitle}>End Date</Text>
-            <Text style={styles.footerDate}>{to}</Text>
+            <Text style={styles.footerDate}>{to || 'No Date'}</Text>
           </View>
         </View>
       </BottomSheetView>

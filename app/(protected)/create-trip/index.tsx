@@ -110,7 +110,10 @@ export default function CreateTripScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
-        <ScrollView style={{ flexGrow: 1 }}>
+        <ScrollView
+          style={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
           <View
             style={{
               display: 'flex',
@@ -324,7 +327,7 @@ export default function CreateTripScreen() {
               title="Create Trip"
               size="lg"
               isLoading={isLoading}
-              // disabled={isLoading}
+              disabled={isLoading}
               onPress={handleSubmit(onSubmit, onErrors)}
             />
           </View>
