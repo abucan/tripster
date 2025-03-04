@@ -33,3 +33,29 @@ export type FeatureItemProps = {
   icon: React.ReactElement;
   title: string;
 };
+
+export type Category = {
+  id: number;
+  name: string;
+  icon: string;
+  created_at: string;
+};
+
+export type Tag = {
+  id: string;
+  name: string;
+  created_at: string;
+};
+
+export interface Trip {
+  id: string;
+  title: string;
+  description: string;
+  destination: string;
+  budget: number;
+  persons: number;
+  start_date: Date;
+  end_date: Date;
+  image_url: string;
+  user_id: string;
+}

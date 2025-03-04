@@ -1,5 +1,6 @@
-import { FeatureItemProps } from '@/types';
 import { StyleSheet, Text, View } from 'react-native';
+
+import { FeatureItemProps } from '@/types';
 
 export const FeatureItem = ({ title, icon }: FeatureItemProps) => {
   return (

@@ -1,3 +1,7 @@
+import { useEffect } from 'react';
+import { useState } from 'react';
+import debounce from 'lodash/debounce';
+import { Building, Globe, Home, Map, MapPin } from 'lucide-react-native';
 import {
   FlatList,
   StyleSheet,
@@ -5,11 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
 import { Input } from './Input';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import debounce from 'lodash/debounce';
-import { MapPin, Globe, Map, Home, Building } from 'lucide-react-native';
 
 const MAPBOX_ACCESS_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
@@ -62,8 +63,8 @@ export default function PlacesAutocomplete({
       setError(null);
       const response = await fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-          searchQuery
-        )}.json?access_token=${MAPBOX_ACCESS_TOKEN}&types=place&limit=10`
+          searchQuery,
+        )}.json?access_token=${MAPBOX_ACCESS_TOKEN}&types=place&limit=10`,
       );
 
       if (!response.ok) throw new Error('Failed to fetch places');

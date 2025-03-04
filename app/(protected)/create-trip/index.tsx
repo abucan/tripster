@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
+import { router } from 'expo-router';
 import dayjs from 'dayjs';
+import LottieView from 'lottie-react-native';
 import { Minus, Plus } from 'lucide-react-native';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, FieldErrors, useForm } from 'react-hook-form';
 import {
   Image,
   KeyboardAvoidingView,
@@ -15,13 +17,16 @@ import {
 } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import InputSpinner from 'react-native-input-spinner';
+import Modal from 'react-native-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import lottie from '@/assets/animations/lottie.json';
 import { Button } from '@/components/Button';
+import CategoryTagSelector from '@/components/CategoryTagSelector';
 import { MyInput } from '@/components/form/MyInput';
 import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
-import { supabase } from '@/lib/supabase';
+import { useTripStore } from '@/lib/tripStore';
 import { TripFormData, tripSchema } from '@/utils/schemas/trips.schemas';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -31,9 +36,13 @@ export default function CreateTripScreen() {
   const [imageUri, setImageUri] = useState<string>('');
   const DEFAULT_IMAGE = require('@/assets/images/home_header.png');
 
+  const [showModal, setShowModal] = useState(true);
+
   // refs
   const destinationBottomSheetRef = useRef<BottomSheet>(null);
   const rangeBottomSheetRef = useRef<BottomSheet>(null);
+
+  const { createTrip, isLoading } = useTripStore();
 
   // form
   const {
@@ -48,45 +57,23 @@ export default function CreateTripScreen() {
       description:
         'We are going to Split, Croatia to enjoy the sun and the sea',
       destination: 'Split, Split-Dalmatia, Croatia',
+      budget: 1000,
+      persons: 2,
+      categories: [],
     },
   });
 
   const onSubmit = async (data: TripFormData) => {
-    try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error('User not found');
-      }
+    const result = await createTrip(data);
+    console.log('result', result);
 
-      const { data: trip, error: tripError } = await supabase
-        .from('trips')
-        .insert({
-          title: data.title,
-          description: data.description,
-          destination: data.destination,
-          budget: data.budget,
-          persons: data.persons,
-          start_date: data.range.startDate,
-          end_date: data.range.endDate,
-          image_url: imageUri,
-          user_id: user.id,
-        })
-        .select()
-        .single();
-
-      if (tripError) {
-        throw tripError;
-      }
-
-      if (!trip) {
-        throw new Error('Trip not created.');
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
+    if (result) {
+      router.push('/');
     }
+  };
+
+  const onErrors = (errors: FieldErrors<TripFormData>) => {
+    console.log('errors', errors);
   };
 
   const handleSelectImage = async () => {
@@ -124,7 +111,30 @@ export default function CreateTripScreen() {
         style={{ flex: 1 }}
       >
         <ScrollView style={{ flexGrow: 1 }}>
-          <Text style={styles.title}>Create Trip</Text>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              paddingVertical: 20,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => router.back()}
+              style={{
+                position: 'absolute',
+                left: 20,
+                backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                padding: 8,
+                borderRadius: 100,
+              }}
+            >
+              <Ionicons name="arrow-back" size={24} color="black" />
+            </TouchableOpacity>
+            <Text style={styles.title}>Create Trip</Text>
+          </View>
 
           <View style={styles.imageWrapper}>
             <Image
@@ -294,10 +304,28 @@ export default function CreateTripScreen() {
                 )}
               />
             </View>
+
+            <Controller
+              control={control}
+              name="categories"
+              render={({ field: { onChange, value } }) => (
+                <CategoryTagSelector
+                  selectedCategories={value?.toString().split(',') || []}
+                  onCategoriesChange={(categories) => {
+                    onChange(categories);
+                  }}
+                  selectedTags={[]}
+                  onTagsChange={() => {}}
+                />
+              )}
+            />
+
             <Button
               title="Create Trip"
               size="lg"
-              onPress={handleSubmit(onSubmit)}
+              isLoading={isLoading}
+              // disabled={isLoading}
+              onPress={handleSubmit(onSubmit, onErrors)}
             />
           </View>
         </ScrollView>
@@ -314,6 +342,30 @@ export default function CreateTripScreen() {
         onDateRangeChange={handleDateRangeChange}
         onClose={() => rangeBottomSheetRef.current?.close()}
       />
+
+      <Modal
+        isVisible={isLoading}
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+      >
+        <View
+          style={{
+            width: '100%',
+            height: '25%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 8,
+          }}
+        >
+          <LottieView
+            source={lottie}
+            autoPlay
+            loop
+            style={{ width: 250, height: 150 }}
+          />
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -326,7 +378,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Helvetica-Now-Display-Bold',
     textAlign: 'center',
-    paddingVertical: 12,
+    // paddingVertical: 12,
   },
 
   imageWrapper: {

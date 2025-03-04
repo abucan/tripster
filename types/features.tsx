@@ -1,7 +1,7 @@
 import {
   FontAwesome6,
-  MaterialIcons,
   MaterialCommunityIcons,
+  MaterialIcons,
 } from '@expo/vector-icons';
 
 export const features = [

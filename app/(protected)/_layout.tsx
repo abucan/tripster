@@ -4,7 +4,13 @@ export default function ProtectedLayout() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="create-trip/index" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="create-trip/index"
+        options={{
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
+      />
     </Stack>
   );
 }

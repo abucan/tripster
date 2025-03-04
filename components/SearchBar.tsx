@@ -1,9 +1,14 @@
+import { router } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+
 import { Ionicons } from '@expo/vector-icons';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
 
 export const SearchBar = () => {
   return (
-    <Pressable style={styles.wrapper}>
+    <Pressable
+      style={styles.wrapper}
+      onPress={() => router.push('/(protected)/create-trip')}
+    >
       <View style={styles.container}>
         <Ionicons name="search" size={32} style={styles.icon} />
         <View style={styles.searchContainer}>

@@ -10,6 +10,7 @@ export const tripSchema = z.object({
   }),
   budget: z.number().min(1, 'Budget is required'),
   persons: z.number().min(1, 'Persons is required'),
+  categories: z.array(z.number()).optional(),
 });
 
 export type TripFormData = z.infer<typeof tripSchema>;
