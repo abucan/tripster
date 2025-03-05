@@ -129,7 +129,7 @@ export default function CreateTripScreen() {
               style={{
                 position: 'absolute',
                 left: 20,
-                backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                // backgroundColor: 'rgba(0, 0, 0, 0.08)',
                 padding: 8,
                 borderRadius: 100,
               }}
@@ -137,6 +137,18 @@ export default function CreateTripScreen() {
               <Ionicons name="arrow-back" size={24} color="black" />
             </TouchableOpacity>
             <Text style={styles.title}>Create Trip</Text>
+            <TouchableOpacity
+              onPress={() => {}}
+              style={{
+                position: 'absolute',
+                right: 20,
+                //backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                padding: 8,
+                borderRadius: 100,
+              }}
+            >
+              <Ionicons name="settings-sharp" size={24} color="black" />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.imageWrapper}>
@@ -347,25 +359,60 @@ export default function CreateTripScreen() {
       />
 
       <Modal
-        isVisible={isLoading}
+        isVisible={false}
         animationIn="slideInUp"
         animationOut="slideOutDown"
+        collapsable={false}
       >
         <View
           style={{
             width: '100%',
-            height: '25%',
+            height: '45%',
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
             alignItems: 'center',
             borderRadius: 8,
+            backgroundColor: 'white',
+            paddingHorizontal: 20,
+            paddingVertical: 24,
           }}
         >
           <LottieView
             source={lottie}
             autoPlay
-            loop
-            style={{ width: 250, height: 150 }}
+            loop={false}
+            style={{ width: 180, height: 180 }}
+          />
+          <View style={{ gap: 6 }}>
+            <Text
+              style={{
+                fontFamily: 'Helvetica-Now-Display-Bold',
+                fontSize: 24,
+                textAlign: 'center',
+              }}
+            >
+              Start planning your adventure!
+            </Text>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontFamily: 'Helvetica-Now-Display-Regular',
+                fontSize: 16,
+                color: 'rgba(0, 0, 0, 0.5)',
+              }}
+            >
+              Plan every detail yourself or get{' '}
+              <Text style={{ fontFamily: 'Helvetica-Now-Display-Bold' }}>
+                AI-powered
+              </Text>{' '}
+              recommendations.
+            </Text>
+          </View>
+          <Button
+            title="Get Started"
+            size="lg"
+            style={{ width: '100%' }}
+            onPress={() => setShowModal(false)}
           />
         </View>
       </Modal>
