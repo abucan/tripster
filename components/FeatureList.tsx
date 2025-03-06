@@ -4,7 +4,7 @@ import { features } from '@/types/features';
 
 import { FeatureItem } from './FeatureItem';
 
-export const FeaturesList = () => {
+export function FeaturesList() {
   return (
     <FlatList
       data={features}
@@ -17,7 +17,7 @@ export const FeaturesList = () => {
       )}
     />
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

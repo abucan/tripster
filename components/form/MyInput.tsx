@@ -4,19 +4,19 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { MyInputProps } from '@/types/index';
 import { Ionicons } from '@expo/vector-icons';
 
-export const MyInput = ({
+export function MyInput({
   onChangeText,
-  isTextArea = false,
-  height,
   value,
   label,
   icon,
   placeholder,
   error,
+  height,
+  isTextArea = false,
   editable = true,
   customStyle,
   ...props
-}: MyInputProps) => {
+}: MyInputProps) {
   return (
     <View style={[styles.container, customStyle]}>
       <View
@@ -42,7 +42,7 @@ export const MyInput = ({
       {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

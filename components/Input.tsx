@@ -4,7 +4,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { TextInputProps } from '@/types/index';
 import { Ionicons } from '@expo/vector-icons';
 
-export const Input = ({
+export function Input({
   onChangeText,
   value,
   label,
@@ -16,7 +16,7 @@ export const Input = ({
   textContentType,
   autoComplete,
   ...props
-}: TextInputProps) => {
+}: TextInputProps) {
   const [securePassword, setSecurePassword] = useState(secureTextEntry);
 
   const handlePasswordVisibility = () => {
@@ -53,7 +53,7 @@ export const Input = ({
       {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   wrapper: {

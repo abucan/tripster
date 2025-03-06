@@ -17,7 +17,7 @@ interface ChooseAuthSheetProps {
   onClose: () => void;
 }
 
-export default function ChooseAuthSheet({
+export function ChooseAuthSheet({
   bottomSheetRef,
   onClose,
 }: ChooseAuthSheetProps) {
@@ -30,7 +30,7 @@ export default function ChooseAuthSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose],
+    [onClose]
   );
 
   const renderBackdrop = useCallback(
@@ -41,7 +41,7 @@ export default function ChooseAuthSheet({
         disappearsOnIndex={-1}
       />
     ),
-    [],
+    []
   );
 
   return (

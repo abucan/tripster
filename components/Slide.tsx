@@ -4,7 +4,7 @@ import { SlideProps } from '@/types';
 
 const { height } = Dimensions.get('screen');
 
-export const Slide = ({ image, header, description }: SlideProps) => {
+export function Slide({ image, header, description }: SlideProps) {
   return (
     <View style={styles.container}>
       <Image source={image} resizeMode="contain" style={styles.imageWrapper} />
@@ -14,7 +14,7 @@ export const Slide = ({ image, header, description }: SlideProps) => {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

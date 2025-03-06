@@ -6,11 +6,11 @@ import GoogleIcon from '@/assets/icons/google.svg';
 
 import { Button } from './Button';
 
-export const SignUpButtons = ({
+export function SignUpButtons({
   isAuthPage = false,
 }: {
   isAuthPage?: boolean;
-}) => {
+}) {
   const handleGoogleSignUp = () => {
     // TODO: implement Google sign-up logic here
     console.log('Google sign-up pressed');
@@ -43,7 +43,7 @@ export const SignUpButtons = ({
       )}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   wrapper: {

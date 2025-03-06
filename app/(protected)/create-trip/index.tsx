@@ -15,10 +15,10 @@ import InputSpinner from 'react-native-input-spinner';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/Button';
-import CategoryTagSelector from '@/components/CategoryTagSelector';
+import { CategoryTagSelector } from '@/components/CategoryTagSelector';
 import { MyInput } from '@/components/form/MyInput';
-import CreateTripModal from '@/components/modals/CreateTripModal';
-import ScreenHeader from '@/components/ScreenHeader';
+import { CreateTripModal } from '@/components/modals/CreateTripModal';
+import { ScreenHeader } from '@/components/ScreenHeader';
 import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
 import { useTripForm } from '@/hooks/forms/useTripForm';

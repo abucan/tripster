@@ -53,7 +53,7 @@ interface ButtonProps extends React.ComponentProps<typeof TouchableOpacity> {
   textStyle?: TextStyle;
 }
 
-export const Button = ({
+export function Button({
   title,
   variant = 'default',
   size = 'default',
@@ -64,7 +64,7 @@ export const Button = ({
   style,
   textStyle,
   ...props
-}: ButtonProps) => {
+}: ButtonProps) {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
 
@@ -114,11 +114,11 @@ export const Button = ({
       )}
     </TouchableOpacity>
   );
-};
+}
 
 const getVariantStyle = (
   variant: string,
-  theme: typeof Colors.light,
+  theme: typeof Colors.light
 ): ViewStyle => {
   switch (variant) {
     case 'default':
@@ -144,7 +144,7 @@ const getVariantStyle = (
 
 const getTextStyle = (
   variant: string,
-  theme: typeof Colors.light,
+  theme: typeof Colors.light
 ): TextStyle => {
   switch (variant) {
     case 'default':

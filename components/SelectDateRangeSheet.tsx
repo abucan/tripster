@@ -11,7 +11,7 @@ import BottomSheet, {
 
 import { colors, useTheme } from '../lib/theme';
 
-import DateRangePicker from './DateRangePicker';
+import { DateRangePicker } from './DateRangePicker';
 
 export default function SelectDateRangeSheet({
   bottomSheetRef,
@@ -39,7 +39,7 @@ export default function SelectDateRangeSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose],
+    [onClose]
   );
 
   const renderBackdrop = useCallback(
@@ -50,7 +50,7 @@ export default function SelectDateRangeSheet({
         disappearsOnIndex={-1}
       />
     ),
-    [],
+    []
   );
 
   const onChange = (params: any) => {

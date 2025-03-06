@@ -1,6 +1,6 @@
 import Icon from '@/assets/images/logo/tripster-icon.svg';
 
-export const LogoIcon = () => {
+export function LogoIcon() {
   return (
     <Icon
       style={{
@@ -9,4 +9,4 @@ export const LogoIcon = () => {
       }}
     />
   );
-};
+}

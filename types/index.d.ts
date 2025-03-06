@@ -60,10 +60,10 @@ export interface SelectDateRangeSheetProps {
 }
 
 // Places & Autocomplete
-export interface Place {
+export type Place = {
   place_name: string;
   center: [number, number];
-}
+};
 
 export interface PlacesAutocompleteProps {
   value: string;
@@ -72,6 +72,13 @@ export interface PlacesAutocompleteProps {
 }
 
 // Categories & Tags
+export interface CategoryTagSelectorProps {
+  selectedCategories: string[];
+  selectedTags: string[];
+  onCategoriesChange: (categories: string[]) => void;
+  onTagsChange: (tags: string[]) => void;
+}
+
 export type Category = {
   id: string;
   name: string;

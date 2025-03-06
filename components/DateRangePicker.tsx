@@ -9,7 +9,7 @@ interface DateRangePickerProps {
   onChange: (params: any) => void;
 }
 
-export default function DateRangePicker({
+export function DateRangePicker({
   startDate,
   endDate,
   onChange,

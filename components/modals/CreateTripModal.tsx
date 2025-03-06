@@ -6,8 +6,9 @@ import lottie from '@/assets/animations/lottie.json';
 import { Button } from '@/components/Button';
 import { DefaultModalProps } from '@/types';
 
-export default function CreateTripModal({
+export function CreateTripModal({
   showModal,
+  setShowModal,
   onDonePress,
 }: DefaultModalProps) {
   return (

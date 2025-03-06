@@ -4,7 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScreenHeaderProps } from '@/types';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function ScreenHeader({
+export function ScreenHeader({
   title,
   leftIcon,
   rightIcon,

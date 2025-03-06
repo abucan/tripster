@@ -2,14 +2,14 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { FeatureItemProps } from '@/types';
 
-export const FeatureItem = ({ title, icon }: FeatureItemProps) => {
+export function FeatureItem({ title, icon }: FeatureItemProps) {
   return (
     <View style={styles.container}>
       <View style={styles.featureIcon}>{icon}</View>
       <Text style={styles.featureTitle}>{title}</Text>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

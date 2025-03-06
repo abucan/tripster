@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
-export const SearchBar = () => {
+export function SearchBar() {
   return (
     <Pressable
       style={styles.wrapper}
@@ -24,7 +24,7 @@ export const SearchBar = () => {
       </View>
     </Pressable>
   );
-};
+}
 
 export const styles = StyleSheet.create({
   wrapper: {

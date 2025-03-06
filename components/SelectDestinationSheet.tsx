@@ -9,7 +9,7 @@ import BottomSheet, {
 
 import { colors, useTheme } from '../lib/theme';
 
-import PlacesAutocomplete from './PlacesAutocomplete';
+import { PlacesAutocomplete } from './PlacesAutocomplete';
 
 export default function SelectDestinationSheet({
   bottomSheetRef,
@@ -25,7 +25,7 @@ export default function SelectDestinationSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose],
+    [onClose]
   );
 
   const renderBackdrop = useCallback(
@@ -36,7 +36,7 @@ export default function SelectDestinationSheet({
         disappearsOnIndex={-1}
       />
     ),
-    [],
+    []
   );
 
   const handleDestinationChange = ({

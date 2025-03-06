@@ -1,12 +1,6 @@
 import FullLogo from '@/assets/images/logo/tripster.svg';
 
-export const Logo = ({
-  width,
-  height,
-}: {
-  width?: number;
-  height?: number;
-}) => {
+export function Logo({ width, height }: { width?: number; height?: number }) {
   return (
     <FullLogo
       style={{
@@ -16,4 +10,4 @@ export const Logo = ({
       }}
     />
   );
-};
+}

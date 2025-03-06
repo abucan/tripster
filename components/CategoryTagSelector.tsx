@@ -7,20 +7,13 @@ import {
   View,
 } from 'react-native';
 
-import { Category } from '@/types/index';
+import { Category, CategoryTagSelectorProps } from '@/types/index';
 import { FontAwesome6 } from '@expo/vector-icons';
 
 import { supabase } from '../lib/supabase';
 import { colors, useTheme } from '../lib/theme';
 
-interface CategoryTagSelectorProps {
-  selectedCategories: string[];
-  selectedTags: string[];
-  onCategoriesChange: (categories: string[]) => void;
-  onTagsChange: (tags: string[]) => void;
-}
-
-export default function CategoryTagSelector({
+export function CategoryTagSelector({
   selectedCategories,
   onCategoriesChange,
 }: CategoryTagSelectorProps) {
@@ -82,7 +75,7 @@ export default function CategoryTagSelector({
               styles.categoryChip,
               {
                 backgroundColor: selectedCategories.includes(
-                  category.id.toString(),
+                  category.id.toString()
                 )
                   ? themeColors.primary
                   : themeColors.card,

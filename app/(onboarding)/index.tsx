@@ -4,7 +4,7 @@ import { SafeAreaView, StyleSheet, View } from 'react-native';
 import Swiper from 'react-native-swiper';
 
 import { Button } from '@/components/Button';
-import ChooseAuthSheet from '@/components/ChooseAuthSheet';
+import { ChooseAuthSheet } from '@/components/ChooseAuthSheet';
 import { Slide } from '@/components/Slide';
 import { Slides } from '@/constants/Slides';
 import { colors, useTheme } from '@/lib/theme';

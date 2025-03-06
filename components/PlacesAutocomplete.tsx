@@ -16,10 +16,10 @@ import { Input } from './Input';
 
 const MAPBOX_ACCESS_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
-export default function PlacesAutocomplete({
+export function PlacesAutocomplete({
   value,
-  onSelect,
   placeholder,
+  onSelect,
 }: PlacesAutocompleteProps) {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -38,8 +38,8 @@ export default function PlacesAutocomplete({
       setError(null);
       const response = await fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-          searchQuery,
-        )}.json?access_token=${MAPBOX_ACCESS_TOKEN}&types=place&limit=10`,
+          searchQuery
+        )}.json?access_token=${MAPBOX_ACCESS_TOKEN}&types=place&limit=10`
       );
 
       if (!response.ok) throw new Error('Failed to fetch places');
