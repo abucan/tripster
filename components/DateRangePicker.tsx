@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     flex: 1,
-    maxHeight: '60%',
+    maxHeight: '80%',
     marginHorizontal: 20,
     paddingHorizontal: 12,
     borderRadius: 8,

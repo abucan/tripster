@@ -143,12 +143,19 @@ export default function CreateTripScreen() {
                 >
                   <MyInput
                     onChangeText={onChange}
-                    value={`${
-                      dayjs(value?.startDate).format('MMM DD, YYYY') || ''
-                    } - ${dayjs(value?.endDate).format('MMM DD, YYYY') || ''}`}
+                    value={
+                      value?.startDate && value?.endDate
+                        ? `${dayjs(value.startDate).format(
+                            'MMM DD, YYYY'
+                          )} - ${dayjs(value.endDate).format('MMM DD, YYYY')}`
+                        : ''
+                    }
                     placeholder="Select travel dates"
                     label="Travel Dates"
-                    error={errors.range?.message}
+                    error={
+                      errors.range?.startDate?.message ||
+                      errors.range?.endDate?.message
+                    }
                     icon="chevron-down-outline"
                     editable={false}
                   />
@@ -183,6 +190,7 @@ export default function CreateTripScreen() {
                         placeholder="Enter your budget"
                         label="Budget"
                         customStyle={{ flex: 1 }}
+                        error={errors.budget?.message}
                       />
                     )}
                   />

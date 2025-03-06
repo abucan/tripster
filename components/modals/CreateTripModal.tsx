@@ -14,8 +14,8 @@ export function CreateTripModal({
   return (
     <Modal
       isVisible={showModal}
-      animationIn="slideInUp"
-      animationOut="slideOutDown"
+      animationIn="fadeIn"
+      animationOut="fadeOut"
       collapsable={false}
     >
       <View style={styles.modalContainer}>

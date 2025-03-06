@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 export function useTripForm() {
   const [imageUri, setImageUri] = useState<string>('');
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const destinationBottomSheetRef = useRef<BottomSheet>(null);
   const rangeBottomSheetRef = useRef<BottomSheet>(null);
@@ -25,12 +25,15 @@ export function useTripForm() {
   } = useForm<TripFormData>({
     resolver: zodResolver(tripSchema),
     defaultValues: {
-      title: 'Vacation with family',
-      description:
-        'We are going to Split, Croatia to enjoy the sun and the sea',
-      destination: 'Split, Split-Dalmatia, Croatia',
-      budget: 1000,
-      persons: 2,
+      title: '',
+      description: '',
+      destination: '',
+      range: {
+        startDate: undefined,
+        endDate: undefined,
+      },
+      budget: 0,
+      persons: 0,
       categories: [],
     },
   });
