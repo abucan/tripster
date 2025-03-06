@@ -2,6 +2,7 @@ import { ViewStyle } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
+// Text Input Props
 export type TextInputProps = {
   onChangeText?: (text: string) => void;
   value?: string;
@@ -17,29 +18,32 @@ export type TextInputProps = {
 
 export type MyInputProps = {
   onChangeText?: (text: string) => void;
-  isTextArea?: boolean;
-  height?: number;
   value?: string;
   label?: string;
   icon?: keyof typeof Ionicons.glyphMap;
   placeholder?: string;
   secureTextEntry?: boolean;
   error?: string;
+  height?: number;
+  isTextArea?: boolean;
   editable?: boolean;
   customStyle?: ViewStyle | ViewStyle[];
 };
 
-export type FeatureItemProps = {
-  icon: React.ReactElement;
+// Feature Item Component
+export interface FeatureItemProps {
   title: string;
-};
+  icon: React.ReactElement;
+}
 
+// Onboarding Slide Props
 export interface SlideProps {
   image: ImageSourcePropType;
   header: string;
   description: string;
 }
 
+// Destination & Date Selectors
 export interface SelectDestinationSheetProps {
   bottomSheetRef: React.RefObject<BottomSheet>;
   onDestinationChange: (destination: string) => void;
@@ -55,6 +59,19 @@ export interface SelectDateRangeSheetProps {
   onClose: () => void;
 }
 
+// Places & Autocomplete
+export interface Place {
+  place_name: string;
+  center: [number, number];
+}
+
+export interface PlacesAutocompleteProps {
+  value: string;
+  placeholder?: string;
+  onSelect: (place: { name: string; coordinates: [number, number] }) => void;
+}
+
+// Categories & Tags
 export type Category = {
   id: string;
   name: string;
@@ -73,6 +90,7 @@ export type Tag = {
   created_at: string;
 };
 
+// Trip Data
 export interface Trip {
   id: string;
   user_id: string;
@@ -88,13 +106,17 @@ export interface Trip {
   updated_at: Date;
 }
 
-export interface Place {
-  place_name: string;
-  center: [number, number];
+// Screen Header Props
+export interface ScreenHeaderProps {
+  title: string;
+  leftIcon: keyof typeof Ionicons.glyphMap;
+  rightIcon: keyof typeof Ionicons.glyphMap;
+  onMorePress?: () => void;
 }
 
-export interface PlacesAutocompleteProps {
-  value: string;
-  onSelect: (place: { name: string; coordinates: [number, number] }) => void;
-  placeholder?: string;
+// Default Modal Props
+export interface DefaultModalProps {
+  showModal: boolean;
+  setShowModal: (showModal: boolean) => void;
+  onDonePress: () => void;
 }

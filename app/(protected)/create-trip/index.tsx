@@ -1,108 +1,48 @@
-import { useRef, useState } from 'react';
-import * as ImagePicker from 'expo-image-picker';
-import { router } from 'expo-router';
 import dayjs from 'dayjs';
-import LottieView from 'lottie-react-native';
 import { Minus, Plus } from 'lucide-react-native';
-import { Controller, FieldErrors, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import {
   Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import InputSpinner from 'react-native-input-spinner';
-import Modal from 'react-native-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import lottie from '@/assets/animations/lottie.json';
 import { Button } from '@/components/Button';
 import CategoryTagSelector from '@/components/CategoryTagSelector';
 import { MyInput } from '@/components/form/MyInput';
+import CreateTripModal from '@/components/modals/CreateTripModal';
+import ScreenHeader from '@/components/ScreenHeader';
 import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
-import { useTripStore } from '@/lib/tripStore';
-import { TripFormData, tripSchema } from '@/utils/schemas/trips.schemas';
+import { useTripForm } from '@/hooks/forms/useTripForm';
 import { Ionicons } from '@expo/vector-icons';
-import BottomSheet from '@gorhom/bottom-sheet';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function CreateTripScreen() {
-  const [imageUri, setImageUri] = useState<string>('');
   const DEFAULT_IMAGE = require('@/assets/images/home_header.png');
 
-  const [showModal, setShowModal] = useState(true);
-
-  // refs
-  const destinationBottomSheetRef = useRef<BottomSheet>(null);
-  const rangeBottomSheetRef = useRef<BottomSheet>(null);
-
-  const { createTrip, isLoading } = useTripStore();
-
-  // form
   const {
+    imageUri,
+    destinationBottomSheetRef,
+    rangeBottomSheetRef,
     control,
+    errors,
+    isLoading,
+    showModal,
     handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm<TripFormData>({
-    resolver: zodResolver(tripSchema),
-    defaultValues: {
-      title: 'Vacation with family',
-      description:
-        'We are going to Split, Croatia to enjoy the sun and the sea',
-      destination: 'Split, Split-Dalmatia, Croatia',
-      budget: 1000,
-      persons: 2,
-      categories: [],
-    },
-  });
-
-  const onSubmit = async (data: TripFormData) => {
-    const result = await createTrip(data);
-    console.log('result', result);
-
-    if (result) {
-      router.push('/');
-    }
-  };
-
-  const onErrors = (errors: FieldErrors<TripFormData>) => {
-    console.log('errors', errors);
-  };
-
-  const handleSelectImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImageUri(result.assets[0].uri);
-    }
-  };
-
-  const handleDestinationChange = (destination: string) => {
-    setValue('destination', destination);
-    destinationBottomSheetRef.current?.close();
-  };
-
-  const handleDateRangeChange = (dateRange: {
-    startDate: string;
-    endDate: string;
-  }) => {
-    setValue('range', {
-      startDate: new Date(dateRange.startDate),
-      endDate: new Date(dateRange.endDate),
-    });
-  };
+    onSubmit,
+    onErrors,
+    handleSelectImage,
+    handleDestinationChange,
+    handleDateRangeChange,
+    setShowModal,
+  } = useTripForm();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -114,43 +54,13 @@ export default function CreateTripScreen() {
           style={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
         >
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-              paddingVertical: 20,
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => router.back()}
-              style={{
-                position: 'absolute',
-                left: 20,
-                // backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                padding: 8,
-                borderRadius: 100,
-              }}
-            >
-              <Ionicons name="arrow-back" size={24} color="black" />
-            </TouchableOpacity>
-            <Text style={styles.title}>Create Trip</Text>
-            <TouchableOpacity
-              onPress={() => {}}
-              style={{
-                position: 'absolute',
-                right: 20,
-                //backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                padding: 8,
-                borderRadius: 100,
-              }}
-            >
-              <Ionicons name="settings-sharp" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
+          <ScreenHeader
+            title="Create Trip"
+            leftIcon="arrow-back"
+            rightIcon="ellipsis-horizontal"
+          />
 
+          {/* trip image */}
           <View style={styles.imageWrapper}>
             <Image
               source={imageUri ? { uri: imageUri } : DEFAULT_IMAGE}
@@ -170,7 +80,6 @@ export default function CreateTripScreen() {
           </View>
 
           {/* trip details */}
-          {/* trip name, description, travel destination, trip dates, budget, persons */}
           <View style={styles.formContainer}>
             <Controller
               control={control}
@@ -358,64 +267,11 @@ export default function CreateTripScreen() {
         onClose={() => rangeBottomSheetRef.current?.close()}
       />
 
-      <Modal
-        isVisible={false}
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        collapsable={false}
-      >
-        <View
-          style={{
-            width: '100%',
-            height: '45%',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            borderRadius: 8,
-            backgroundColor: 'white',
-            paddingHorizontal: 20,
-            paddingVertical: 24,
-          }}
-        >
-          <LottieView
-            source={lottie}
-            autoPlay
-            loop={false}
-            style={{ width: 180, height: 180 }}
-          />
-          <View style={{ gap: 6 }}>
-            <Text
-              style={{
-                fontFamily: 'Helvetica-Now-Display-Bold',
-                fontSize: 24,
-                textAlign: 'center',
-              }}
-            >
-              Start planning your adventure!
-            </Text>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontFamily: 'Helvetica-Now-Display-Regular',
-                fontSize: 16,
-                color: 'rgba(0, 0, 0, 0.5)',
-              }}
-            >
-              Plan every detail yourself or get{' '}
-              <Text style={{ fontFamily: 'Helvetica-Now-Display-Bold' }}>
-                AI-powered
-              </Text>{' '}
-              recommendations.
-            </Text>
-          </View>
-          <Button
-            title="Get Started"
-            size="lg"
-            style={{ width: '100%' }}
-            onPress={() => setShowModal(false)}
-          />
-        </View>
-      </Modal>
+      <CreateTripModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        onDonePress={() => setShowModal(false)}
+      />
     </SafeAreaView>
   );
 }
@@ -424,13 +280,6 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-  title: {
-    fontSize: 20,
-    fontFamily: 'Helvetica-Now-Display-Bold',
-    textAlign: 'center',
-    // paddingVertical: 12,
-  },
-
   imageWrapper: {
     height: 250,
     overflow: 'hidden',
