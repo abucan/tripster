@@ -43,7 +43,6 @@ export default function CategoryTagSelector({
         .select('*')
         .order('name');
 
-      console.log('categoriesData', categoriesData);
       if (categoriesError) throw categoriesError;
       setCategories(categoriesData || []);
     } catch (err) {

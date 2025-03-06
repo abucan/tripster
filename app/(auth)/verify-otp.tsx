@@ -131,10 +131,10 @@ export default function VerifyOtpScreen() {
             />
             <Button
               title={canResend ? 'Resend Code' : `Resend Code (${timer}s)`}
-              disabled={isLoading || !canResend || !userEmail}
               onPress={handleResend}
               size="lg"
               variant="link"
+              disabled={isLoading || !canResend || !userEmail}
               style={{
                 opacity: canResend ? 1 : 0.5,
               }}
@@ -171,24 +171,11 @@ const styles = StyleSheet.create({
     fontSize: 26,
     textAlign: 'center',
   },
-
   formDescription: {
     fontFamily: 'Helvetica-Now-Display-Regular',
     fontSize: 18,
     color: '#6b7280',
     textAlign: 'center',
-  },
-  smallText: {
-    fontFamily: 'Helvetica-Now-Display-Regular',
-    fontSize: 16,
-    color: '#6b7280',
-    textAlign: 'center',
-  },
-  linkText: {
-    fontFamily: 'Helvetica-Now-Display-Bold',
-    fontSize: 16,
-    color: '#02023d',
-    textDecorationLine: 'underline',
   },
   methodsContainer: {
     width: '100%',
@@ -196,12 +183,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 6,
   },
-  footerContainer: {},
   errorText: {
-    textAlign: 'center',
     fontFamily: 'Helvetica-Now-Display-Medium',
     fontSize: 14,
     color: 'red',
+    textAlign: 'center',
     marginTop: 12,
   },
 });

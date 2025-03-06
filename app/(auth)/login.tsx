@@ -146,7 +146,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
     textAlign: 'center',
   },
-
   formDescription: {
     fontFamily: 'Helvetica-Now-Display-Regular',
     fontSize: 18,

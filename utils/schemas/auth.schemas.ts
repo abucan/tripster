@@ -32,3 +32,4 @@ export const resetPasswordSchema = z.object({
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type VerifyOtpFormData = z.infer<typeof verifyOTPSchema>;
+export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;

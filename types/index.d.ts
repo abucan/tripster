@@ -35,10 +35,15 @@ export type FeatureItemProps = {
 };
 
 export type Category = {
-  id: number;
+  id: string;
   name: string;
   icon: string;
   created_at: string;
+};
+
+export type TripCategory = {
+  trip_id: string;
+  category_id: string;
 };
 
 export type Tag = {
@@ -49,13 +54,15 @@ export type Tag = {
 
 export interface Trip {
   id: string;
+  user_id: string;
   title: string;
   description: string;
   destination: string;
-  budget: number;
-  persons: number;
   start_date: Date;
   end_date: Date;
+  budget: number;
+  persons: number;
   image_url: string;
-  user_id: string;
+  created_at: Date;
+  updated_at: Date;
 }

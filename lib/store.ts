@@ -8,8 +8,11 @@ interface AuthStore {
   // user and session
   user: User | null;
   session: Session | null;
-  setSession: (session: Session | null) => void;
   userEmail: string | null;
+  isEmailVerified: boolean;
+
+  // auth actions
+  setSession: (session: Session | null) => void;
   signUp: (
     email: string,
     password: string,
@@ -21,12 +24,11 @@ interface AuthStore {
   signOut: () => Promise<{ success: boolean; error?: string }>;
   verifyOTP: (token: string) => Promise<{ success: boolean; error?: string }>;
   resendOTP: () => Promise<{ success: boolean; error?: string }>;
-  isEmailVerified: boolean;
 
   // loading and error states
   isLoading: boolean;
-  setIsLoading: (loading: boolean) => void;
   error: string | null;
+  setIsLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
 }
 

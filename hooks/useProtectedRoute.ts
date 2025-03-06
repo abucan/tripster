@@ -20,7 +20,6 @@ export function useProtectedRoute(session: Session | null, isLoading: boolean) {
       router.replace('/login');
     } else if (session && !isProtectedGroup) {
       router.replace('/(protected)/(tabs)/home');
-      // router.replace('/_sitemap');
     }
   }, [session, segments, isLoading, router]);
 }

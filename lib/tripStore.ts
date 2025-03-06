@@ -6,15 +6,20 @@ import { TripFormData } from '@/utils/schemas/trips.schemas';
 import { supabase } from './supabase';
 
 interface TripStore {
+  // trip state
   trips: Trip[];
-  isLoading: boolean;
-  error: string | null;
-  setIsLoading: (isLoading: boolean) => void;
-  setError: (error: string | null) => void;
+
+  // trip actions
   createTrip: (trip: TripFormData) => Promise<Trip | null>;
   updateTrip: (trip: Trip) => Promise<void>;
   deleteTrip: (tripId: string) => Promise<void>;
   fetchTrips: () => Promise<void>;
+
+  // loading and error states
+  isLoading: boolean;
+  error: string | null;
+  setIsLoading: (isLoading: boolean) => void;
+  setError: (error: string | null) => void;
 }
 
 export const useTripStore = create<TripStore>((set) => ({
@@ -23,12 +28,14 @@ export const useTripStore = create<TripStore>((set) => ({
   error: null,
   setIsLoading: (loading: boolean) => set({ isLoading: loading }),
   setError: (error: string | null) => set({ error }),
+
   createTrip: async (tripData) => {
     set({ isLoading: true, error: null });
     try {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
       if (!user) {
         throw new Error('User not found');
       }
@@ -51,7 +58,7 @@ export const useTripStore = create<TripStore>((set) => ({
       if (error) throw error;
       if (!trip) throw new Error('Trip not created.');
 
-      if (tripData.categories.length > 0) {
+      if (tripData.categories && tripData.categories.length > 0) {
         const { error: categoriesError } = await supabase
           .from('trip_categories')
           .insert(
