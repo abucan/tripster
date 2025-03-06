@@ -1,19 +1,8 @@
-import {
-  Dimensions,
-  Image,
-  ImageSourcePropType,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
+
+import { SlideProps } from '@/types';
 
 const { height } = Dimensions.get('screen');
-
-interface SlideProps {
-  image: ImageSourcePropType;
-  header: string;
-  description: string;
-}
 
 export const Slide = ({ image, header, description }: SlideProps) => {
   return (
@@ -46,16 +35,16 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   title: {
-    textAlign: 'center',
-    lineHeight: 46,
     fontFamily: 'Helvetica-Now-Display-Bold',
     fontSize: 38,
+    lineHeight: 46,
+    textAlign: 'center',
   },
   description: {
-    textAlign: 'center',
-    lineHeight: 26,
     fontFamily: 'Helvetica-Now-Display-Regular',
     fontSize: 18,
+    lineHeight: 26,
     color: '#4b5563',
+    textAlign: 'center',
   },
 });

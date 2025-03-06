@@ -34,6 +34,27 @@ export type FeatureItemProps = {
   title: string;
 };
 
+export interface SlideProps {
+  image: ImageSourcePropType;
+  header: string;
+  description: string;
+}
+
+export interface SelectDestinationSheetProps {
+  bottomSheetRef: React.RefObject<BottomSheet>;
+  onDestinationChange: (destination: string) => void;
+  onClose: () => void;
+}
+
+export interface SelectDateRangeSheetProps {
+  bottomSheetRef: React.RefObject<BottomSheet>;
+  onDateRangeChange: (dateRange: {
+    startDate: string;
+    endDate: string;
+  }) => void;
+  onClose: () => void;
+}
+
 export type Category = {
   id: string;
   name: string;
@@ -65,4 +86,15 @@ export interface Trip {
   image_url: string;
   created_at: Date;
   updated_at: Date;
+}
+
+export interface Place {
+  place_name: string;
+  center: [number, number];
+}
+
+export interface PlacesAutocompleteProps {
+  value: string;
+  onSelect: (place: { name: string; coordinates: [number, number] }) => void;
+  placeholder?: string;
 }

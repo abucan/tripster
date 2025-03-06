@@ -30,7 +30,7 @@ export default function ChooseAuthSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose]
+    [onClose],
   );
 
   const renderBackdrop = useCallback(
@@ -41,7 +41,7 @@ export default function ChooseAuthSheet({
         disappearsOnIndex={-1}
       />
     ),
-    []
+    [],
   );
 
   return (
@@ -85,19 +85,19 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingVertical: 16,
-    paddingHorizontal: 20,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    paddingVertical: 16,
+    paddingHorizontal: 20,
   },
   buttonContainer: {
     gap: 12,
   },
   altTextContainer: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   altText: {
     fontFamily: 'Helvetica-Now-Display-Regular',

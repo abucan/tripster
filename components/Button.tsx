@@ -116,7 +116,6 @@ export const Button = ({
   );
 };
 
-// Helper functions for styles
 const getVariantStyle = (
   variant: string,
   theme: typeof Colors.light,
@@ -176,7 +175,6 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: '500',
   },
-  // Size variants
   defaultButton: {
     height: 40,
     paddingHorizontal: 16,
@@ -199,7 +197,6 @@ const styles = StyleSheet.create({
     width: 40,
     borderRadius: 8,
   },
-  // Text size variants
   defaultText: {
     fontSize: 14,
   },

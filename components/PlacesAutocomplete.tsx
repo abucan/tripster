@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import debounce from 'lodash/debounce';
-import { Building, Globe, Home, Map, MapPin } from 'lucide-react-native';
 import {
   FlatList,
   StyleSheet,
@@ -10,35 +9,12 @@ import {
   View,
 } from 'react-native';
 
+import { Place, PlacesAutocompleteProps } from '@/types';
+import { getIconForPlaceType } from '@/utils/icons';
+
 import { Input } from './Input';
 
 const MAPBOX_ACCESS_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
-
-interface Place {
-  place_name: string;
-  center: [number, number];
-}
-
-interface PlacesAutocompleteProps {
-  value: string;
-  onSelect: (place: { name: string; coordinates: [number, number] }) => void;
-  placeholder?: string;
-}
-
-const fakeList = [
-  {
-    place_name: 'San Francisco',
-    coordinates: [37.774929, -122.419418],
-    place_type: 'City',
-    countryCode: 'US',
-  },
-  {
-    place_name: 'San Francisco',
-    coordinates: [37.774929, -122.419418],
-    place_type: 'City',
-    countryCode: 'US',
-  },
-];
 
 export default function PlacesAutocomplete({
   value,
@@ -53,7 +29,6 @@ export default function PlacesAutocomplete({
 
   const searchPlaces = async (searchQuery: string) => {
     if (!searchQuery.trim() || !MAPBOX_ACCESS_TOKEN) {
-      console.log('no search query or token');
       setSuggestions([]);
       return;
     }
@@ -100,21 +75,6 @@ export default function PlacesAutocomplete({
     });
   };
 
-  const getIconForPlaceType = (type: string) => {
-    switch (type) {
-      case 'country':
-        return <Globe size={20} color="black" />;
-      case 'region':
-        return <Map size={20} color="black" />;
-      case 'city':
-        return <Building size={20} color="black" />;
-      case 'neighborhood':
-        return <Home size={20} color="black" />;
-      default:
-        return <MapPin size={20} color="black" />;
-    }
-  };
-
   return (
     <View style={styles.container}>
       <Input
@@ -148,50 +108,23 @@ export default function PlacesAutocomplete({
             >
               <View style={{ width: '70%' }}>
                 <Text
-                  style={{
-                    fontFamily: 'Helvetica-Now-Display-Bold',
-                    fontSize: 16,
-                  }}
+                  style={styles.cityText}
                   numberOfLines={1}
                   ellipsizeMode="tail"
                 >
                   {item?.text}
                 </Text>
                 <Text
-                  style={{
-                    fontFamily: 'Helvetica-Now-Display-Regular',
-                    fontSize: 16,
-                    color: 'gray',
-                  }}
+                  style={styles.regionText}
                   numberOfLines={2}
                   ellipsizeMode="tail"
                 >
                   {item?.place_name}
                 </Text>
               </View>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 5,
-                  backgroundColor: 'aliceblue',
-                  paddingHorizontal: 16,
-                  paddingVertical: 5,
-                  borderRadius: 50,
-                }}
-              >
+              <View style={styles.placeTypeWrapper}>
                 {getIconForPlaceType(item.place_type[0])}
-                <Text
-                  style={{
-                    fontFamily: 'Helvetica-Now-Display-Medium',
-                    fontSize: 16,
-                    color: 'black',
-                    textTransform: 'capitalize',
-                  }}
-                >
-                  {item.place_type[0]}
-                </Text>
+                <Text style={styles.placeTypeText}>{item.place_type[0]}</Text>
               </View>
             </TouchableOpacity>
           )}
@@ -205,5 +138,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 20,
+  },
+  cityText: {
+    fontFamily: 'Helvetica-Now-Display-Bold',
+    fontSize: 16,
+  },
+  regionText: {
+    fontFamily: 'Helvetica-Now-Display-Regular',
+    fontSize: 16,
+    color: 'gray',
+  },
+  placeTypeWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'aliceblue',
+    paddingHorizontal: 16,
+    paddingVertical: 5,
+    borderRadius: 50,
+    gap: 5,
+  },
+  placeTypeText: {
+    fontFamily: 'Helvetica-Now-Display-Medium',
+    fontSize: 16,
+    color: 'black',
+    textTransform: 'capitalize',
   },
 });

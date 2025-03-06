@@ -1,22 +1,20 @@
 import React, { useCallback, useMemo } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+import { SelectDestinationSheetProps } from '@/types';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
-import { useTheme, colors } from '../lib/theme';
-import PlacesAutocomplete from './PlacesAutocomplete';
 
-interface SelectDestinationSheetProps {
-  bottomSheetRef: React.RefObject<BottomSheet>;
-  onClose: () => void;
-  onDestinationChange: (destination: string) => void;
-}
+import { colors, useTheme } from '../lib/theme';
+
+import PlacesAutocomplete from './PlacesAutocomplete';
 
 export default function SelectDestinationSheet({
   bottomSheetRef,
-  onClose,
   onDestinationChange,
+  onClose,
 }: SelectDestinationSheetProps) {
   const { theme } = useTheme();
   const themeColors = colors[theme];
@@ -27,7 +25,7 @@ export default function SelectDestinationSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose]
+    [onClose],
   );
 
   const renderBackdrop = useCallback(
@@ -38,7 +36,7 @@ export default function SelectDestinationSheet({
         disappearsOnIndex={-1}
       />
     ),
-    []
+    [],
   );
 
   const handleDestinationChange = ({
@@ -90,7 +88,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    // flex: 1,
     marginHorizontal: 20,
     marginVertical: 12,
   },
@@ -98,7 +95,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // marginBottom: 20,
   },
   title: {
     fontSize: 18,

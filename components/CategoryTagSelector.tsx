@@ -36,6 +36,7 @@ export default function CategoryTagSelector({
     loadCategoriesAndTags();
   }, []);
 
+  // TODO: Use zustand to store categories and tags
   async function loadCategoriesAndTags() {
     try {
       const { data: categoriesData, error: categoriesError } = await supabase

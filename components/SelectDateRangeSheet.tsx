@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import dayjs from 'dayjs';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import DateTimePicker, { DateType } from 'react-native-ui-datepicker';
+import { DateType } from 'react-native-ui-datepicker';
 
-import { MaterialIcons } from '@expo/vector-icons';
+import { SelectDateRangeSheetProps } from '@/types';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
@@ -11,19 +11,12 @@ import BottomSheet, {
 
 import { colors, useTheme } from '../lib/theme';
 
-interface SelectDateRangeSheetProps {
-  bottomSheetRef: React.RefObject<BottomSheet>;
-  onClose: () => void;
-  onDateRangeChange: (dateRange: {
-    startDate: string;
-    endDate: string;
-  }) => void;
-}
+import DateRangePicker from './DateRangePicker';
 
 export default function SelectDateRangeSheet({
   bottomSheetRef,
-  onClose,
   onDateRangeChange,
+  onClose,
 }: SelectDateRangeSheetProps) {
   const { theme } = useTheme();
   const themeColors = colors[theme];
@@ -46,7 +39,7 @@ export default function SelectDateRangeSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose]
+    [onClose],
   );
 
   const renderBackdrop = useCallback(
@@ -57,7 +50,7 @@ export default function SelectDateRangeSheet({
         disappearsOnIndex={-1}
       />
     ),
-    []
+    [],
   );
 
   const onChange = (params: any) => {
@@ -94,85 +87,15 @@ export default function SelectDateRangeSheet({
             </TouchableOpacity>
           </View>
         </View>
+
         {/* Date range picker */}
-        <DateTimePicker
-          style={{
-            flex: 1,
-            maxHeight: '60%',
-            marginHorizontal: 20,
-            paddingHorizontal: 12,
-            borderRadius: 8,
-            borderWidth: StyleSheet.hairlineWidth,
-          }}
-          mode="range"
-          navigationPosition="around"
+        <DateRangePicker
           startDate={dateRange.startDate}
           endDate={dateRange.endDate}
           onChange={onChange}
-          styles={{
-            header: {
-              marginBottom: 10,
-            },
-            month_selector_label: {
-              fontFamily: 'Helvetica-Now-Display-Bold',
-              fontSize: 20,
-            },
-            year_selector_label: {
-              fontFamily: 'Helvetica-Now-Display-Bold',
-              fontSize: 20,
-            },
-            weekday_label: {
-              fontFamily: 'Helvetica-Now-Display-Bold',
-              fontSize: 16,
-            },
-            range_start: {
-              backgroundColor: 'red',
-            },
-            range_end: {
-              backgroundColor: 'blue',
-            },
-            range_fill: {
-              backgroundColor: 'lightblue',
-            },
-            range_middle: {
-              backgroundColor: 'lightblue',
-            },
-            range_fill_weekend: {
-              borderTopRightRadius: 100,
-              borderBottomRightRadius: 100,
-            },
-            range_fill_weekstart: {
-              borderTopLeftRadius: 100,
-              borderBottomLeftRadius: 100,
-            },
-            day: {
-              borderRadius: 100,
-              height: 50,
-              width: 50,
-            },
-            day_cell: {
-              marginVertical: 4,
-            },
-          }}
-          components={{
-            IconPrev: (
-              <MaterialIcons name="navigate-before" size={26} color="black" />
-            ),
-            IconNext: (
-              <MaterialIcons name="navigate-next" size={26} color="black" />
-            ),
-          }}
         />
 
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginHorizontal: 20,
-            marginTop: 16,
-            gap: 16,
-          }}
-        >
+        <View style={styles.footerContainer}>
           <View style={styles.footer}>
             <Text style={styles.footerSubtitle}>Start Date</Text>
             <Text style={styles.footerDate}>{from || 'No Date'}</Text>
@@ -192,7 +115,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    // flex: 1,
     marginHorizontal: 20,
     marginVertical: 12,
   },
@@ -200,7 +122,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // marginBottom: 20,
   },
   title: {
     fontSize: 18,
@@ -213,9 +134,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  pickerContainer: {
-    flex: 1,
+  footerContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
+    marginHorizontal: 20,
+    marginTop: 16,
+    gap: 16,
   },
   footer: {
     flex: 1,
@@ -223,7 +147,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 16,
     paddingHorizontal: 12,
-
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 8,
     gap: 4,

@@ -1,4 +1,4 @@
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import { features } from '@/types/features';
 
@@ -11,18 +11,22 @@ export const FeaturesList = () => {
       keyExtractor={(item) => item.id.toString()}
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        marginTop: 20,
-        marginHorizontal: 'auto',
-        gap: 24,
-      }}
+      contentContainerStyle={styles.container}
       renderItem={({ item }) => (
         <FeatureItem icon={item.icon} title={item.title} />
       )}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    marginTop: 20,
+    marginHorizontal: 'auto',
+    gap: 24,
+  },
+});
