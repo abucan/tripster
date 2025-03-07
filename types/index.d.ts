@@ -113,12 +113,30 @@ export interface Trip {
   updated_at: Date;
 }
 
+export interface TripCardItemProps {
+  id: string;
+}
+
+export interface TripCardListProps {
+  trips: TripCardItemProps[];
+  type: 'upcoming' | 'recommended';
+  title: string;
+  cta?: boolean;
+  ctaText?: string;
+}
+
 // Screen Header Props
 export interface ScreenHeaderProps {
   title: string;
   leftIcon: keyof typeof Ionicons.glyphMap;
   rightIcon: keyof typeof Ionicons.glyphMap;
   onMorePress?: () => void;
+}
+
+export interface ViewTitleProps {
+  title: string;
+  cta?: boolean;
+  ctaText?: string;
 }
 
 // Default Modal Props

@@ -146,7 +146,7 @@ export default function CreateTripScreen() {
                     value={
                       value?.startDate && value?.endDate
                         ? `${dayjs(value.startDate).format(
-                            'MMM DD, YYYY'
+                            'MMM DD, YYYY',
                           )} - ${dayjs(value.endDate).format('MMM DD, YYYY')}`
                         : ''
                     }

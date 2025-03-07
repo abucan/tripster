@@ -3,6 +3,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { FeaturesList } from '@/components/FeatureList';
 import { LogoIcon } from '@/components/logo/LogoIcon';
 import { SearchBar } from '@/components/SearchBar';
+import { TripCardList } from '@/components/TripCardList';
 
 export default function HomeScreen() {
   return (
@@ -31,6 +32,13 @@ export default function HomeScreen() {
 
         <SearchBar />
         <FeaturesList />
+        <TripCardList
+          trips={[{ id: '1' }, { id: '2' }]}
+          type="upcoming"
+          title="Upcoming Trips"
+          cta={true}
+          ctaText="See all"
+        />
       </ScrollView>
     </View>
   );
