@@ -8,8 +8,9 @@ export default function ProtectedLayout() {
         name="create-trip/index"
         options={{
           headerShown: false,
+          gestureEnabled: false,
           animation: 'slide_from_right',
-          animationDuration: 100,
+          animationDuration: 1,
         }}
       />
     </Stack>

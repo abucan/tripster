@@ -1,18 +1,19 @@
 import { router } from 'expo-router';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
 export function SearchBar() {
   return (
-    <Pressable
-      style={styles.wrapper}
-      onPress={() => router.push('/(protected)/create-trip')}
-    >
+    <View style={styles.wrapper}>
       <View style={styles.container}>
         <Ionicons name="search" size={32} style={styles.icon} />
         <View style={styles.searchContainer}>
-          <Text style={styles.whereText}>Where to?</Text>
+          <TouchableOpacity
+            onPress={() => router.push('/(protected)/create-trip')}
+          >
+            <Text style={styles.whereText}>Where to?</Text>
+          </TouchableOpacity>
           <View style={styles.description}>
             <Text style={styles.descriptionText}>Anywhere</Text>
             <View style={styles.dot} />
@@ -22,7 +23,7 @@ export function SearchBar() {
           </View>
         </View>
       </View>
-    </Pressable>
+    </View>
   );
 }
 
