@@ -33,7 +33,7 @@ export function useTripForm() {
         endDate: undefined,
       },
       budget: 0,
-      persons: 0,
+      persons: 1,
       categories: [],
     },
   });

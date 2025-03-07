@@ -145,3 +145,12 @@ export interface DefaultModalProps {
   setShowModal: (showModal: boolean) => void;
   onDonePress: () => void;
 }
+
+// Counter Props
+export interface CounterProps {
+  initialValue?: number;
+  min?: number;
+  max?: number;
+  onChange?: (value: number) => void;
+  error?: string;
+}

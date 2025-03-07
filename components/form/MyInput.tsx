@@ -20,7 +20,11 @@ export function MyInput({
   return (
     <View style={[styles.container, customStyle]}>
       <View
-        style={[styles.wrapper, error && { borderColor: 'red' }, { height }]}
+        style={[
+          styles.wrapper,
+          error && { borderColor: 'red', borderWidth: 1 },
+          { height },
+        ]}
       >
         <View>
           {label && <Text style={styles.label}>{label}</Text>}

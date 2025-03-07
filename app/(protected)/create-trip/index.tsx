@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { Minus, Plus } from 'lucide-react-native';
 import { Controller } from 'react-hook-form';
 import {
   Image,
@@ -11,11 +10,11 @@ import {
   View,
 } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
-import InputSpinner from 'react-native-input-spinner';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/Button';
 import { CategoryTagSelector } from '@/components/CategoryTagSelector';
+import { Counter } from '@/components/Counter';
 import { MyInput } from '@/components/form/MyInput';
 import { CreateTripModal } from '@/components/modals/CreateTripModal';
 import { ScreenHeader } from '@/components/ScreenHeader';
@@ -168,6 +167,8 @@ export default function CreateTripScreen() {
                 width: '100%',
                 display: 'flex',
                 flexDirection: 'row',
+                justifyContent: 'space-between',
+                overflow: 'hidden',
                 gap: 16,
               }}
             >
@@ -189,7 +190,7 @@ export default function CreateTripScreen() {
                         {...textInputProps}
                         placeholder="Enter your budget"
                         label="Budget"
-                        customStyle={{ flex: 1 }}
+                        customStyle={{ width: 'auto', flex: 1 }}
                         error={errors.budget?.message}
                       />
                     )}
@@ -200,38 +201,14 @@ export default function CreateTripScreen() {
                 control={control}
                 name="persons"
                 render={({ field: { onChange, value } }) => (
-                  <InputSpinner
-                    max={50}
+                  <Counter
+                    initialValue={value}
                     min={1}
-                    step={1}
-                    colorMax={'#000'}
-                    colorMin={'#000'}
-                    skin="modern"
-                    style={{
-                      flex: 1,
-                      shadowOffset: { width: 0, height: 0 },
-                      shadowColor: 'transparent',
-                      shadowOpacity: 0,
-                      shadowRadius: 0,
-                      borderRadius: 10,
-                      backgroundColor: 'transparent',
-                      borderWidth: StyleSheet.hairlineWidth,
+                    max={50}
+                    onChange={(newValue) => {
+                      onChange(newValue);
                     }}
-                    fontSize={18}
-                    buttonLeftImage={<Minus size={24} color="#000" />}
-                    buttonRightImage={<Plus size={24} color="#000" />}
-                    buttonStyle={{
-                      borderRadius: 10,
-                      backgroundColor: 'transparent',
-                    }}
-                    inputStyle={{
-                      borderRadius: 10,
-                      backgroundColor: 'transparent',
-                    }}
-                    value={value}
-                    onChange={(num) => {
-                      onChange(num);
-                    }}
+                    error={errors.persons?.message}
                   />
                 )}
               />
