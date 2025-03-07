@@ -115,12 +115,18 @@ export interface Trip {
 
 export interface TripCardItemProps {
   id: string;
+  image_url?: string;
+  destination?: string;
+  start_date?: Date;
+  end_date?: Date;
+  generatedByAI?: boolean;
 }
 
 export interface TripCardListProps {
   trips: TripCardItemProps[];
+  isTripsScreen?: boolean;
   type: 'upcoming' | 'recommended';
-  title: string;
+  title?: string;
   cta?: boolean;
   ctaText?: string;
 }
@@ -137,6 +143,7 @@ export interface ViewTitleProps {
   title: string;
   cta?: boolean;
   ctaText?: string;
+  onPress?: () => void;
 }
 
 // Default Modal Props

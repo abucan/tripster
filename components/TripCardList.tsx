@@ -11,9 +11,11 @@ import { TripCardListProps } from '@/types';
 
 import { TripCardItem } from './TripCardItem';
 import { ViewTitle } from './ViewTitle';
+import { router } from 'expo-router';
 
 export const TripCardList = ({
   trips,
+  isTripsScreen,
   title,
   cta,
   ctaText,
@@ -42,12 +44,19 @@ export const TripCardList = ({
   };
 
   return (
-    <View style={{ marginTop: 20 }}>
-      <ViewTitle title={title} cta={cta} ctaText={ctaText} />
+    <View style={{ marginTop: isTripsScreen ? 0 : 20 }}>
+      {title && (
+        <ViewTitle
+          title={title}
+          cta={cta}
+          ctaText={ctaText}
+          onPress={() => console.log('pressed')}
+        />
+      )}
       <FlatList
         data={trips}
         keyExtractor={(item) => item.id.toString()}
-        horizontal
+        horizontal={!isTripsScreen}
         pagingEnabled
         snapToAlignment="center"
         decelerationRate="fast"
@@ -55,11 +64,12 @@ export const TripCardList = ({
         viewabilityConfig={viewabilityConfig}
         onViewableItemsChanged={onViewableItemsChanged}
         contentContainerStyle={{
-          marginVertical: 12,
+          marginVertical: 16,
+          gap: isTripsScreen ? 20 : 0,
         }}
         renderItem={({ item }) => <TripCardItem {...item} />}
       />
-      {trips.length > 0 && (
+      {trips.length > 0 && !isTripsScreen && (
         <View style={styles.indicatorContainer}>
           {trips.map((_, index) => {
             const animatedDotStyle = useAnimatedStyle(() => ({

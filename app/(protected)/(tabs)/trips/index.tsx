@@ -1,20 +1,22 @@
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { TripCardList } from '@/components/TripCardList';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TripsScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        style={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        <ScreenHeader
-          title="My Trips"
-          leftIcon="arrow-back"
-          rightIcon="settings-sharp"
-        />
-      </ScrollView>
+      <ScreenHeader
+        title="My Trips"
+        leftIcon="arrow-back"
+        rightIcon="settings-sharp"
+      />
+
+      <TripCardList
+        trips={[{ id: '1' }, { id: '2' }]}
+        isTripsScreen
+        type="upcoming"
+      />
     </SafeAreaView>
   );
 }

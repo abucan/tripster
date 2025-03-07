@@ -3,11 +3,11 @@ import { Dimensions, Image, StyleSheet } from 'react-native';
 import { Text, View } from 'react-native';
 
 import { TripCardItemProps } from '@/types';
-import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { Button } from './Button';
+import { Calendar } from 'lucide-react-native';
+import { BlurView } from 'expo-blur';
 
 export function TripCardItem({ id }: TripCardItemProps) {
   return (
@@ -23,25 +23,19 @@ export function TripCardItem({ id }: TripCardItemProps) {
             <FontAwesome6 name="wand-magic-sparkles" size={14} color="#fff" />
             <Text style={{ color: '#fff' }}>AI Generated</Text>
           </View>
-        </View>
-        <View style={styles.cardFooter}>
-          <View style={styles.cardFooterInfo}>
-            <View style={styles.cardFooterDistinct}>
-              <Ionicons name="map-outline" size={20} color="black" />
-              <Text style={styles.cardFooterTitle} numberOfLines={1}>
-                Split, Croatia
-              </Text>
+
+          <BlurView tint="extraLight" intensity={100} style={styles.bodyTag}>
+            <View style={{ gap: 2 }}>
+              <Text style={styles.bodyTagTitle}>Split, Croatia</Text>
+              <View style={styles.bodyTagDateContainer}>
+                <Calendar size={16} color="#000" />
+                <Text style={styles.bodyTagDate}>
+                  10 Nov 2025 - 12 Nov 2025
+                </Text>
+              </View>
             </View>
-            <View style={styles.cardFooterDistinct}>
-              <AntDesign name="calendar" size={20} color="black" />
-              <Text>2 days - 3 nights</Text>
-            </View>
-            <Text style={styles.cardFooterPriceText}>
-              $100
-              <Text style={styles.cardFooterPersonText}>/person</Text>
-            </Text>
-          </View>
-          <Button title="See Details" size="lg" />
+            <Button title="See Details" style={{ borderRadius: 100 }} />
+          </BlurView>
         </View>
       </View>
     </View>
@@ -77,60 +71,54 @@ export const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 300,
+    height: 250,
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
+    borderBottomLeftRadius: 18,
+    borderBottomRightRadius: 18,
     borderCurve: 'continuous',
-    objectFit: 'fill',
+    objectFit: 'cover',
   },
   imageTag: {
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
     position: 'absolute',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    top: 10,
-    left: 10,
-    gap: 8,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
     paddingHorizontal: 16,
     paddingVertical: 6,
     borderRadius: 50,
     borderCurve: 'continuous',
-  },
-  cardFooter: {
-    width: '100%',
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: '#fff',
-    borderBottomEndRadius: 18,
-    borderBottomStartRadius: 18,
-    paddingTop: 12,
-    paddingBottom: 24,
-    paddingHorizontal: 12,
-    gap: 24,
-  },
-  cardFooterInfo: {
-    display: 'flex',
-    flexDirection: 'column',
+    top: 10,
+    left: 10,
     gap: 6,
   },
-  cardFooterDistinct: {
+  bodyTag: {
+    position: 'absolute',
+    overflow: 'hidden',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+    borderRadius: 18,
+    borderCurve: 'continuous',
+    bottom: 10,
+    left: 10,
+    right: 10,
   },
-  cardFooterTitle: {
+  bodyTagDateContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  bodyTagTitle: {
     fontFamily: 'Helvetica-Now-Display-Bold',
     fontSize: 18,
   },
-  cardFooterPriceText: {
-    fontFamily: 'Helvetica-Now-Display-Bold',
-    fontSize: 24,
-  },
-  cardFooterPersonText: {
+  bodyTagDate: {
     fontFamily: 'Helvetica-Now-Display-Regular',
     fontSize: 14,
   },
