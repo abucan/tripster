@@ -26,7 +26,7 @@ export function MyInput({
           { height },
         ]}
       >
-        <View>
+        <View style={{ flex: 1 }}>
           {label && <Text style={styles.label}>{label}</Text>}
           <TextInput
             style={[styles.input, isTextArea && { flex: 1 }]}

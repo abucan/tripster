@@ -1,17 +1,10 @@
-import { useRef, useState } from 'react';
 import React from 'react';
-import { FlatList, StyleSheet, View, ViewToken } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 
 import { TripCardListProps } from '@/types';
 
 import { TripCardItem } from './TripCardItem';
 import { ViewTitle } from './ViewTitle';
-import { router } from 'expo-router';
 
 export const TripCardList = ({
   trips,
@@ -20,29 +13,6 @@ export const TripCardList = ({
   cta,
   ctaText,
 }: TripCardListProps) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const dotWidths = useRef(trips.map(() => useSharedValue(8))).current;
-
-  const onViewableItemsChanged = ({
-    viewableItems,
-  }: {
-    viewableItems: ViewToken[];
-  }) => {
-    if (viewableItems.length > 0 && viewableItems[0].index !== null) {
-      const newIndex = viewableItems[0].index;
-      setCurrentIndex(newIndex);
-
-      dotWidths.forEach((width, index) => {
-        width.value = index === newIndex ? withSpring(16) : withSpring(8);
-      });
-    }
-  };
-
-  const viewabilityConfig = {
-    itemVisiblePercentThreshold: 50,
-  };
-
   return (
     <View style={{ marginTop: isTripsScreen ? 0 : 20 }}>
       {title && (
@@ -61,34 +31,22 @@ export const TripCardList = ({
         snapToAlignment="center"
         decelerationRate="fast"
         showsHorizontalScrollIndicator={false}
-        viewabilityConfig={viewabilityConfig}
-        onViewableItemsChanged={onViewableItemsChanged}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          marginVertical: 16,
+          marginVertical: isTripsScreen ? 0 : 16,
           gap: isTripsScreen ? 20 : 0,
         }}
-        renderItem={({ item }) => <TripCardItem {...item} />}
+        ListEmptyComponent={
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Text>No trips found</Text>
+          </View>
+        }
+        renderItem={({ item, index }) => (
+          <TripCardItem {...item} index={index} />
+        )}
       />
-      {trips.length > 0 && !isTripsScreen && (
-        <View style={styles.indicatorContainer}>
-          {trips.map((_, index) => {
-            const animatedDotStyle = useAnimatedStyle(() => ({
-              width: dotWidths[index].value,
-            }));
-
-            return (
-              <Animated.View
-                key={index}
-                style={[
-                  styles.dot,
-                  index === currentIndex && styles.activeDot,
-                  animatedDotStyle,
-                ]}
-              />
-            );
-          })}
-        </View>
-      )}
     </View>
   );
 };

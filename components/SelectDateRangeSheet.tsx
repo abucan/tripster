@@ -95,6 +95,7 @@ export default function SelectDateRangeSheet({
           onChange={onChange}
         />
 
+        {/*
         <View style={styles.footerContainer}>
           <View style={styles.footer}>
             <Text style={styles.footerSubtitle}>Start Date</Text>
@@ -105,6 +106,7 @@ export default function SelectDateRangeSheet({
             <Text style={styles.footerDate}>{to || 'No Date'}</Text>
           </View>
         </View>
+        */}
       </BottomSheetView>
     </BottomSheet>
   );

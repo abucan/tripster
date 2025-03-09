@@ -22,6 +22,7 @@ import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
 import { useTripForm } from '@/hooks/forms/useTripForm';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 export default function CreateTripScreen() {
   const DEFAULT_IMAGE = require('@/assets/images/home_header.png');
@@ -33,6 +34,8 @@ export default function CreateTripScreen() {
     control,
     errors,
     isLoading,
+    isSubmitting,
+    reset,
     showModal,
     handleSubmit,
     onSubmit,
@@ -145,7 +148,7 @@ export default function CreateTripScreen() {
                     value={
                       value?.startDate && value?.endDate
                         ? `${dayjs(value.startDate).format(
-                            'MMM DD, YYYY',
+                            'MMM DD, YYYY'
                           )} - ${dayjs(value.endDate).format('MMM DD, YYYY')}`
                         : ''
                     }
@@ -217,23 +220,28 @@ export default function CreateTripScreen() {
             <Controller
               control={control}
               name="categories"
-              render={({ field: { onChange, value } }) => (
-                <CategoryTagSelector
-                  selectedCategories={value?.toString().split(',') || []}
-                  onCategoriesChange={(categories) => {
-                    onChange(categories);
-                  }}
-                  selectedTags={[]}
-                  onTagsChange={() => {}}
-                />
-              )}
+              render={({ field: { onChange, value } }) => {
+                const selectedCategories = Array.isArray(value)
+                  ? value.filter((v) => v)
+                  : [];
+                return (
+                  <CategoryTagSelector
+                    selectedCategories={selectedCategories}
+                    onCategoriesChange={(categories) => {
+                      onChange(categories);
+                    }}
+                    selectedTags={[]}
+                    onTagsChange={() => {}}
+                  />
+                );
+              }}
             />
 
             <Button
-              title="Create Trip"
+              title={isSubmitting ? 'Creating Trip...' : 'Create Trip'}
               size="lg"
-              isLoading={isLoading}
-              disabled={isLoading}
+              isLoading={isLoading || isSubmitting}
+              disabled={isLoading || isSubmitting}
               onPress={handleSubmit(onSubmit, onErrors)}
             />
           </View>
@@ -255,7 +263,14 @@ export default function CreateTripScreen() {
       <CreateTripModal
         showModal={showModal}
         setShowModal={setShowModal}
-        onDonePress={() => setShowModal(false)}
+        onDonePress={() => {
+          setShowModal(false);
+          reset();
+          // add a delay to the navigation
+          setTimeout(() => {
+            router.push('/(protected)/(tabs)/trips');
+          }, 500);
+        }}
       />
     </SafeAreaView>
   );

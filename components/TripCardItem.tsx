@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions, Image, StyleSheet } from 'react-native';
 import { Text, View } from 'react-native';
 
@@ -8,14 +8,51 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { Button } from './Button';
 import { Calendar } from 'lucide-react-native';
 import { BlurView } from 'expo-blur';
+import dayjs from 'dayjs';
 
-export function TripCardItem({ id }: TripCardItemProps) {
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withDelay,
+} from 'react-native-reanimated';
+
+// Customizable Speed Variables
+const DELAY = 200; // Adjust delay between items (Lower = faster)
+const SPRING_CONFIG = { damping: 15, stiffness: 120 }; // Adjust animation speed
+
+export function TripCardItem({
+  id,
+  index,
+  image_url,
+  destination,
+  start_date,
+  end_date,
+}: TripCardItemProps) {
+  // Animation values
+  const translateY = useSharedValue(50); // Start below
+  const opacity = useSharedValue(0); // Start invisible
+
+  useEffect(() => {
+    translateY.value = withDelay(index! * DELAY, withSpring(0, SPRING_CONFIG));
+    opacity.value = withDelay(index! * DELAY, withSpring(1, SPRING_CONFIG));
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+    opacity: opacity.value,
+  }));
+
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, animatedStyle]}>
       <View style={styles.cardContainer}>
         <View style={styles.cardHeader}>
           <Image
-            source={require('@/assets/images/home_header.png')}
+            source={
+              image_url
+                ? { uri: image_url }
+                : require('@/assets/images/home_header.png')
+            }
             style={styles.image}
           />
 
@@ -26,11 +63,14 @@ export function TripCardItem({ id }: TripCardItemProps) {
 
           <BlurView tint="extraLight" intensity={100} style={styles.bodyTag}>
             <View style={{ gap: 2 }}>
-              <Text style={styles.bodyTagTitle}>Split, Croatia</Text>
+              <Text style={styles.bodyTagTitle}>
+                {destination?.slice(0, 24)}...
+              </Text>
               <View style={styles.bodyTagDateContainer}>
                 <Calendar size={16} color="#000" />
                 <Text style={styles.bodyTagDate}>
-                  10 Nov 2025 - 12 Nov 2025
+                  {dayjs(start_date).format('DD MMM YYYY')} -{' '}
+                  {dayjs(end_date).format('DD MMM YYYY')}
                 </Text>
               </View>
             </View>
@@ -38,7 +78,7 @@ export function TripCardItem({ id }: TripCardItemProps) {
           </BlurView>
         </View>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 

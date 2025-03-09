@@ -4,8 +4,10 @@ import { FeaturesList } from '@/components/FeatureList';
 import { LogoIcon } from '@/components/logo/LogoIcon';
 import { SearchBar } from '@/components/SearchBar';
 import { TripCardList } from '@/components/TripCardList';
+import { useTripStore } from '@/lib/tripStore';
 
 export default function HomeScreen() {
+  const { upcomingTrip } = useTripStore();
   return (
     <View style={styles.wrapper}>
       <ScrollView
@@ -33,9 +35,9 @@ export default function HomeScreen() {
         <SearchBar />
         <FeaturesList />
         <TripCardList
-          trips={[{ id: '1' }, { id: '2' }]}
+          trips={upcomingTrip}
           type="upcoming"
-          title="Upcoming Trips"
+          title="Upcoming Trip"
           cta={true}
           ctaText="See all"
         />

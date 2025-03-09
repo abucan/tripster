@@ -95,14 +95,16 @@ export function Button({
       {...props}
     >
       {isLoading ? (
-        <ActivityIndicator
-          color={
-            variant === 'default' || variant === 'destructive'
-              ? theme.white
-              : theme.text
-          }
-          size="small"
-        />
+        <>
+          <ActivityIndicator
+            color={
+              variant === 'default' || variant === 'destructive'
+                ? theme.white
+                : theme.text
+            }
+            size="small"
+          />
+        </>
       ) : (
         <>
           {leftIcon && <>{leftIcon}</>}

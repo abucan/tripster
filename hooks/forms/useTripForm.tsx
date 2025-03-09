@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { router } from 'expo-router';
 import { FieldErrors, useForm } from 'react-hook-form';
 
 import { useTripStore } from '@/lib/tripStore';
@@ -20,30 +19,32 @@ export function useTripForm() {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setValue,
+    reset,
   } = useForm<TripFormData>({
     resolver: zodResolver(tripSchema),
     defaultValues: {
-      title: '',
-      description: '',
-      destination: '',
+      title: 'Split',
+      description: 'Description',
+      destination: 'Split',
       range: {
-        startDate: undefined,
-        endDate: undefined,
+        startDate: new Date(),
+        endDate: new Date(),
       },
-      budget: 0,
+      budget: 250,
       persons: 1,
       categories: [],
     },
   });
 
   const onSubmit = async (data: TripFormData) => {
-    const result = await createTrip(data);
-    console.log('result', result);
-
+    const result = await createTrip({
+      ...data,
+      image_url: imageUri,
+    });
     if (result) {
-      router.push('/');
+      setShowModal(true);
     }
   };
 
@@ -87,6 +88,8 @@ export function useTripForm() {
     showModal,
     errors,
     isLoading,
+    isSubmitting,
+    reset,
     handleSubmit,
     onSubmit,
     onErrors,

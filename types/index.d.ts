@@ -115,6 +115,7 @@ export interface Trip {
 
 export interface TripCardItemProps {
   id: string;
+  index?: number;
   image_url?: string;
   destination?: string;
   start_date?: Date;
