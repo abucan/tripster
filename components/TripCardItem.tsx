@@ -1,21 +1,20 @@
 import React, { useEffect } from 'react';
+import { BlurView } from 'expo-blur';
+import dayjs from 'dayjs';
+import { Calendar } from 'lucide-react-native';
 import { Dimensions, Image, StyleSheet } from 'react-native';
 import { Text, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSpring,
+} from 'react-native-reanimated';
 
 import { TripCardItemProps } from '@/types';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 import { Button } from './Button';
-import { Calendar } from 'lucide-react-native';
-import { BlurView } from 'expo-blur';
-import dayjs from 'dayjs';
-
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withDelay,
-} from 'react-native-reanimated';
 
 // Customizable Speed Variables
 const DELAY = 200; // Adjust delay between items (Lower = faster)
@@ -50,8 +49,8 @@ export function TripCardItem({
           <Image
             source={
               image_url
-                ? { uri: image_url }
-                : require('@/assets/images/home_header.png')
+                ? require('@/assets/images/home_header.png')
+                : { uri: image_url }
             }
             style={styles.image}
           />

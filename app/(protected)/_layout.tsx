@@ -9,7 +9,7 @@ export default function ProtectedLayout() {
         options={{
           headerShown: false,
           gestureEnabled: false,
-          animation: 'slide_from_right',
+          animation: 'flip',
           animationDuration: 1,
         }}
       />
