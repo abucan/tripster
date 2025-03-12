@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import ActionSheet from 'react-native-actions-sheet';
 
 import { SelectDestinationSheetProps } from '@/types';
 import BottomSheet, {
@@ -10,7 +11,7 @@ import BottomSheet, {
 import { colors, useTheme } from '../lib/theme';
 
 import { PlacesAutocomplete } from './PlacesAutocomplete';
-
+// TODO
 export default function SelectDestinationSheet({
   bottomSheetRef,
   onDestinationChange,
@@ -25,7 +26,7 @@ export default function SelectDestinationSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose]
+    [onClose],
   );
 
   const renderBackdrop = useCallback(
@@ -36,7 +37,7 @@ export default function SelectDestinationSheet({
         disappearsOnIndex={-1}
       />
     ),
-    []
+    [],
   );
 
   const handleDestinationChange = ({
@@ -52,34 +53,21 @@ export default function SelectDestinationSheet({
   };
 
   return (
-    <BottomSheet
-      ref={bottomSheetRef}
-      index={-1}
-      snapPoints={snapPoints}
-      onChange={handleSheetChanges}
-      enablePanDownToClose
-      backdropComponent={renderBackdrop}
-      backgroundStyle={{
-        backgroundColor: themeColors.card,
-      }}
-    >
-      <BottomSheetView style={styles.sheetContainer}>
-        <View style={styles.contentContainer}>
-          <View style={styles.header}>
-            <Text style={[styles.title, { color: themeColors.text }]}>
-              Select Destination
+    <ActionSheet ref={bottomSheetRef}>
+      <View style={styles.contentContainer}>
+        <View style={styles.header}>
+          <Text style={[styles.title, { color: themeColors.text }]}>
+            Select Destination
+          </Text>
+          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+            <Text style={[styles.closeText, { color: themeColors.primary }]}>
+              Done
             </Text>
-            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <Text style={[styles.closeText, { color: themeColors.primary }]}>
-                Done
-              </Text>
-            </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         </View>
-
-        <PlacesAutocomplete value="" onSelect={handleDestinationChange} />
-      </BottomSheetView>
-    </BottomSheet>
+      </View>
+      <PlacesAutocomplete value="" onSelect={handleDestinationChange} />
+    </ActionSheet>
   );
 }
 

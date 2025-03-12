@@ -1,12 +1,13 @@
 import { useRef, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { FieldErrors, useForm } from 'react-hook-form';
+import { ActionSheetRef } from 'react-native-actions-sheet';
 
 import { useTripStore } from '@/lib/tripStore';
 import { TripFormData, tripSchema } from '@/utils/schemas/trips.schemas';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+// TODO
 export function useTripForm() {
   const [imageUri, setImageUri] = useState<string>('');
   const [showModal, setShowModal] = useState(false);
@@ -15,6 +16,8 @@ export function useTripForm() {
   const rangeBottomSheetRef = useRef<BottomSheet>(null);
 
   const { createTrip, isLoading } = useTripStore();
+
+  const actionSheetRef = useRef<ActionSheetRef>(null);
 
   const {
     control,
@@ -97,5 +100,6 @@ export function useTripForm() {
     handleDestinationChange,
     handleDateRangeChange,
     setShowModal,
+    actionSheetRef,
   };
 }

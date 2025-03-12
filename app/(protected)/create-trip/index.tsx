@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import dayjs from 'dayjs';
 import { Controller } from 'react-hook-form';
 import {
@@ -22,8 +23,7 @@ import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
 import { useTripForm } from '@/hooks/forms/useTripForm';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
-
+// TODO
 export default function CreateTripScreen() {
   const DEFAULT_IMAGE = require('@/assets/images/home_header.png');
 
@@ -44,6 +44,7 @@ export default function CreateTripScreen() {
     handleDestinationChange,
     handleDateRangeChange,
     setShowModal,
+    actionSheetRef,
   } = useTripForm();
 
   return (
@@ -118,7 +119,7 @@ export default function CreateTripScreen() {
                 <TouchableOpacity
                   style={{ width: '100%' }}
                   onPress={() => {
-                    destinationBottomSheetRef.current?.expand();
+                    actionSheetRef.current?.show();
                   }}
                 >
                   <MyInput
@@ -148,7 +149,7 @@ export default function CreateTripScreen() {
                     value={
                       value?.startDate && value?.endDate
                         ? `${dayjs(value.startDate).format(
-                            'MMM DD, YYYY'
+                            'MMM DD, YYYY',
                           )} - ${dayjs(value.endDate).format('MMM DD, YYYY')}`
                         : ''
                     }
@@ -249,9 +250,9 @@ export default function CreateTripScreen() {
       </KeyboardAvoidingView>
 
       <SelectDestinationSheet
-        bottomSheetRef={destinationBottomSheetRef}
+        bottomSheetRef={actionSheetRef}
         onDestinationChange={handleDestinationChange}
-        onClose={() => destinationBottomSheetRef.current?.close()}
+        onClose={() => actionSheetRef.current?.hide()}
       />
 
       <SelectDateRangeSheet
