@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 8,
+    borderRadius: 30,
     gap: 8,
   },
   text: {
@@ -186,13 +186,13 @@ const styles = StyleSheet.create({
     height: 36,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 6,
+    borderRadius: 30,
   },
   lgButton: {
     height: 52,
     paddingHorizontal: 32,
     paddingVertical: 10,
-    borderRadius: 8,
+    borderRadius: 30,
   },
   iconButton: {
     height: 40,

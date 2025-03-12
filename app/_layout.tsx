@@ -17,6 +17,7 @@ import { supabase } from '@/lib/supabase';
 import { loadTheme, saveTheme, ThemeContext, ThemeType } from '@/lib/theme';
 
 import 'react-native-reanimated';
+import { SheetProvider } from 'react-native-actions-sheet';
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -88,15 +89,17 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeContext.Provider value={{ theme, toggleTheme }}>
-        <View
-          style={[
-            styles.container,
-            { backgroundColor: theme === 'light' ? '#F7F7F7' : '#121212' },
-          ]}
-        >
-          <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
-          <Slot />
-        </View>
+        <SheetProvider context="global">
+          <View
+            style={[
+              styles.container,
+              { backgroundColor: theme === 'light' ? '#F7F7F7' : '#121212' },
+            ]}
+          >
+            <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
+            <Slot />
+          </View>
+        </SheetProvider>
       </ThemeContext.Provider>
     </GestureHandlerRootView>
   );

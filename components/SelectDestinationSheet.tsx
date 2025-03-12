@@ -11,6 +11,7 @@ import BottomSheet, {
 import { colors, useTheme } from '../lib/theme';
 
 import { PlacesAutocomplete } from './PlacesAutocomplete';
+import { X } from 'lucide-react-native';
 // TODO
 export default function SelectDestinationSheet({
   bottomSheetRef,
@@ -26,7 +27,7 @@ export default function SelectDestinationSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose],
+    [onClose]
   );
 
   const renderBackdrop = useCallback(
@@ -37,7 +38,7 @@ export default function SelectDestinationSheet({
         disappearsOnIndex={-1}
       />
     ),
-    [],
+    []
   );
 
   const handleDestinationChange = ({
@@ -53,27 +54,27 @@ export default function SelectDestinationSheet({
   };
 
   return (
-    <ActionSheet ref={bottomSheetRef}>
-      <View style={styles.contentContainer}>
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: themeColors.text }]}>
-            Select Destination
-          </Text>
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <Text style={[styles.closeText, { color: themeColors.primary }]}>
-              Done
+    <ActionSheet gestureEnabled ref={bottomSheetRef}>
+      <View style={styles.sheetContainer}>
+        <View style={styles.contentContainer}>
+          <View style={styles.header}>
+            <Text style={[styles.title, { color: themeColors.text }]}>
+              Select Destination
             </Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+              <X size={24} color={themeColors.text} />
+            </TouchableOpacity>
+          </View>
         </View>
+        <PlacesAutocomplete value="" onSelect={handleDestinationChange} />
       </View>
-      <PlacesAutocomplete value="" onSelect={handleDestinationChange} />
     </ActionSheet>
   );
 }
 
 const styles = StyleSheet.create({
   sheetContainer: {
-    flex: 1,
+    height: 500,
   },
   contentContainer: {
     marginHorizontal: 20,

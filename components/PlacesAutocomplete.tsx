@@ -11,11 +11,13 @@ import {
 
 import { Place, PlacesAutocompleteProps } from '@/types';
 import { getIconForPlaceType } from '@/utils/icons';
+import { ScrollView } from 'react-native-actions-sheet';
 
 import { Input } from './Input';
+import { Button } from './Button';
 
 const MAPBOX_ACCESS_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
-
+// TODO
 export function PlacesAutocomplete({
   value,
   placeholder,
@@ -26,6 +28,9 @@ export function PlacesAutocomplete({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
+  const [selectedSuggestion, setSelectedSuggestion] = useState<Place | null>(
+    null
+  );
 
   const searchPlaces = async (searchQuery: string) => {
     if (!searchQuery.trim() || !MAPBOX_ACCESS_TOKEN) {
@@ -66,7 +71,8 @@ export function PlacesAutocomplete({
   }, [query]);
 
   const handleSelect = (place: Place) => {
-    setQuery(place.place_name);
+    // setQuery(place.place_name);
+    setSelectedSuggestion(place);
     setShowSuggestions(false);
 
     onSelect({
@@ -86,24 +92,35 @@ export function PlacesAutocomplete({
         placeholder="Search for a place"
         icon="search-outline"
       />
-      {showSuggestions && suggestions.length > 0 && (
-        <FlatList
-          data={suggestions}
-          style={{ flex: 1 }}
-          keyExtractor={(item, index) => `${item.place_name}-${index}`}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item, index }) => (
+      <ScrollView
+        style={{
+          maxHeight: 400,
+          width: '100%',
+          marginTop: 10,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        {suggestions &&
+          suggestions?.map((item, index) => (
             <TouchableOpacity
+              key={`${item.place_name}-${index}`}
               onPress={() => handleSelect(item)}
               style={{
-                paddingHorizontal: 0,
+                paddingHorizontal: 20,
                 paddingVertical: 16,
                 borderBottomWidth: suggestions.length === index + 1 ? 0 : 1,
                 borderBottomColor: '#E0E0E0',
-                display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
+                backgroundColor:
+                  item.place_name === selectedSuggestion?.place_name
+                    ? 'aliceblue'
+                    : 'white',
+                borderLeftWidth:
+                  item.place_name === selectedSuggestion?.place_name ? 5 : 0,
+                borderLeftColor: 'lightgray',
+                borderRadius: 10,
               }}
             >
               <View style={{ width: '70%' }}>
@@ -127,7 +144,20 @@ export function PlacesAutocomplete({
                 <Text style={styles.placeTypeText}>{item.place_type[0]}</Text>
               </View>
             </TouchableOpacity>
-          )}
+          ))}
+      </ScrollView>
+      {selectedSuggestion && (
+        <Button
+          title="Select"
+          size="lg"
+          onPress={() => {}}
+          style={{
+            marginBottom: 30,
+            marginTop: 20,
+            width: '100%',
+            alignSelf: 'center',
+            borderRadius: 30,
+          }}
         />
       )}
     </View>
