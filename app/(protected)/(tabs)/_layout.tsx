@@ -1,12 +1,15 @@
-import { Tabs } from 'expo-router';
 import React, { useEffect } from 'react';
-import { Compass, Globe, Home, PlusCircle, User } from 'lucide-react-native';
+import { router, Tabs } from 'expo-router';
+import { Compass, Globe, Home, User } from 'lucide-react-native';
 import {
+  ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
-  ActivityIndicator,
   View,
 } from 'react-native';
+
+import OpenAI from '@/assets/icons/openai.svg';
+import { colors } from '@/lib/theme';
 import { useTripStore } from '@/lib/tripStore';
 
 export default function TabsLayout() {
@@ -79,9 +82,9 @@ export default function TabsLayout() {
 
       <TouchableOpacity
         style={styles.floatingButton}
-        onPress={() => console.log('pressed')}
+        onPress={() => router.push('/(protected)/create-trip')}
       >
-        <PlusCircle size={32} color="white" />
+        <OpenAI width={26} height={26} />
       </TouchableOpacity>
     </>
   );
@@ -89,21 +92,20 @@ export default function TabsLayout() {
 
 const styles = StyleSheet.create({
   floatingButton: {
-    display: 'none',
     position: 'absolute',
     alignSelf: 'center',
-    justifyContent: 'center',
     alignItems: 'center',
-    bottom: 100,
+    justifyContent: 'center',
+    width: 55,
+    height: 55,
     right: 25,
-    width: 60,
-    height: 60,
-    borderRadius: 18,
-    shadowColor: '#000', // Shadow for iOS
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    bottom: 100,
+    borderRadius: 30,
+    shadowColor: '#000', // shadow for iOS
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
     shadowRadius: 4,
-    elevation: 5, // Shadow for Android
-    backgroundColor: '#007AFF', // Customize color
+    elevation: 5, // shadow for Android
+    backgroundColor: colors.light.brand,
   },
 });
