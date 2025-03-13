@@ -162,3 +162,9 @@ export interface CounterProps {
   onChange?: (value: number) => void;
   error?: string;
 }
+
+// Search Bar Props
+export interface SearchBarProps {
+  isSearchBarExpanded: boolean;
+  setIsSearchBarExpanded: (isSearchBarExpanded: boolean) => void;
+}

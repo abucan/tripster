@@ -1,20 +1,14 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import debounce from 'lodash/debounce';
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView } from 'react-native-actions-sheet';
 
 import { Place, PlacesAutocompleteProps } from '@/types';
 import { getIconForPlaceType } from '@/utils/icons';
-import { ScrollView } from 'react-native-actions-sheet';
 
-import { Input } from './Input';
 import { Button } from './Button';
+import { Input } from './Input';
 
 const MAPBOX_ACCESS_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
 // TODO
@@ -29,7 +23,7 @@ export function PlacesAutocomplete({
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [selectedSuggestion, setSelectedSuggestion] = useState<Place | null>(
-    null
+    null,
   );
 
   const searchPlaces = async (searchQuery: string) => {
@@ -43,8 +37,8 @@ export function PlacesAutocomplete({
       setError(null);
       const response = await fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-          searchQuery
-        )}.json?access_token=${MAPBOX_ACCESS_TOKEN}&types=place&limit=10`
+          searchQuery,
+        )}.json?access_token=${MAPBOX_ACCESS_TOKEN}&types=place&limit=10`,
       );
 
       if (!response.ok) throw new Error('Failed to fetch places');
@@ -146,20 +140,17 @@ export function PlacesAutocomplete({
             </TouchableOpacity>
           ))}
       </ScrollView>
-      {selectedSuggestion && (
-        <Button
-          title="Select"
-          size="lg"
-          onPress={() => {}}
-          style={{
-            marginBottom: 30,
-            marginTop: 20,
-            width: '100%',
-            alignSelf: 'center',
-            borderRadius: 30,
-          }}
-        />
-      )}
+      <Button
+        title="Select"
+        size="lg"
+        disabled={!selectedSuggestion}
+        onPress={() => {}}
+        style={{
+          marginVertical: 20,
+          width: '100%',
+          alignSelf: 'center',
+        }}
+      />
     </View>
   );
 }

@@ -9,6 +9,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { SheetProvider } from 'react-native-actions-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { useProtectedRoute } from '@/hooks/useProtectedRoute';
@@ -17,7 +18,6 @@ import { supabase } from '@/lib/supabase';
 import { loadTheme, saveTheme, ThemeContext, ThemeType } from '@/lib/theme';
 
 import 'react-native-reanimated';
-import { SheetProvider } from 'react-native-actions-sheet';
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {

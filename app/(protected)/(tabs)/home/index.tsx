@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { BlurView } from 'expo-blur';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { FeaturesList } from '@/components/FeatureList';
@@ -5,34 +7,39 @@ import { LogoIcon } from '@/components/logo/LogoIcon';
 import { SearchBar } from '@/components/SearchBar';
 import { TripCardList } from '@/components/TripCardList';
 import { useTripStore } from '@/lib/tripStore';
-
+// TODO
 export default function HomeScreen() {
   const { upcomingTrip } = useTripStore();
+  const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
   return (
     <View style={styles.wrapper}>
+      <View style={styles.imageWrapper}>
+        <Image
+          source={require('@/assets/images/home_header.png')}
+          resizeMode="cover"
+          style={styles.image}
+          fadeDuration={0}
+        />
+        <View style={styles.overlay} />
+        <View style={[styles.logo]}>
+          <View style={styles.welcomeView}>
+            <LogoIcon />
+            <Text style={styles.welcomeText}>
+              {String('Hi, Ante').slice(0, 20) + ' 👋'}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <SearchBar
+        isSearchBarExpanded={isSearchBarExpanded}
+        setIsSearchBarExpanded={setIsSearchBarExpanded}
+      />
+
       <ScrollView
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.imageWrapper}>
-          <Image
-            source={require('@/assets/images/home_header.png')}
-            resizeMode="cover"
-            style={styles.image}
-            fadeDuration={0}
-          />
-          <View style={styles.overlay} />
-          <View style={[styles.logo]}>
-            <View style={styles.welcomeView}>
-              <LogoIcon />
-              <Text style={styles.welcomeText}>
-                {String('Hi, Ante').slice(0, 20) + ' 👋'}
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <SearchBar />
         <FeaturesList />
         <TripCardList
           trips={upcomingTrip}
@@ -42,6 +49,20 @@ export default function HomeScreen() {
           ctaText="See all"
         />
       </ScrollView>
+      {isSearchBarExpanded && (
+        <BlurView
+          tint="extraLight"
+          intensity={100}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 1,
+          }}
+        />
+      )}
     </View>
   );
 }
@@ -49,12 +70,11 @@ export default function HomeScreen() {
 export const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    height: '100%',
-    backgroundColor: '#F7F7F7',
   },
   scrollContainer: {
     flex: 1,
     position: 'relative',
+    marginTop: 24,
   },
   imageWrapper: {
     height: 250,

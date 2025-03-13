@@ -72,6 +72,7 @@ export function Button({
     styles.button,
     styles[`${size}Button`],
     getVariantStyle(variant, theme),
+    (isLoading || props.disabled) && styles.disabledButton,
     style,
   ];
 
@@ -79,6 +80,7 @@ export function Button({
     styles.text,
     styles[`${size}Text`],
     getTextStyle(variant, theme),
+    (isLoading || props.disabled) && styles.disabledText,
     textStyle,
   ];
 
@@ -120,7 +122,7 @@ export function Button({
 
 const getVariantStyle = (
   variant: string,
-  theme: typeof Colors.light
+  theme: typeof Colors.light,
 ): ViewStyle => {
   switch (variant) {
     case 'default':
@@ -146,7 +148,7 @@ const getVariantStyle = (
 
 const getTextStyle = (
   variant: string,
-  theme: typeof Colors.light
+  theme: typeof Colors.light,
 ): TextStyle => {
   switch (variant) {
     case 'default':
@@ -194,6 +196,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 30,
   },
+  disabledButton: {
+    backgroundColor: 'lightgray',
+  },
   iconButton: {
     height: 40,
     width: 40,
@@ -207,6 +212,9 @@ const styles = StyleSheet.create({
   },
   lgText: {
     fontSize: 16,
+  },
+  disabledText: {
+    color: 'white',
   },
   iconText: {
     fontSize: 14,
