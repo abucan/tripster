@@ -7,7 +7,7 @@ import { LogoIcon } from '@/components/logo/LogoIcon';
 import { SearchBar } from '@/components/SearchBar';
 import { TripCardList } from '@/components/TripCardList';
 import { useTripStore } from '@/lib/tripStore';
-// TODO
+
 export default function HomeScreen() {
   const { upcomingTrip } = useTripStore();
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
@@ -56,9 +56,9 @@ export default function HomeScreen() {
           style={{
             position: 'absolute',
             top: 0,
+            bottom: 0,
             left: 0,
             right: 0,
-            bottom: 0,
             zIndex: 1,
           }}
         />

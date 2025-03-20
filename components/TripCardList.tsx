@@ -1,8 +1,10 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { router } from 'expo-router';
+import { FlatList, StyleSheet, View } from 'react-native';
 
 import { TripCardListProps } from '@/types';
 
+import { EmptyStateTripCard } from './EmptyStateTripCard';
 import { TripCardItem } from './TripCardItem';
 import { ViewTitle } from './ViewTitle';
 
@@ -15,12 +17,12 @@ export const TripCardList = ({
 }: TripCardListProps) => {
   return (
     <View style={{ marginTop: isTripsScreen ? 0 : 20 }}>
-      {title && (
+      {title && trips.length > 0 && (
         <ViewTitle
           title={title}
           cta={cta}
           ctaText={ctaText}
-          onPress={() => console.log('pressed')}
+          onPress={() => router.push('/trips')}
         />
       )}
       <FlatList
@@ -36,13 +38,7 @@ export const TripCardList = ({
           marginVertical: isTripsScreen ? 0 : 16,
           gap: isTripsScreen ? 20 : 0,
         }}
-        ListEmptyComponent={
-          <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-          >
-            <Text>No trips found</Text>
-          </View>
-        }
+        ListEmptyComponent={<EmptyStateTripCard onRetry={() => {}} />}
         renderItem={({ item, index }) => (
           <TripCardItem {...item} index={index} />
         )}

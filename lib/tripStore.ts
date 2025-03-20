@@ -1,10 +1,10 @@
+import * as FileSystem from 'expo-file-system';
 import { create } from 'zustand';
 
 import { Category, Trip } from '@/types';
 import { TripFormData } from '@/utils/schemas/trips.schemas';
 
 import { supabase } from './supabase';
-import * as FileSystem from 'expo-file-system';
 
 interface TripStore {
   // trip state
@@ -16,8 +16,7 @@ interface TripStore {
   createTrip: (trip: TripFormData) => Promise<Trip | null>;
   updateTrip: (trip: Trip) => Promise<void>;
   deleteTrip: (tripId: string) => Promise<void>;
-  fetchTrips: () => Promise<void>;
-  fetchCategories: () => Promise<void>;
+  fetchTripsAndCategories: () => Promise<void>;
 
   // loading and error states
   isLoading: boolean;
@@ -104,7 +103,7 @@ export const useTripStore = create<TripStore>((set) => ({
             tripData.categories.map((categoryId) => ({
               trip_id: trip.id,
               category_id: categoryId,
-            }))
+            })),
           );
         if (categoriesError) throw categoriesError;
       }
@@ -120,7 +119,7 @@ export const useTripStore = create<TripStore>((set) => ({
   },
   updateTrip: async (trip) => {},
   deleteTrip: async (tripId) => {},
-  fetchTrips: async () => {
+  fetchTripsAndCategories: async () => {
     try {
       set({ isLoading: true, error: null });
       const {
@@ -130,23 +129,32 @@ export const useTripStore = create<TripStore>((set) => ({
       if (!user) {
         throw new Error('User not found');
       }
-      const { data: trips, error } = await supabase
-        .from('trips')
-        .select(
-          `
+
+      const [trips, categories] = await Promise.all([
+        supabase
+          .from('trips')
+          .select(
+            `
           *,
           trip_categories:trip_categories(*),
           categories:trip_categories(category_id, categories(*))
-        `
-        )
-        .eq('user_id', user.id)
-        .order('start_date', { ascending: true });
-      if (error) throw error;
-      set({ trips });
-      console.log('trips', trips);
-      if (trips.length > 0) {
-        set({ upcomingTrip: [trips[0]] });
-      }
+        `,
+          )
+          .eq('user_id', user.id)
+          .order('start_date', { ascending: true }),
+
+        supabase.from('categories').select('*').order('name'),
+      ]);
+
+      if (trips.error) throw trips.error;
+      if (categories.error) throw categories.error;
+
+      set({
+        trips: trips.data,
+        categories: categories.data,
+        // upcomingTrip: trips.data.length > 0 ? [trips.data[0]] : [],
+        upcomingTrip: [],
+      });
     } catch (error: any) {
       set({ error: error.message });
     } finally {

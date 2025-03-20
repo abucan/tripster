@@ -4,12 +4,12 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ViewTitleProps } from '@/types';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export function ViewTitle({ title, cta, ctaText }: ViewTitleProps) {
+export function ViewTitle({ title, cta, ctaText, onPress }: ViewTitleProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>{title}</Text>
       {cta && (
-        <TouchableOpacity style={styles.seeAll}>
+        <TouchableOpacity style={styles.seeAll} onPress={onPress}>
           <Text style={styles.seeAllText}>{ctaText}</Text>
           <MaterialIcons name="navigate-next" size={20} style={styles.icon} />
         </TouchableOpacity>

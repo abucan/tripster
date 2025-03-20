@@ -13,12 +13,11 @@ import { colors } from '@/lib/theme';
 import { useTripStore } from '@/lib/tripStore';
 
 export default function TabsLayout() {
-  const { fetchTrips, fetchCategories, isLoading } = useTripStore();
+  const { fetchTripsAndCategories, isLoading } = useTripStore();
 
-  // TODO: check if there are re-renders
   useEffect(() => {
-    fetchTrips();
-    fetchCategories();
+    fetchTripsAndCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading) {
