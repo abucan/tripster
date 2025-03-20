@@ -7,7 +7,14 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TripsScreen() {
-  const { trips, isLoading } = useTripStore();
+  const {
+    trips,
+    isLoading,
+    query,
+    searchTrips,
+    selectedCategories,
+    filterTripsByCategory,
+  } = useTripStore();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -19,15 +26,19 @@ export default function TripsScreen() {
 
       <View style={styles.searchContainer}>
         <Input
-          value={''}
-          onChangeText={() => {}}
+          value={query}
+          onChangeText={(text) => {
+            searchTrips(text);
+          }}
           placeholder="Search for a trip"
           icon="search-outline"
         />
         <CategoryTagSelector
-          selectedCategories={[]}
+          selectedCategories={selectedCategories}
           selectedTags={[]}
-          onCategoriesChange={() => {}}
+          onCategoriesChange={(item) => {
+            filterTripsByCategory(item);
+          }}
           onTagsChange={() => {}}
         />
       </View>

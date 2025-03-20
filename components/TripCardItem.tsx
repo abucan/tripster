@@ -16,9 +16,8 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 import { Button } from './Button';
 
-// Customizable Speed Variables
-const DELAY = 200; // Adjust delay between items (Lower = faster)
-const SPRING_CONFIG = { damping: 15, stiffness: 120 }; // Adjust animation speed
+const DELAY = 200;
+const SPRING_CONFIG = { damping: 15, stiffness: 120 };
 
 export function TripCardItem({
   id,
@@ -28,9 +27,8 @@ export function TripCardItem({
   start_date,
   end_date,
 }: TripCardItemProps) {
-  // Animation values
-  const translateY = useSharedValue(50); // Start below
-  const opacity = useSharedValue(0); // Start invisible
+  const translateY = useSharedValue(50);
+  const opacity = useSharedValue(0);
 
   useEffect(() => {
     translateY.value = withDelay(index! * DELAY, withSpring(0, SPRING_CONFIG));
@@ -38,8 +36,8 @@ export function TripCardItem({
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }],
     opacity: opacity.value,
+    transform: [{ translateY: translateY.value }],
   }));
 
   return (
@@ -62,9 +60,7 @@ export function TripCardItem({
 
           <BlurView tint="extraLight" intensity={100} style={styles.bodyTag}>
             <View style={{ gap: 2 }}>
-              <Text style={styles.bodyTagTitle}>
-                {destination?.slice(0, 24)}...
-              </Text>
+              <Text style={styles.bodyTagTitle}>{destination}</Text>
               <View style={styles.bodyTagDateContainer}>
                 <Calendar size={16} color="#000" />
                 <Text style={styles.bodyTagDate}>

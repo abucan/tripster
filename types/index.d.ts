@@ -111,6 +111,9 @@ export interface Trip {
   image_url: string;
   created_at: Date;
   updated_at: Date;
+  trip_categories: {
+    category_id: string;
+  }[];
 }
 
 export interface TripCardItemProps {

@@ -9,9 +9,15 @@ import Animated, {
 
 import { Button } from './Button';
 
-export function EmptyStateTripCard({ onRetry }: { onRetry: () => void }) {
+export function EmptyStateTripCard({
+  onRetry,
+  isLoading,
+}: {
+  onRetry: () => void;
+  isLoading: boolean;
+}) {
+  const translateY = useSharedValue(50);
   const opacity = useSharedValue(0);
-  const translateY = useSharedValue(20);
 
   React.useEffect(() => {
     opacity.value = withSpring(1);
@@ -25,10 +31,18 @@ export function EmptyStateTripCard({ onRetry }: { onRetry: () => void }) {
 
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
-      <Ghost size={48} color="#ccc" />
-      <Text style={styles.title}>No Trips Found</Text>
-      <Text style={styles.subtitle}>Start planning your next adventure!</Text>
-      <Button title="Retry" onPress={onRetry} style={styles.button} />
+      <View style={styles.cardContainer}>
+        <Ghost size={48} color="#ccc" />
+        <Text style={styles.title}>No Trips Found</Text>
+        <Text style={styles.subtitle}>Start planning your next adventure!</Text>
+        <Button
+          title="Retry"
+          isLoading={isLoading}
+          disabled={isLoading}
+          onPress={onRetry}
+          style={styles.button}
+        />
+      </View>
     </Animated.View>
   );
 }
@@ -39,21 +53,33 @@ const styles = StyleSheet.create({
   container: {
     width: width,
     display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    marginHorizontal: 'auto',
+    paddingHorizontal: 20,
+  },
+  cardContainer: {
+    width: '100%',
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 20,
     paddingHorizontal: 20,
+    borderWidth: 1,
+    borderRadius: 18,
+    borderColor: '#ccc',
+    borderCurve: 'continuous',
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: 'Helvetica-Now-Display-Bold',
     marginTop: 10,
   },
   subtitle: {
+    fontFamily: 'Helvetica-Now-Display-Regular',
     fontSize: 16,
-    color: '#666',
     textAlign: 'center',
-    marginTop: 4,
+    color: '#666',
   },
   button: {
     marginTop: 20,

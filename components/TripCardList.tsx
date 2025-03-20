@@ -7,6 +7,7 @@ import { TripCardListProps } from '@/types';
 import { EmptyStateTripCard } from './EmptyStateTripCard';
 import { TripCardItem } from './TripCardItem';
 import { ViewTitle } from './ViewTitle';
+import { useTripStore } from '@/lib/tripStore';
 
 export const TripCardList = ({
   trips,
@@ -38,7 +39,14 @@ export const TripCardList = ({
           marginVertical: isTripsScreen ? 0 : 16,
           gap: isTripsScreen ? 20 : 0,
         }}
-        ListEmptyComponent={<EmptyStateTripCard onRetry={() => {}} />}
+        ListEmptyComponent={
+          <EmptyStateTripCard
+            onRetry={() => {
+              useTripStore.getState().fetchTripsAndCategories();
+            }}
+            isLoading={useTripStore.getState().isLoading}
+          />
+        }
         renderItem={({ item, index }) => (
           <TripCardItem {...item} index={index} />
         )}

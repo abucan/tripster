@@ -9,15 +9,20 @@ import { supabase } from './supabase';
 interface TripStore {
   // trip state
   trips: Trip[];
+  allTrips: Trip[];
   upcomingTrip: Trip[];
   categories: Category[];
+  selectedCategories: string[];
+  query: string;
   // trip actions
   uploadImage: (image: string, userId: string) => Promise<string | null>;
   createTrip: (trip: TripFormData) => Promise<Trip | null>;
   updateTrip: (trip: Trip) => Promise<void>;
   deleteTrip: (tripId: string) => Promise<void>;
   fetchTripsAndCategories: () => Promise<void>;
-
+  searchTrips: (query: string) => void;
+  filterTripsByCategory: (selectedCategories: string[]) => void;
+  applyFilters: () => void;
   // loading and error states
   isLoading: boolean;
   error: string | null;
@@ -25,10 +30,13 @@ interface TripStore {
   setError: (error: string | null) => void;
 }
 
-export const useTripStore = create<TripStore>((set) => ({
+export const useTripStore = create<TripStore>((set, get) => ({
   trips: [],
+  allTrips: [],
   upcomingTrip: [],
   categories: [],
+  selectedCategories: [],
+  query: '',
   isLoading: false,
   error: null,
   setIsLoading: (loading: boolean) => set({ isLoading: loading }),
@@ -103,7 +111,7 @@ export const useTripStore = create<TripStore>((set) => ({
             tripData.categories.map((categoryId) => ({
               trip_id: trip.id,
               category_id: categoryId,
-            })),
+            }))
           );
         if (categoriesError) throw categoriesError;
       }
@@ -138,7 +146,7 @@ export const useTripStore = create<TripStore>((set) => ({
           *,
           trip_categories:trip_categories(*),
           categories:trip_categories(category_id, categories(*))
-        `,
+        `
           )
           .eq('user_id', user.id)
           .order('start_date', { ascending: true }),
@@ -148,12 +156,11 @@ export const useTripStore = create<TripStore>((set) => ({
 
       if (trips.error) throw trips.error;
       if (categories.error) throw categories.error;
-
       set({
         trips: trips.data,
+        allTrips: trips.data,
         categories: categories.data,
-        // upcomingTrip: trips.data.length > 0 ? [trips.data[0]] : [],
-        upcomingTrip: [],
+        upcomingTrip: trips.data.length > 0 ? [trips.data[0]] : [],
       });
     } catch (error: any) {
       set({ error: error.message });
@@ -161,19 +168,35 @@ export const useTripStore = create<TripStore>((set) => ({
       set({ isLoading: false });
     }
   },
-  fetchCategories: async () => {
-    try {
-      set({ isLoading: true, error: null });
-      const { data: categories, error } = await supabase
-        .from('categories')
-        .select('*')
-        .order('name');
-      if (error) throw error;
-      set({ categories });
-    } catch (error: any) {
-      set({ error: error.message });
-    } finally {
-      set({ isLoading: false });
+  searchTrips: (query: string) => {
+    set({ query });
+    get().applyFilters();
+  },
+  filterTripsByCategory: (selectedCategories: string[]) => {
+    set({ selectedCategories });
+    get().applyFilters();
+  },
+  applyFilters: () => {
+    const { allTrips, query, selectedCategories } = get();
+
+    let filteredTrips = allTrips;
+
+    // Apply search filter
+    if (query.trim()) {
+      filteredTrips = filteredTrips.filter((trip) =>
+        trip.title.toLowerCase().includes(query.toLowerCase())
+      );
     }
+
+    // Apply category filter
+    if (selectedCategories.length > 0) {
+      filteredTrips = filteredTrips.filter((trip) =>
+        trip.trip_categories.some((cat) =>
+          selectedCategories.includes(cat.category_id)
+        )
+      );
+    }
+
+    set({ trips: filteredTrips });
   },
 }));

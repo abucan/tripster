@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { CategoryTagSelectorProps } from '@/types/index';
 import { FontAwesome6 } from '@expo/vector-icons';
@@ -13,12 +7,31 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { colors, useTheme } from '../lib/theme';
 import { useTripStore } from '@/lib/tripStore';
 
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+
 export function CategoryTagSelector({
   selectedCategories,
   onCategoriesChange,
 }: CategoryTagSelectorProps) {
   const { theme } = useTheme();
   const themeColors = colors[theme];
+
+  const translateX = useSharedValue(50);
+  const opacity = useSharedValue(0);
+
+  React.useEffect(() => {
+    opacity.value = withSpring(1);
+    translateX.value = withSpring(0);
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ translateX: translateX.value }],
+  }));
 
   const { categories, error } = useTripStore();
 
@@ -30,10 +43,14 @@ export function CategoryTagSelector({
   };
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, animatedStyle]}>
       {error && <Text style={styles.errorText}>{error}</Text>}
       {/* <Text style={styles.sectionTitle}>Categories</Text> */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        style={[styles.container, animatedStyle]}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
         {categories.map((category) => {
           return (
             <TouchableOpacity
@@ -76,7 +93,7 @@ export function CategoryTagSelector({
           );
         })}
       </ScrollView>
-    </View>
+    </Animated.View>
   );
 }
 
