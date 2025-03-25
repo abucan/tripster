@@ -1,10 +1,11 @@
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 import { CategoryTagSelector } from '@/components/CategoryTagSelector';
 import { Input } from '@/components/Input';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { TripCardList } from '@/components/TripCardList';
 import { useTripStore } from '@/lib/tripStore';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TripsScreen() {
   const {

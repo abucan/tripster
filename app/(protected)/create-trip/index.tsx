@@ -237,16 +237,23 @@ export default function CreateTripScreen() {
                 );
               }}
             />
-
-            <Button
-              title={isSubmitting ? 'Creating Trip...' : 'Create Trip'}
-              size="lg"
-              isLoading={isLoading || isSubmitting}
-              disabled={isLoading || isSubmitting}
-              onPress={handleSubmit(onSubmit, onErrors)}
-            />
           </View>
         </ScrollView>
+        <View
+          style={{
+            paddingHorizontal: 20,
+            paddingTop: 20,
+            backgroundColor: '#F7F7F7',
+          }}
+        >
+          <Button
+            title={isSubmitting ? 'Creating Trip...' : 'Create Trip'}
+            size="lg"
+            isLoading={isLoading || isSubmitting}
+            disabled={isLoading || isSubmitting}
+            onPress={handleSubmit(onSubmit, onErrors)}
+          />
+        </View>
       </KeyboardAvoidingView>
 
       <SelectDestinationSheet
@@ -318,7 +325,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     paddingHorizontal: 20,
-    marginTop: 16,
+    marginVertical: 16,
     gap: 16,
   },
 });

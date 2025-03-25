@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { BlurView } from 'expo-blur';
+import { router } from 'expo-router';
 import dayjs from 'dayjs';
 import { Calendar } from 'lucide-react-native';
 import { Dimensions, Image, StyleSheet } from 'react-native';
@@ -69,7 +70,13 @@ export function TripCardItem({
                 </Text>
               </View>
             </View>
-            <Button title="See Details" style={{ borderRadius: 100 }} />
+            <Button
+              title="See Details"
+              style={{ borderRadius: 100 }}
+              onPress={() =>
+                router.push(`/(protected)/(tabs)/trips/activities/${id}`)
+              }
+            />
           </BlurView>
         </View>
       </View>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { router, Tabs } from 'expo-router';
+import { router, Tabs, useRouter, useSegments } from 'expo-router';
 import { Compass, Globe, Home, User } from 'lucide-react-native';
 import {
   ActivityIndicator,
@@ -13,12 +13,20 @@ import { colors } from '@/lib/theme';
 import { useTripStore } from '@/lib/tripStore';
 
 export default function TabsLayout() {
+  const router = useRouter();
+  const segments = useSegments();
   const { fetchTripsAndCategories, isLoading } = useTripStore();
 
   useEffect(() => {
     fetchTripsAndCategories();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (segments[0] === 'trips' && segments.length > 1) {
+      router.replace('/trips');
+    }
+  }, [segments, router]);
 
   if (isLoading) {
     return (
@@ -60,7 +68,7 @@ export default function TabsLayout() {
           }}
         />
         <Tabs.Screen
-          name="trips/index"
+          name="trips"
           options={{
             title: 'My Trips',
             headerShown: false,
