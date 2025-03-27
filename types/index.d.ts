@@ -138,9 +138,10 @@ export interface TripCardListProps {
 // Screen Header Props
 export interface ScreenHeaderProps {
   title: string;
-  leftIcon: keyof typeof Ionicons.glyphMap;
-  rightIcon: keyof typeof Ionicons.glyphMap;
+  leftIcon?: keyof typeof Ionicons.glyphMap;
+  rightIcon?: keyof typeof Ionicons.glyphMap;
   onMorePress?: () => void;
+  onBackPress?: () => void;
 }
 
 export interface ViewTitleProps {

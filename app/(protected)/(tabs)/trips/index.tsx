@@ -19,11 +19,7 @@ export default function TripsScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScreenHeader
-        title="My Trips"
-        leftIcon="arrow-back"
-        rightIcon="funnel-sharp"
-      />
+      <ScreenHeader title="My Trips" rightIcon="funnel-sharp" />
 
       <View style={styles.searchContainer}>
         <Input

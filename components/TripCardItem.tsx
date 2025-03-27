@@ -74,7 +74,7 @@ export function TripCardItem({
               title="See Details"
               style={{ borderRadius: 100 }}
               onPress={() =>
-                router.push(`/(protected)/(tabs)/trips/activities/${id}`)
+                router.push(`/(protected)/(tabs)/trips/details/${id}`)
               }
             />
           </BlurView>

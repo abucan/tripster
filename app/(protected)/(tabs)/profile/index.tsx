@@ -10,11 +10,7 @@ export default function ProfileScreen() {
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <ScreenHeader
-          title="Profile"
-          leftIcon="arrow-back"
-          rightIcon="settings-sharp"
-        />
+        <ScreenHeader title="Profile" rightIcon="settings-sharp" />
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,6 +1,7 @@
-import { ScreenHeader } from '@/components/ScreenHeader';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { ScreenHeader } from '@/components/ScreenHeader';
 
 export default function ExploreScreen() {
   return (
@@ -9,11 +10,7 @@ export default function ExploreScreen() {
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        <ScreenHeader
-          title="Explore"
-          leftIcon="arrow-back"
-          rightIcon="settings-sharp"
-        />
+        <ScreenHeader title="Explore" rightIcon="settings-sharp" />
       </ScrollView>
     </SafeAreaView>
   );

@@ -9,16 +9,24 @@ export function ScreenHeader({
   leftIcon,
   rightIcon,
   onMorePress,
+  onBackPress,
 }: ScreenHeaderProps) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-        <Ionicons name={leftIcon} size={24} color="black" />
-      </TouchableOpacity>
+      {leftIcon && (
+        <TouchableOpacity
+          onPress={onBackPress || (() => router.back())}
+          style={styles.backButton}
+        >
+          <Ionicons name={leftIcon} size={24} color="black" />
+        </TouchableOpacity>
+      )}
       <Text style={styles.title}>{title}</Text>
-      <TouchableOpacity onPress={onMorePress} style={styles.moreButton}>
-        <Ionicons name={rightIcon} size={24} color="black" />
-      </TouchableOpacity>
+      {rightIcon && (
+        <TouchableOpacity onPress={onMorePress} style={styles.moreButton}>
+          <Ionicons name={rightIcon} size={24} color="black" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

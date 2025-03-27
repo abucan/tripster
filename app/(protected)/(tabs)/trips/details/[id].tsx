@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -41,6 +41,7 @@ export default function TripDetailScreen() {
         title={trip?.title}
         leftIcon="arrow-back"
         rightIcon="create-sharp"
+        onBackPress={() => router.push('/trips')}
       />
     </SafeAreaView>
   );
