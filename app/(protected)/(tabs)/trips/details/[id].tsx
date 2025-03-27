@@ -42,6 +42,7 @@ export default function TripDetailScreen() {
         leftIcon="arrow-back"
         rightIcon="create-sharp"
         onBackPress={() => router.push('/trips')}
+        onMorePress={() => router.push(`/trips/edit/${id}`)}
       />
     </SafeAreaView>
   );

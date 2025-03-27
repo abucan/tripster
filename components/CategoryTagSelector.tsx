@@ -1,17 +1,16 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
-
-import { CategoryTagSelectorProps } from '@/types/index';
-import { FontAwesome6 } from '@expo/vector-icons';
-
-import { colors, useTheme } from '../lib/theme';
-import { useTripStore } from '@/lib/tripStore';
-
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+
+import { useTripStore } from '@/lib/tripStore';
+import { CategoryTagSelectorProps } from '@/types/index';
+import { FontAwesome6 } from '@expo/vector-icons';
+
+import { colors, useTheme } from '../lib/theme';
 
 export function CategoryTagSelector({
   selectedCategories,
@@ -59,7 +58,7 @@ export function CategoryTagSelector({
                 styles.categoryChip,
                 {
                   backgroundColor: selectedCategories.includes(
-                    category.id.toString()
+                    category.id.toString(),
                   )
                     ? themeColors.primary
                     : themeColors.card,

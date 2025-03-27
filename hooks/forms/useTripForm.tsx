@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { ActionSheetRef } from 'react-native-actions-sheet';
@@ -8,16 +8,21 @@ import { TripFormData, tripSchema } from '@/utils/schemas/trips.schemas';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { zodResolver } from '@hookform/resolvers/zod';
 // TODO
-export function useTripForm() {
+export function useTripForm({ tripId }: { tripId?: string }) {
   const [imageUri, setImageUri] = useState<string>('');
   const [showModal, setShowModal] = useState(false);
 
-  const destinationBottomSheetRef = useRef<BottomSheet>(null);
+  const destinationBottomSheetRef = useRef<ActionSheetRef>(null);
   const rangeBottomSheetRef = useRef<BottomSheet>(null);
 
-  const { createTrip, isLoading } = useTripStore();
+  const { createTrip, isLoading, trips } = useTripStore();
 
-  const actionSheetRef = useRef<ActionSheetRef>(null);
+  const trip = trips.find((trip) => trip.id === tripId);
+
+  useEffect(() => {
+    setImageUri(trip?.image_url || '');
+    console.log('trip', trip?.image_url);
+  }, [trip]);
 
   const {
     control,
@@ -28,19 +33,20 @@ export function useTripForm() {
   } = useForm<TripFormData>({
     resolver: zodResolver(tripSchema),
     defaultValues: {
-      title: 'Split',
-      description: 'Description',
-      destination: 'Split',
+      title: trip?.title || '',
+      description: trip?.description || '',
+      destination: trip?.destination || '',
       range: {
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: trip?.start_date || new Date(),
+        endDate: trip?.end_date || new Date(),
       },
-      budget: 250,
-      persons: 1,
-      categories: [],
+      budget: trip?.budget || 0,
+      persons: trip?.persons || 1,
+      categories:
+        trip?.trip_categories.map((category) => category.category_id) || [],
     },
   });
-
+  // TODO: fix the date range
   const onSubmit = async (data: TripFormData) => {
     const result = await createTrip({
       ...data,
@@ -56,8 +62,9 @@ export function useTripForm() {
   };
 
   const handleSelectImage = async () => {
+    console.log('handleSelectImage');
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [16, 9],
       quality: 1,
@@ -70,7 +77,7 @@ export function useTripForm() {
 
   const handleDestinationChange = (destination: string) => {
     setValue('destination', destination);
-    destinationBottomSheetRef.current?.close();
+    destinationBottomSheetRef?.current?.hide();
   };
 
   const handleDateRangeChange = (dateRange: {
@@ -84,22 +91,21 @@ export function useTripForm() {
   };
 
   return {
+    control,
     imageUri,
     destinationBottomSheetRef,
     rangeBottomSheetRef,
-    control,
     showModal,
-    errors,
     isLoading,
     isSubmitting,
-    reset,
-    handleSubmit,
+    errors,
     onSubmit,
     onErrors,
+    handleSubmit,
     handleSelectImage,
     handleDestinationChange,
     handleDateRangeChange,
     setShowModal,
-    actionSheetRef,
+    reset,
   };
 }

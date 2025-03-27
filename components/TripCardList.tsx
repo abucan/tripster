@@ -38,6 +38,7 @@ export const TripCardList = ({
         contentContainerStyle={{
           marginVertical: isTripsScreen ? 0 : 16,
           gap: isTripsScreen ? 20 : 0,
+          flexGrow: 1,
         }}
         ListEmptyComponent={
           <EmptyStateTripCard

@@ -1,16 +1,22 @@
-import { router } from 'expo-router';
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useLocalSearchParams } from 'expo-router';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import { Button } from '@/components/Button';
 import { TripForm } from '@/components/form/TripForm';
-import { CreateTripModal } from '@/components/modals/CreateTripModal';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
 import { useTripForm } from '@/hooks/forms/useTripForm';
-// TODO
-export default function CreateTripScreen() {
+
+export default function EditTripScreen() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+
   const {
     control,
     imageUri,
@@ -28,7 +34,7 @@ export default function CreateTripScreen() {
     handleDateRangeChange,
     setShowModal,
     reset,
-  } = useTripForm({});
+  } = useTripForm({ tripId: id });
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -37,7 +43,7 @@ export default function CreateTripScreen() {
         style={{ flex: 1 }}
       >
         <ScreenHeader
-          title="Create Trip"
+          title="Edit Trip"
           leftIcon="arrow-back"
           rightIcon="ellipsis-horizontal"
         />
@@ -57,7 +63,7 @@ export default function CreateTripScreen() {
           }}
         >
           <Button
-            title={isSubmitting ? 'Creating Trip...' : 'Create Trip'}
+            title={isSubmitting ? 'Editing Trip...' : 'Edit Trip'}
             size="lg"
             isLoading={isLoading || isSubmitting}
             disabled={isLoading || isSubmitting}
@@ -77,22 +83,10 @@ export default function CreateTripScreen() {
         onDateRangeChange={handleDateRangeChange}
         onClose={() => rangeBottomSheetRef.current?.close()}
       />
-
-      <CreateTripModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        onDonePress={() => {
-          setShowModal(false);
-          reset();
-          // add a delay to the navigation
-          setTimeout(() => {
-            router.push('/(protected)/(tabs)/trips');
-          }, 500);
-        }}
-      />
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,

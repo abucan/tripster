@@ -5,6 +5,7 @@ export default function TripsLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="details/[id]" />
+      <Stack.Screen name="edit/[id]" />
     </Stack>
   );
 }

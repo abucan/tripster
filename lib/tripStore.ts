@@ -15,7 +15,7 @@ interface TripStore {
   selectedCategories: string[];
   query: string;
   // trip actions
-  uploadImage: (image: string, userId: string) => Promise<string | null>;
+  uploadImage: (imageUri: string, userId: string) => Promise<string | null>;
   createTrip: (trip: TripFormData) => Promise<Trip | null>;
   updateTrip: (trip: Trip) => Promise<void>;
   deleteTrip: (tripId: string) => Promise<void>;
@@ -42,19 +42,32 @@ export const useTripStore = create<TripStore>((set, get) => ({
   setIsLoading: (loading: boolean) => set({ isLoading: loading }),
   setError: (error: string | null) => set({ error }),
 
-  uploadImage: async (image: string, userId: string) => {
+  uploadImage: async (imageUri: string, userId: string) => {
     try {
-      const file = await FileSystem.readAsStringAsync(image, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
+      let blob: Blob;
+      try {
+        const response = await fetch(imageUri);
+        blob = await response.blob();
+        console.log('Blob size:', blob.size); // Check if blob is valid
+      } catch (fetchError) {
+        console.error('Fetch error:', fetchError);
+        throw fetchError; // Ensure we catch the issue
+      }
 
-      const fileName = `images/user-${userId}-${Date.now()}.jpg`;
+      const arrayBuffer = await new Response(blob).arrayBuffer();
+      const fileName = `images/user-${userId}.jpg`;
 
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from('trip-images')
-        .upload(fileName, file, { contentType: 'image/jpeg', upsert: true });
+        .upload(fileName, arrayBuffer, {
+          contentType: 'image/jpeg',
+          upsert: true,
+        });
 
-      if (error) throw error;
+      if (error) {
+        console.log('error', error);
+        throw error;
+      }
 
       const { data: publicUrlData } = supabase.storage
         .from('trip-images')
@@ -76,10 +89,12 @@ export const useTripStore = create<TripStore>((set, get) => ({
       if (!user) {
         throw new Error('User not found');
       }
+      console.log('tripData', tripData);
 
-      const imageUrl: string | null = await useTripStore
-        .getState()
-        .uploadImage(tripData.image_url!, user.id);
+      const imageUrl: string | null = await get().uploadImage(
+        tripData.image_url!,
+        user.id,
+      );
 
       if (!imageUrl) {
         throw new Error('Image not uploaded');
@@ -92,8 +107,8 @@ export const useTripStore = create<TripStore>((set, get) => ({
           title: tripData.title,
           description: tripData.description,
           destination: tripData.destination,
-          start_date: tripData.range.startDate?.toISOString(),
-          end_date: tripData.range.endDate?.toISOString(),
+          start_date: tripData.range.startDate.toISOString(),
+          end_date: tripData.range.endDate.toISOString(),
           budget: tripData.budget,
           persons: tripData.persons,
           image_url: imageUrl,
@@ -111,7 +126,7 @@ export const useTripStore = create<TripStore>((set, get) => ({
             tripData.categories.map((categoryId) => ({
               trip_id: trip.id,
               category_id: categoryId,
-            }))
+            })),
           );
         if (categoriesError) throw categoriesError;
       }
@@ -146,7 +161,7 @@ export const useTripStore = create<TripStore>((set, get) => ({
           *,
           trip_categories:trip_categories(*),
           categories:trip_categories(category_id, categories(*))
-        `
+        `,
           )
           .eq('user_id', user.id)
           .order('start_date', { ascending: true }),
@@ -184,7 +199,7 @@ export const useTripStore = create<TripStore>((set, get) => ({
     // Apply search filter
     if (query.trim()) {
       filteredTrips = filteredTrips.filter((trip) =>
-        trip.title.toLowerCase().includes(query.toLowerCase())
+        trip.title.toLowerCase().includes(query.toLowerCase()),
       );
     }
 
@@ -192,8 +207,8 @@ export const useTripStore = create<TripStore>((set, get) => ({
     if (selectedCategories.length > 0) {
       filteredTrips = filteredTrips.filter((trip) =>
         trip.trip_categories.some((cat) =>
-          selectedCategories.includes(cat.category_id)
-        )
+          selectedCategories.includes(cat.category_id),
+        ),
       );
     }
 

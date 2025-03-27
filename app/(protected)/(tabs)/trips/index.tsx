@@ -55,9 +55,6 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-  scrollContainer: {
-    flexGrow: 1,
-  },
   searchContainer: {
     marginHorizontal: 20,
     marginBottom: 20,

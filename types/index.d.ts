@@ -1,4 +1,5 @@
 import { ViewStyle } from 'react-native';
+import { ActionSheetRef } from 'react-native-actions-sheet';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -171,4 +172,14 @@ export interface CounterProps {
 export interface SearchBarProps {
   isSearchBarExpanded: boolean;
   setIsSearchBarExpanded: (isSearchBarExpanded: boolean) => void;
+}
+
+// Form
+export interface TripFormProps {
+  imageUri: string;
+  control: Control<FieldValues, any>;
+  destinationBottomSheetRef: React.RefObject<ActionSheetRef>;
+  rangeBottomSheetRef: React.RefObject<BottomSheet>;
+  errors: FieldErrors<FieldValues>;
+  handleSelectImage: () => void;
 }
