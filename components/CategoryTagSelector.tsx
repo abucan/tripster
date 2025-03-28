@@ -1,5 +1,11 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -42,7 +48,7 @@ export function CategoryTagSelector({
   };
 
   return (
-    <Animated.View style={[styles.container, animatedStyle]}>
+    <View style={[styles.container]}>
       {error && <Text style={styles.errorText}>{error}</Text>}
       {/* <Text style={styles.sectionTitle}>Categories</Text> */}
       <ScrollView
@@ -92,7 +98,7 @@ export function CategoryTagSelector({
           );
         })}
       </ScrollView>
-    </Animated.View>
+    </View>
   );
 }
 

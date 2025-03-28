@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { router, Tabs, useRouter, useSegments } from 'expo-router';
+import { Tabs, useRouter, useSegments } from 'expo-router';
 import { Compass, Globe, Home, User } from 'lucide-react-native';
 import {
   ActivityIndicator,
@@ -14,7 +14,7 @@ import { useTripStore } from '@/lib/tripStore';
 
 export default function TabsLayout() {
   const router = useRouter();
-  const segments = useSegments();
+  const segments = useSegments() as string[];
   const { fetchTripsAndCategories, isLoading } = useTripStore();
 
   useEffect(() => {
@@ -27,6 +27,10 @@ export default function TabsLayout() {
       router.replace('/trips');
     }
   }, [segments, router]);
+
+  const tripsIndex = segments.indexOf('trips');
+  const isOnTripsSubpage =
+    tripsIndex !== -1 && tripsIndex < segments.length - 1;
 
   if (isLoading) {
     return (
@@ -87,12 +91,14 @@ export default function TabsLayout() {
         />
       </Tabs>
 
-      <TouchableOpacity
-        style={styles.floatingButton}
-        onPress={() => router.push('/(protected)/create-trip')}
-      >
-        <OpenAI width={26} height={26} />
-      </TouchableOpacity>
+      {!isOnTripsSubpage && (
+        <TouchableOpacity
+          style={styles.floatingButton}
+          onPress={() => router.push('/(protected)/create-trip')}
+        >
+          <OpenAI width={26} height={26} />
+        </TouchableOpacity>
+      )}
     </>
   );
 }

@@ -21,7 +21,7 @@ export function ScreenHeader({
           <Ionicons name={leftIcon} size={24} color="black" />
         </TouchableOpacity>
       )}
-      <Text style={styles.title}>{title}</Text>
+      {title && <Text style={styles.title}>{title}</Text>}
       {rightIcon && (
         <TouchableOpacity onPress={onMorePress} style={styles.moreButton}>
           <Ionicons name={rightIcon} size={24} color="black" />
@@ -45,13 +45,14 @@ const styles = StyleSheet.create({
     left: 20,
     padding: 8,
     borderRadius: 100,
-    backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    //backgroundColor: 'rgba(0, 0, 0, 0.08)',
   },
   moreButton: {
     position: 'absolute',
     right: 20,
     padding: 8,
     borderRadius: 100,
+    backgroundColor: 'white',
   },
   title: {
     fontSize: 20,

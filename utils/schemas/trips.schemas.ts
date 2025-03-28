@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const tripSchema = z.object({
   image_url: z.string().optional(),
+  existing_image_url: z.string().optional(),
   title: z.string().min(1, 'Fill in the title'),
   description: z.string().min(1, 'Fill in the description'),
   destination: z.string().min(1, 'Fill in the destination'),

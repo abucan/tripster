@@ -1,4 +1,3 @@
-import * as FileSystem from 'expo-file-system';
 import { create } from 'zustand';
 
 import { Category, Trip } from '@/types';
@@ -17,7 +16,10 @@ interface TripStore {
   // trip actions
   uploadImage: (imageUri: string, userId: string) => Promise<string | null>;
   createTrip: (trip: TripFormData) => Promise<Trip | null>;
-  updateTrip: (trip: Trip) => Promise<void>;
+  updateTrip: (
+    tripId: string,
+    updatedTrip: TripFormData,
+  ) => Promise<Trip | null>;
   deleteTrip: (tripId: string) => Promise<void>;
   fetchTripsAndCategories: () => Promise<void>;
   searchTrips: (query: string) => void;
@@ -89,7 +91,6 @@ export const useTripStore = create<TripStore>((set, get) => ({
       if (!user) {
         throw new Error('User not found');
       }
-      console.log('tripData', tripData);
 
       const imageUrl: string | null = await get().uploadImage(
         tripData.image_url!,
@@ -112,6 +113,7 @@ export const useTripStore = create<TripStore>((set, get) => ({
           budget: tripData.budget,
           persons: tripData.persons,
           image_url: imageUrl,
+          existing_image_url: imageUrl,
         })
         .select()
         .single();
@@ -140,7 +142,82 @@ export const useTripStore = create<TripStore>((set, get) => ({
       set({ isLoading: false });
     }
   },
-  updateTrip: async (trip) => {},
+  updateTrip: async (
+    tripId: string,
+    updatedTrip: TripFormData,
+  ): Promise<Trip | null> => {
+    set({ isLoading: true, error: null });
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      let imageUrl = updatedTrip.image_url;
+
+      if (
+        updatedTrip.image_url &&
+        updatedTrip.image_url !== updatedTrip.existing_image_url
+      ) {
+        const newImageUrl = await get().uploadImage(
+          updatedTrip.image_url,
+          user.id,
+        );
+        if (!newImageUrl) {
+          throw new Error('Image not uploaded');
+        }
+        imageUrl = newImageUrl;
+      }
+
+      const { data: trip, error } = await supabase
+        .from('trips')
+        .update({
+          title: updatedTrip.title,
+          description: updatedTrip.description,
+          destination: updatedTrip.destination,
+          start_date: updatedTrip.range.startDate,
+          end_date: updatedTrip.range.endDate,
+          budget: updatedTrip.budget,
+          persons: updatedTrip.persons,
+          image_url: imageUrl,
+        })
+        .eq('id', tripId)
+        .select()
+        .single();
+
+      if (error) throw error;
+      if (!trip) throw new Error('Trip not updated.');
+
+      if (updatedTrip.categories) {
+        await supabase.from('trip_categories').delete().eq('trip_id', tripId);
+        if (updatedTrip.categories.length > 0) {
+          const { error: categoriesError } = await supabase
+            .from('trip_categories')
+            .insert(
+              updatedTrip.categories.map((categoryId) => ({
+                trip_id: tripId,
+                category_id: categoryId,
+              })),
+            );
+          if (categoriesError) throw categoriesError;
+        }
+      }
+
+      set((state) => ({
+        trips: state.trips.map((trip) =>
+          trip.id === tripId ? updatedTrip : trip,
+        ),
+      }));
+      return updatedTrip;
+    } catch (error: any) {
+      set({ error: error.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
   deleteTrip: async (tripId) => {},
   fetchTripsAndCategories: async () => {
     try {

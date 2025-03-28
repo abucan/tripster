@@ -48,8 +48,8 @@ export function TripCardItem({
           <Image
             source={
               image_url
-                ? require('@/assets/images/home_header.png')
-                : { uri: image_url }
+                ? { uri: image_url }
+                : require('@/assets/images/home_header.png')
             }
             style={styles.image}
           />

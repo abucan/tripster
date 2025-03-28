@@ -110,6 +110,7 @@ export interface Trip {
   budget: number;
   persons: number;
   image_url: string;
+  existing_image_url?: string;
   created_at: Date;
   updated_at: Date;
   trip_categories: {
@@ -138,7 +139,7 @@ export interface TripCardListProps {
 
 // Screen Header Props
 export interface ScreenHeaderProps {
-  title: string;
+  title?: string;
   leftIcon?: keyof typeof Ionicons.glyphMap;
   rightIcon?: keyof typeof Ionicons.glyphMap;
   onMorePress?: () => void;

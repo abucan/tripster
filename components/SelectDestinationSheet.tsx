@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
+import { X } from 'lucide-react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 
@@ -11,7 +12,6 @@ import BottomSheet, {
 import { colors, useTheme } from '../lib/theme';
 
 import { PlacesAutocomplete } from './PlacesAutocomplete';
-import { X } from 'lucide-react-native';
 // TODO
 export default function SelectDestinationSheet({
   bottomSheetRef,
@@ -27,7 +27,7 @@ export default function SelectDestinationSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose]
+    [onClose],
   );
 
   const renderBackdrop = useCallback(
@@ -38,7 +38,7 @@ export default function SelectDestinationSheet({
         disappearsOnIndex={-1}
       />
     ),
-    []
+    [],
   );
 
   const handleDestinationChange = ({

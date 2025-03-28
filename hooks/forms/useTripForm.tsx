@@ -8,7 +8,13 @@ import { TripFormData, tripSchema } from '@/utils/schemas/trips.schemas';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { zodResolver } from '@hookform/resolvers/zod';
 // TODO
-export function useTripForm({ tripId }: { tripId?: string }) {
+export function useTripForm({
+  tripId,
+  isEditing,
+}: {
+  tripId?: string;
+  isEditing?: boolean;
+}) {
   const [imageUri, setImageUri] = useState<string>('');
   const [showModal, setShowModal] = useState(false);
 
@@ -48,12 +54,15 @@ export function useTripForm({ tripId }: { tripId?: string }) {
   });
   // TODO: fix the date range
   const onSubmit = async (data: TripFormData) => {
-    const result = await createTrip({
-      ...data,
-      image_url: imageUri,
-    });
-    if (result) {
-      setShowModal(true);
+    if (!isEditing) {
+      const result = await createTrip({
+        ...data,
+        image_url: imageUri,
+      });
+      if (result) {
+        setShowModal(true);
+      }
+    } else {
     }
   };
 

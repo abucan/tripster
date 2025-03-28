@@ -44,7 +44,7 @@ export default function EditTripScreen() {
       >
         <ScreenHeader
           title="Edit Trip"
-          leftIcon="arrow-back"
+          leftIcon="close"
           rightIcon="ellipsis-horizontal"
         />
         <TripForm
