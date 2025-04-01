@@ -1,6 +1,13 @@
 import React from 'react';
 import { Ghost } from 'lucide-react-native';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import {
+  ButtonProps,
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -12,9 +19,17 @@ import { Button } from './Button';
 export function EmptyStateTripCard({
   onRetry,
   isLoading,
+  buttonText,
+  buttonStyle,
+  cardTitle,
+  cardDescription,
 }: {
   onRetry: () => void;
   isLoading: boolean;
+  buttonText: string;
+  buttonStyle: ViewStyle;
+  cardTitle: string;
+  cardDescription: string;
 }) {
   const translateY = useSharedValue(50);
   const opacity = useSharedValue(0);
@@ -33,14 +48,15 @@ export function EmptyStateTripCard({
     <Animated.View style={[styles.container, animatedStyle]}>
       <View style={styles.cardContainer}>
         <Ghost size={48} color="#ccc" />
-        <Text style={styles.title}>No Trips Found</Text>
-        <Text style={styles.subtitle}>Start planning your next adventure!</Text>
+        <Text style={styles.title}>{cardTitle}</Text>
+        <Text style={styles.subtitle}>{cardDescription}</Text>
         <Button
-          title="Retry"
+          title={buttonText}
           isLoading={isLoading}
           disabled={isLoading}
           onPress={onRetry}
-          style={styles.button}
+          style={[styles.button, buttonStyle]}
+          size="lg"
         />
       </View>
     </Animated.View>
@@ -51,12 +67,11 @@ const { width } = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   container: {
-    width: width,
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     marginHorizontal: 'auto',
-    paddingHorizontal: 20,
   },
   cardContainer: {
     width: '100%',

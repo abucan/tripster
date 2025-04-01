@@ -18,14 +18,14 @@ export function ScreenHeader({
           onPress={onBackPress || (() => router.back())}
           style={styles.backButton}
         >
-          <Ionicons name={leftIcon} size={24} color="black" />
+          <Ionicons name={leftIcon} size={20} color="black" />
         </TouchableOpacity>
       )}
       {title && <Text style={styles.title}>{title}</Text>}
       {rightIcon && (
-        <TouchableOpacity onPress={onMorePress} style={styles.moreButton}>
-          <Ionicons name={rightIcon} size={24} color="black" />
-        </TouchableOpacity>
+        <View style={styles.moreButton}>
+          <Ionicons name={rightIcon} size={20} color="black" />
+        </View>
       )}
     </View>
   );
@@ -43,16 +43,16 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     left: 20,
-    padding: 8,
+    padding: 10,
     borderRadius: 100,
-    //backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
   moreButton: {
     position: 'absolute',
     right: 20,
-    padding: 8,
+    padding: 10,
     borderRadius: 100,
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
   title: {
     fontSize: 20,

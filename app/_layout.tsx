@@ -16,6 +16,7 @@ import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 import { useAuthStore } from '@/lib/store';
 import { supabase } from '@/lib/supabase';
 import { loadTheme, saveTheme, ThemeContext, ThemeType } from '@/lib/theme';
+import '../lib/sheets';
 
 import 'react-native-reanimated';
 SplashScreen.preventAutoHideAsync();
@@ -89,7 +90,7 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeContext.Provider value={{ theme, toggleTheme }}>
-        <SheetProvider context="global">
+        <SheetProvider>
           <View
             style={[
               styles.container,

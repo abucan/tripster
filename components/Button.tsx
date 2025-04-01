@@ -49,7 +49,7 @@ interface ButtonProps extends React.ComponentProps<typeof TouchableOpacity> {
   shouldAnimate?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-  style?: ViewStyle;
+  style?: ViewStyle[];
   textStyle?: TextStyle;
 }
 

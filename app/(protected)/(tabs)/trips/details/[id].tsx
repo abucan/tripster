@@ -1,51 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 import dayjs from 'dayjs';
-import { Calendar, LocateOffIcon, MapPin } from 'lucide-react-native';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-} from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SceneMap, TabBar, TabBarItem, TabView } from 'react-native-tab-view';
+import { Calendar, LucideUser, MapPin, Wallet } from 'lucide-react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { useTripStore } from '@/lib/tripStore';
 import { Trip } from '@/types';
+import { EmptyStateTripCard } from '@/components/EmptyStateTripCard';
+import { SheetManager } from 'react-native-actions-sheet';
+import { Button } from '@/components/Button';
 
 export default function TripDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [trip, setTrip] = useState<Trip | null>(null);
+  const [imageLoading, setImageLoading] = useState(true);
 
   const { trips, isLoading } = useTripStore();
-  const layout = useWindowDimensions();
-  const [index, setIndex] = React.useState(0);
-  const renderScene = SceneMap({
-    first: () => (
-      <View style={{ paddingHorizontal: 20, paddingVertical: 20 }}>
-        <Text>First</Text>
-      </View>
-    ),
-    second: () => (
-      <View style={{ paddingHorizontal: 20, paddingVertical: 20 }}>
-        <Text>Second</Text>
-      </View>
-    ),
-    third: () => (
-      <View style={{ paddingHorizontal: 20, paddingVertical: 20 }}>
-        <Text>Third</Text>
-      </View>
-    ),
-  });
-
-  const routes = [
-    { key: 'first', title: 'First' },
-    { key: 'second', title: 'Second' },
-    { key: 'third', title: 'Third' },
-  ];
 
   useEffect(() => {
     if (id && trips.length > 0) {
@@ -74,13 +45,11 @@ export default function TripDetailScreen() {
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
         <Image
-          source={
-            trip.image_url
-              ? { uri: trip.image_url }
-              : require('@/assets/images/home_header.png')
-          }
+          source={{ uri: trip.image_url }}
           resizeMode="cover"
           style={styles.image}
+          onLoadStart={() => setImageLoading(true)}
+          onLoadEnd={() => setImageLoading(false)}
         />
         <View style={styles.overlay} />
         <View style={styles.headerContainer}>
@@ -93,32 +62,65 @@ export default function TripDetailScreen() {
         </View>
       </View>
 
-      <View style={[styles.modalContainer]}>
-        <View style={styles.modalHeader}>
-          <Text style={styles.modalTitle}>{trip.title}</Text>
-          <View>
-            <View style={styles.bodyTagDateContainer}>
-              <MapPin size={16} color="#000" />
-              <Text style={styles.bodyTagTitle}>{trip.destination}</Text>
-            </View>
-            <View style={styles.bodyTagDateContainer}>
-              <Calendar size={16} color="#000" />
-              <Text style={styles.bodyTagDate}>
-                {dayjs(trip.start_date).format('DD MMM YYYY')} -{' '}
-                {dayjs(trip.end_date).format('DD MMM YYYY')}
-              </Text>
+      <ScrollView>
+        <View style={[styles.modalContainer]}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>{trip.title}</Text>
+            <View style={{ gap: 6 }}>
+              <View style={styles.bodyTagDateContainer}>
+                <MapPin size={20} color="#000" />
+                <Text style={styles.bodyTagDate}>{trip.destination}</Text>
+              </View>
+              <View style={styles.bodyTagDateContainer}>
+                <Calendar size={20} color="#000" />
+                <Text style={styles.bodyTagDate}>
+                  {dayjs(trip.start_date).format('DD MMM YYYY')} -{' '}
+                  {dayjs(trip.end_date).format('DD MMM YYYY')}
+                </Text>
+              </View>
+              <View style={styles.bodyTagDateContainer}>
+                <Wallet size={20} color="#000" />
+                <Text style={styles.bodyTagDate}>Budget: €{trip.budget}</Text>
+              </View>
+              <View style={styles.bodyTagDateContainer}>
+                <LucideUser size={20} color="#000" />
+                <Text style={styles.bodyTagDate}>
+                  {trip.persons} {`${trip.persons > 1 ? 'People' : 'Person'}`}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
-        <TabView
-          navigationState={{ index, routes }}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          style={{
-            width: '100%',
-          }}
-        />
-      </View>
+
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>Trip Details</Text>
+            <View style={styles.bodyTagDateContainer}>
+              <Text style={styles.bodyTagDate}>{trip.description}</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={[styles.modalContainer, { marginBottom: 20 }]}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>Your Plan</Text>
+            <View style={styles.bodyTagDateContainer}>
+              <EmptyStateTripCard
+                isLoading={false}
+                onRetry={() => {
+                  SheetManager.show('select-planning-choice-sheet', {
+                    context: 'global',
+                  });
+                }}
+                buttonText="Start planning"
+                buttonStyle={{ width: '100%' }}
+                cardTitle="No Plan Found"
+                cardDescription="Start planning your next adventure!"
+              />
+            </View>
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -163,24 +165,16 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
     top: 60, // fix later
-    display: 'none',
   },
   modalContainer: {
-    zIndex: 10,
-    position: 'absolute',
     display: 'flex',
     flexDirection: 'column',
-    alignSelf: 'flex-start',
-    top: 200,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    borderTopLeftRadius: 18,
-    borderTopRightRadius: 18,
+    marginTop: 20,
+    marginHorizontal: 20,
+    borderRadius: 18,
     borderCurve: 'continuous',
     boxShadow: '0px 0px 20px -10px rgba(0, 0, 0, 0.16)',
     backgroundColor: 'white',
-    gap: 32,
   },
   modalHeader: {
     display: 'flex',
@@ -192,6 +186,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 24,
     fontFamily: 'Helvetica-Now-Display-Bold',
+    marginBottom: 4,
   },
   bodyTagDateContainer: {
     display: 'flex',
@@ -205,6 +200,6 @@ const styles = StyleSheet.create({
   },
   bodyTagDate: {
     fontFamily: 'Helvetica-Now-Display-Regular',
-    fontSize: 14,
+    fontSize: 16,
   },
 });

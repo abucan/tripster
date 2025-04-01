@@ -72,7 +72,6 @@ export function TripCardItem({
             </View>
             <Button
               title="See Details"
-              style={{ borderRadius: 100 }}
               onPress={() =>
                 router.push(`/(protected)/(tabs)/trips/details/${id}`)
               }
