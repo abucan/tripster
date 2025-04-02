@@ -1,20 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 import dayjs from 'dayjs';
-import { Calendar, LucideUser, MapPin, Wallet } from 'lucide-react-native';
+import {
+  Calendar,
+  LoaderPinwheel,
+  LucideUser,
+  MapPin,
+  PenLine,
+  Wallet,
+} from 'lucide-react-native';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { useTripStore } from '@/lib/tripStore';
 import { Trip } from '@/types';
 import { EmptyStateTripCard } from '@/components/EmptyStateTripCard';
-import { SheetManager } from 'react-native-actions-sheet';
+import ActionSheet, {
+  ActionSheetRef,
+  SheetManager,
+} from 'react-native-actions-sheet';
 import { Button } from '@/components/Button';
+import OpenAI from '@/assets/icons/openai.svg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '@/lib/theme';
 
 export default function TripDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [trip, setTrip] = useState<Trip | null>(null);
   const [imageLoading, setImageLoading] = useState(true);
+
+  const insets = useSafeAreaInsets();
+
+  const actionSheetRef = useRef<ActionSheetRef>(null);
 
   const { trips, isLoading } = useTripStore();
 
@@ -108,9 +125,8 @@ export default function TripDetailScreen() {
               <EmptyStateTripCard
                 isLoading={false}
                 onRetry={() => {
-                  SheetManager.show('select-planning-choice-sheet', {
-                    context: 'global',
-                  });
+                  //SheetManager.show('select-planning-choice-sheet');
+                  actionSheetRef.current?.show();
                 }}
                 buttonText="Start planning"
                 buttonStyle={{ width: '100%' }}
@@ -121,6 +137,101 @@ export default function TripDetailScreen() {
           </View>
         </View>
       </ScrollView>
+
+      <ActionSheet
+        ref={actionSheetRef}
+        gestureEnabled
+        indicatorStyle={{
+          paddingBottom: 0,
+          marginBottom: 12,
+        }}
+        safeAreaInsets={{
+          bottom: insets.bottom,
+          top: insets.top,
+          left: insets.left,
+          right: insets.right,
+        }}
+      >
+        <View
+          style={{
+            height: 200,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 12,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontFamily: 'Helvetica-Now-Display-Bold',
+            }}
+          >
+            Create your plan with
+          </Text>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              width: '100%',
+              flex: 1,
+              paddingHorizontal: 24,
+              gap: 16,
+            }}
+          >
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 16,
+                borderWidth: 1,
+                paddingVertical: 16,
+                paddingHorizontal: 20,
+                borderRadius: 12,
+                borderColor: colors.light.brand,
+                flex: 1,
+              }}
+            >
+              <LoaderPinwheel
+                width={60}
+                height={60}
+                color={colors.light.brand}
+              />
+              <Text
+                style={{
+                  fontFamily: 'Helvetica-Now-Display-Bold',
+                  color: colors.light.brand,
+                }}
+              >
+                AI Help
+              </Text>
+            </View>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 16,
+                borderWidth: 1,
+                paddingVertical: 16,
+                paddingHorizontal: 20,
+                borderRadius: 12,
+                borderColor: colors.light.brand,
+                flex: 1,
+              }}
+            >
+              <PenLine width={60} height={60} color={colors.light.brand} />
+              <Text
+                style={{
+                  fontFamily: 'Helvetica-Now-Display-Bold',
+                  color: colors.light.brand,
+                }}
+              >
+                Manually
+              </Text>
+            </View>
+          </View>
+        </View>
+      </ActionSheet>
     </View>
   );
 }
