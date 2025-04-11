@@ -59,7 +59,6 @@ export default function Index() {
           title={isLastSlide ? 'Get Started' : 'Continue'}
           variant="default"
           size="lg"
-          style={{ width: '100%' }}
           onPress={handleNextPress}
           shouldAnimate={true}
         />

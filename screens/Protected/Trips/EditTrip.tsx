@@ -13,9 +13,12 @@ import { ScreenHeader } from '@/components/ScreenHeader';
 import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
 import { useTripForm } from '@/hooks/forms/useTripForm';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { TripsStackParamList } from '@/navigation/TripsStack';
 
 export default function EditTripScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const route = useRoute<RouteProp<TripsStackParamList, 'TripDetails'>>();
+  const { id } = route.params;
 
   const {
     control,

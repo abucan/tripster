@@ -9,14 +9,14 @@ import { Logo } from '@/components/logo/Logo';
 import { SignUpButtons } from '@/components/SignUpButtons';
 import { useAuthStore } from '@/lib/store';
 import { colors, useTheme } from '@/lib/theme';
-import { RegisterFormData, registerSchema } from '@/utils/schemas/auth.schemas';
+import { LoginFormData, loginSchema } from '@/utils/schemas/auth.schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-export default function RegisterScreen() {
+export default function SignInScreen() {
   const { theme } = useTheme();
   const themeColors = colors[theme];
 
-  const { signUp, isLoading } = useAuthStore();
+  const { signIn, isLoading } = useAuthStore();
 
   // form
   const {
@@ -24,17 +24,17 @@ export default function RegisterScreen() {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
   });
 
   watch('password');
 
-  const onSubmit = async (data: RegisterFormData) => {
-    const result = await signUp(data.email, data.password);
+  const onSubmit = async (data: LoginFormData) => {
+    const result = await signIn(data.email, data.password);
 
     if (result.success) {
-      router.replace('/(auth)/verify-otp');
+      router.replace('/(protected)/(tabs)/home');
     }
   };
 
@@ -50,9 +50,9 @@ export default function RegisterScreen() {
         <View style={styles.formContainer}>
           <Logo />
           <View style={styles.formTitleContainer}>
-            <Text style={styles.formTitle}>Create an account</Text>
+            <Text style={styles.formTitle}>Login to your account</Text>
             <Text style={styles.formDescription}>
-              Start your journey with us
+              Please enter your details
             </Text>
           </View>
 
@@ -69,6 +69,8 @@ export default function RegisterScreen() {
                   secureTextEntry={false}
                   error={errors.email?.message}
                   keyboardType="email-address"
+                  textContentType="emailAddress"
+                  autoComplete="email"
                 />
               )}
             />
@@ -83,20 +85,8 @@ export default function RegisterScreen() {
                   placeholder="Password"
                   secureTextEntry={true}
                   error={errors.password?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="confirmPassword"
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  onChangeText={onChange}
-                  value={value}
-                  icon="lock-closed"
-                  placeholder="Confirm Password"
-                  secureTextEntry={true}
-                  error={errors.confirmPassword?.message}
+                  textContentType="password"
+                  autoComplete="password"
                 />
               )}
             />
@@ -104,7 +94,7 @@ export default function RegisterScreen() {
 
           <View style={styles.methodsContainer}>
             <Button
-              title="Register"
+              title="Login"
               onPress={handleSubmit(onSubmit)}
               size="lg"
               isLoading={isLoading}
@@ -117,12 +107,12 @@ export default function RegisterScreen() {
 
         <View style={styles.footerContainer}>
           <Text style={styles.smallText}>
-            Already have an account?{' '}
+            Don't have an account?{' '}
             <Text
               style={styles.linkText}
-              onPress={() => router.push('/(auth)/login')}
+              onPress={() => router.push('/(auth)/register')}
             >
-              Login
+              Register
             </Text>
           </Text>
         </View>

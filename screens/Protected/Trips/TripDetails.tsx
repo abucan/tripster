@@ -23,9 +23,13 @@ import { Button } from '@/components/Button';
 import OpenAI from '@/assets/icons/openai.svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '@/lib/theme';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { TripsStackParamList } from '@/navigation/TripsStack';
 
 export default function TripDetailScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const route = useRoute<RouteProp<TripsStackParamList, 'TripDetails'>>();
+  const { id } = route.params;
+
   const [trip, setTrip] = useState<Trip | null>(null);
   const [imageLoading, setImageLoading] = useState(true);
 

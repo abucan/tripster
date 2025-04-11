@@ -1,40 +1,40 @@
 import React, { useEffect } from 'react';
-import { Tabs, useRouter, useSegments } from 'expo-router';
-import { Compass, Globe, Home, User } from 'lucide-react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
+  View,
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
-  View,
 } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
+import { Home, Compass, Globe, User } from 'lucide-react-native';
 import OpenAI from '@/assets/icons/openai.svg';
 import { colors } from '@/lib/theme';
 import { useTripStore } from '@/lib/tripStore';
 
-export default function TabsLayout() {
-  const router = useRouter();
-  const segments = useSegments() as string[];
+import HomeScreen from '@/screens/Protected/Home';
+import ExploreScreen from '@/screens/Protected/Explore';
+import ProfileScreen from '@/screens/Protected/Profile';
+import TripsStack from './TripsStack';
+
+const Tab = createBottomTabNavigator();
+
+export default function TabsNavigator() {
+  const navigation = useNavigation();
+  const route = useRoute();
   const { fetchTripsAndCategories, isLoading } = useTripStore();
 
   useEffect(() => {
     fetchTripsAndCategories();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (segments[0] === 'trips' && segments.length > 1) {
-      router.replace('/trips');
-    }
-  }, [segments, router]);
-
-  const tripsIndex = segments.indexOf('trips');
   const isOnTripsSubpage =
-    tripsIndex !== -1 && tripsIndex < segments.length - 1;
+    route.name === 'TripsDetail' || route.name === 'TripSettings'; // Adjust if you have nested trip pages
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.loader}>
         <ActivityIndicator size="large" color="#000" />
       </View>
     );
@@ -42,59 +42,55 @@ export default function TabsLayout() {
 
   return (
     <>
-      <Tabs
+      <Tab.Navigator
         screenOptions={{
+          headerShown: false,
           tabBarStyle: {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
             height: 85,
             paddingTop: 5,
+            justifyContent: 'center',
+            alignItems: 'center',
           },
         }}
       >
-        <Tabs.Screen
-          name="home/index"
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
           options={{
-            title: 'Home',
-            headerShown: false,
             tabBarIcon: ({ color, size }) => <Home color={color} size={size} />,
           }}
         />
-        <Tabs.Screen
-          name="explore/index"
+        <Tab.Screen
+          name="Explore"
+          component={ExploreScreen}
           options={{
-            title: 'Explore',
-            headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <Compass color={color} size={size} />
             ),
           }}
         />
-        <Tabs.Screen
-          name="trips"
+        <Tab.Screen
+          name="Trips"
+          component={TripsStack}
           options={{
-            title: 'My Trips',
-            headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <Globe color={color} size={size} />
             ),
           }}
         />
-        <Tabs.Screen
-          name="profile/index"
+        <Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
           options={{
-            title: 'Profile',
-            headerShown: false,
             tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
           }}
         />
-      </Tabs>
+      </Tab.Navigator>
 
       {!isOnTripsSubpage && (
         <TouchableOpacity
           style={styles.floatingButton}
-          onPress={() => router.push('/(protected)/create-trip')}
+          onPress={() => navigation.navigate('CreateTrip' as never)}
         >
           <OpenAI width={26} height={26} />
         </TouchableOpacity>
@@ -104,6 +100,11 @@ export default function TabsLayout() {
 }
 
 const styles = StyleSheet.create({
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   floatingButton: {
     position: 'absolute',
     alignSelf: 'center',
@@ -114,11 +115,11 @@ const styles = StyleSheet.create({
     right: 25,
     bottom: 100,
     borderRadius: 30,
-    shadowColor: '#000', // shadow for iOS
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 4,
-    elevation: 5, // shadow for Android
+    elevation: 5,
     backgroundColor: colors.light.brand,
   },
 });
