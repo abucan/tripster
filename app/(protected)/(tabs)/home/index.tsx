@@ -7,12 +7,15 @@ import { LogoIcon } from '@/components/logo/LogoIcon';
 import { SearchBar } from '@/components/SearchBar';
 import { TripCardList } from '@/components/TripCardList';
 import { useTripStore } from '@/lib/tripStore';
+import { StatusBar } from 'expo-status-bar';
 
 export default function HomeScreen() {
   const { upcomingTrip } = useTripStore();
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
   return (
     <View style={styles.wrapper}>
+      <StatusBar style="light" />
+
       <View style={styles.imageWrapper}>
         <Image
           source={require('@/assets/images/home_header.png')}

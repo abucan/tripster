@@ -52,7 +52,7 @@ export function CategoryTagSelector({
       {error && <Text style={styles.errorText}>{error}</Text>}
       {/* <Text style={styles.sectionTitle}>Categories</Text> */}
       <ScrollView
-        style={[styles.container, animatedStyle]}
+        style={[animatedStyle]}
         horizontal
         showsHorizontalScrollIndicator={false}
       >
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     // borderRadius: 12,
     // borderColor: '#6b7280',
     // gap: 6,
+    flexGrow: 1,
   },
   loadingContainer: {
     padding: 20,

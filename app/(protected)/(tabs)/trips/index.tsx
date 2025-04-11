@@ -6,6 +6,7 @@ import { Input } from '@/components/Input';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { TripCardList } from '@/components/TripCardList';
 import { useTripStore } from '@/lib/tripStore';
+import { StatusBar } from 'expo-status-bar';
 
 export default function TripsScreen() {
   const {
@@ -19,6 +20,7 @@ export default function TripsScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <StatusBar style="dark" />
       <ScreenHeader title="My Trips" rightIcon="funnel-sharp" />
 
       <View style={styles.searchContainer}>

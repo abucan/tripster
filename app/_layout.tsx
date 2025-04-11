@@ -26,6 +26,7 @@ export default function RootLayout() {
   const { session, setSession, isLoading, setIsLoading } = useAuthStore();
 
   const [loaded] = useFonts({
+    'Helvetica-Now-Display-Light': require('@/assets/fonts/HelveticaNowDisplay-Light.ttf'),
     'Helvetica-Now-Display-Regular': require('@/assets/fonts/HelveticaNowDisplay-Regular.ttf'),
     'Helvetica-Now-Display-Medium': require('@/assets/fonts/HelveticaNowDisplay-Medium.ttf'),
     'Helvetica-Now-Display-Bold': require('@/assets/fonts/HelveticaNowDisplay-Bold.ttf'),
