@@ -1,4 +1,3 @@
-import { useLocalSearchParams } from 'expo-router';
 import {
   KeyboardAvoidingView,
   Platform,

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { router } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
 
 import BottomSheet, {
@@ -21,6 +21,8 @@ export function ChooseAuthSheet({
   bottomSheetRef,
   onClose,
 }: ChooseAuthSheetProps) {
+  const navigation = useNavigation();
+
   const { theme } = useTheme();
   const themeColors = colors[theme];
 
@@ -30,7 +32,7 @@ export function ChooseAuthSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose]
+    [onClose],
   );
 
   const renderBackdrop = useCallback(
@@ -41,7 +43,7 @@ export function ChooseAuthSheet({
         disappearsOnIndex={-1}
       />
     ),
-    []
+    [],
   );
 
   return (
@@ -63,7 +65,7 @@ export function ChooseAuthSheet({
               title="Create Account"
               variant="default"
               size="lg"
-              onPress={() => router.push('/(auth)/register')}
+              // onPress={() => navigation.navigate('SignUp')}
             />
             <SignUpButtons />
           </View>

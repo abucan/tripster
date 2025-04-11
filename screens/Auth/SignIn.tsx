@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -11,12 +10,19 @@ import { useAuthStore } from '@/lib/store';
 import { colors, useTheme } from '@/lib/theme';
 import { LoginFormData, loginSchema } from '@/utils/schemas/auth.schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  useProtectedNavigation,
+  useRootNavigation,
+} from '@/hooks/useNavigation';
 
 export default function SignInScreen() {
   const { theme } = useTheme();
   const themeColors = colors[theme];
 
   const { signIn, isLoading } = useAuthStore();
+
+  const rootNavigation = useRootNavigation();
+  const protectedNavigation = useProtectedNavigation();
 
   // form
   const {
@@ -34,7 +40,7 @@ export default function SignInScreen() {
     const result = await signIn(data.email, data.password);
 
     if (result.success) {
-      router.replace('/(protected)/(tabs)/home');
+      // TODO
     }
   };
 
@@ -110,7 +116,7 @@ export default function SignInScreen() {
             Don't have an account?{' '}
             <Text
               style={styles.linkText}
-              onPress={() => router.push('/(auth)/register')}
+              onPress={() => rootNavigation.navigate('SignUp')}
             >
               Register
             </Text>

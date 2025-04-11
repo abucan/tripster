@@ -5,14 +5,16 @@ import { ScreenHeader } from '@/components/ScreenHeader';
 
 export default function ExploreScreen() {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        style={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        <ScreenHeader title="Explore" rightIcon="settings-sharp" />
-      </ScrollView>
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView
+          style={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <ScreenHeader title="Explore" rightIcon="settings-sharp" />
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 }
 

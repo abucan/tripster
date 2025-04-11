@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { router } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -38,7 +37,8 @@ export default function VerifyOtpScreen() {
     const result = await verifyOTP(data.otp);
 
     if (result.success) {
-      router.replace('/(auth)/login');
+      //  router.replace('/(auth)/login');
+      // TODO
     } else {
       setError('otp', {
         type: 'manual',
@@ -135,9 +135,9 @@ export default function VerifyOtpScreen() {
               size="lg"
               variant="link"
               disabled={isLoading || !canResend || !userEmail}
-              style={{
-                opacity: canResend ? 1 : 0.5,
-              }}
+              //       style={{
+              //   opacity: canResend ? 1 : 0.5,
+              //     }}
             />
           </View>
         </View>

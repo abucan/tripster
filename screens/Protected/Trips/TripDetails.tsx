@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { router, useLocalSearchParams } from 'expo-router';
 import dayjs from 'dayjs';
 import {
   Calendar,
@@ -15,20 +14,18 @@ import { ScreenHeader } from '@/components/ScreenHeader';
 import { useTripStore } from '@/lib/tripStore';
 import { Trip } from '@/types';
 import { EmptyStateTripCard } from '@/components/EmptyStateTripCard';
-import ActionSheet, {
-  ActionSheetRef,
-  SheetManager,
-} from 'react-native-actions-sheet';
-import { Button } from '@/components/Button';
-import OpenAI from '@/assets/icons/openai.svg';
+import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '@/lib/theme';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { TripsStackParamList } from '@/navigation/TripsStack';
+import { useTripsNavigation } from '@/hooks/useNavigation';
 
 export default function TripDetailScreen() {
   const route = useRoute<RouteProp<TripsStackParamList, 'TripDetails'>>();
   const { id } = route.params;
+
+  const navigation = useTripsNavigation();
 
   const [trip, setTrip] = useState<Trip | null>(null);
   const [imageLoading, setImageLoading] = useState(true);
@@ -77,8 +74,13 @@ export default function TripDetailScreen() {
           <ScreenHeader
             leftIcon="arrow-back"
             rightIcon="create-sharp"
-            onBackPress={() => router.push('/trips')}
-            onMorePress={() => router.push(`/trips/edit/${id}`)}
+            onBackPress={() => navigation.goBack()}
+            onMorePress={() =>
+              navigation.navigate('Trips', {
+                screen: 'TripEdit',
+                params: { id },
+              })
+            }
           />
         </View>
       </View>

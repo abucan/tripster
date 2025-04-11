@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { BlurView } from 'expo-blur';
-import { router } from 'expo-router';
 import dayjs from 'dayjs';
 import { Calendar } from 'lucide-react-native';
 import { Dimensions, Image, StyleSheet } from 'react-native';
@@ -16,6 +15,7 @@ import { TripCardItemProps } from '@/types';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 import { Button } from './Button';
+import { useTripsNavigation } from '@/hooks/useNavigation';
 
 const DELAY = 200;
 const SPRING_CONFIG = { damping: 15, stiffness: 120 };
@@ -28,6 +28,8 @@ export function TripCardItem({
   start_date,
   end_date,
 }: TripCardItemProps) {
+  const navigation = useTripsNavigation();
+
   const translateY = useSharedValue(50);
   const opacity = useSharedValue(0);
 
@@ -73,7 +75,10 @@ export function TripCardItem({
             <Button
               title="See Details"
               onPress={() =>
-                router.push(`/(protected)/(tabs)/trips/details/${id}`)
+                navigation.navigate('Trips', {
+                  screen: 'TripDetails',
+                  params: { id },
+                })
               }
             />
           </BlurView>

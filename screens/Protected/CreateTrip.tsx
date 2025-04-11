@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -88,7 +87,8 @@ export default function CreateTripScreen() {
           reset();
           // add a delay to the navigation
           setTimeout(() => {
-            router.push('/(protected)/(tabs)/trips');
+            //  router.push('/(protected)/(tabs)/trips');
+            // TODO: use navigation
           }, 500);
         }}
       />

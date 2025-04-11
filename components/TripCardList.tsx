@@ -1,5 +1,4 @@
 import React from 'react';
-import { router } from 'expo-router';
 import { FlatList, StyleSheet, View } from 'react-native';
 
 import { useTripStore } from '@/lib/tripStore';
@@ -8,6 +7,7 @@ import { TripCardListProps } from '@/types';
 import { EmptyStateTripCard } from './EmptyStateTripCard';
 import { TripCardItem } from './TripCardItem';
 import { ViewTitle } from './ViewTitle';
+import { useTripsNavigation } from '@/hooks/useNavigation';
 
 export const TripCardList = ({
   trips,
@@ -16,6 +16,8 @@ export const TripCardList = ({
   cta,
   ctaText,
 }: TripCardListProps) => {
+  const navigation = useTripsNavigation();
+
   return (
     <View style={{ marginTop: isTripsScreen ? 0 : 20 }}>
       {title && trips.length > 0 && (
@@ -23,7 +25,7 @@ export const TripCardList = ({
           title={title}
           cta={cta}
           ctaText={ctaText}
-          onPress={() => router.push('/trips')}
+          onPress={() => navigation.navigate('Trips', { screen: 'TripsIndex' })}
         />
       )}
       <FlatList
@@ -46,6 +48,10 @@ export const TripCardList = ({
               useTripStore.getState().fetchTripsAndCategories();
             }}
             isLoading={useTripStore.getState().isLoading}
+            buttonText="Retry"
+            buttonStyle={{}}
+            cardTitle="No Trips Found"
+            cardDescription="We couldn't find any trips. Try again or create a new trip."
           />
         }
         renderItem={({ item, index }) => (

@@ -1,8 +1,8 @@
-import { router } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ScreenHeaderProps } from '@/types';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export function ScreenHeader({
   title,
@@ -11,11 +11,13 @@ export function ScreenHeader({
   onMorePress,
   onBackPress,
 }: ScreenHeaderProps) {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       {leftIcon && (
         <TouchableOpacity
-          onPress={onBackPress || (() => router.back())}
+          onPress={onBackPress || (() => navigation.goBack())}
           style={styles.backButton}
         >
           <Ionicons name={leftIcon} size={20} color="black" />
@@ -23,9 +25,9 @@ export function ScreenHeader({
       )}
       {title && <Text style={styles.title}>{title}</Text>}
       {rightIcon && (
-        <View style={styles.moreButton}>
+        <TouchableOpacity onPress={onMorePress} style={styles.moreButton}>
           <Ionicons name={rightIcon} size={20} color="black" />
-        </View>
+        </TouchableOpacity>
       )}
     </View>
   );

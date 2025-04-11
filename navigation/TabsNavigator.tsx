@@ -30,7 +30,7 @@ export default function TabsNavigator() {
   }, []);
 
   const isOnTripsSubpage =
-    route.name === 'TripsDetail' || route.name === 'TripSettings'; // Adjust if you have nested trip pages
+    route.name === 'TripsDetail' || route.name === 'TripSettings';
 
   if (isLoading) {
     return (
