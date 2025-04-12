@@ -1,4 +1,3 @@
-// navigation/TripsStack.tsx
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TripsScreen from '@/screens/Protected/Trips';

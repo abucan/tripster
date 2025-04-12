@@ -47,13 +47,14 @@ export function TripCardItem({
     <Animated.View style={[styles.container, animatedStyle]}>
       <View style={styles.cardContainer}>
         <View style={styles.cardHeader}>
-          <Image
+          <Animated.Image
             source={
               image_url
                 ? { uri: image_url }
                 : require('@/assets/images/home_header.png')
             }
             style={styles.image}
+            sharedTransitionTag="tag"
           />
 
           <View style={styles.imageTag}>

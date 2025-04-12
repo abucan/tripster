@@ -7,65 +7,65 @@ import { LogoIcon } from '@/components/logo/LogoIcon';
 import { SearchBar } from '@/components/SearchBar';
 import { TripCardList } from '@/components/TripCardList';
 import { useTripStore } from '@/lib/tripStore';
+import { FocusAwareStatusBar } from '@/components/FocusAwareStatusBar';
 
 export default function HomeScreen() {
   const { upcomingTrip } = useTripStore();
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
   return (
-    <>
-      <View style={styles.wrapper}>
-        <View style={styles.imageWrapper}>
-          <Image
-            source={require('@/assets/images/home_header.png')}
-            resizeMode="cover"
-            style={styles.image}
-            fadeDuration={0}
-          />
-          <View style={styles.overlay} />
-          <View style={[styles.logo]}>
-            <View style={styles.welcomeView}>
-              <LogoIcon />
-              <Text style={styles.welcomeText}>
-                {String('Hi, Ante').slice(0, 20) + ' 👋'}
-              </Text>
-            </View>
+    <View style={styles.wrapper}>
+      <FocusAwareStatusBar barStyle="light-content" />
+      <View style={styles.imageWrapper}>
+        <Image
+          source={require('@/assets/images/home_header.png')}
+          resizeMode="cover"
+          style={styles.image}
+          fadeDuration={0}
+        />
+        <View style={styles.overlay} />
+        <View style={[styles.logo]}>
+          <View style={styles.welcomeView}>
+            <LogoIcon />
+            <Text style={styles.welcomeText}>
+              {String('Hi, Ante').slice(0, 20) + ' 👋'}
+            </Text>
           </View>
         </View>
-
-        <SearchBar
-          isSearchBarExpanded={isSearchBarExpanded}
-          setIsSearchBarExpanded={setIsSearchBarExpanded}
-        />
-
-        <ScrollView
-          style={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >
-          <FeaturesList />
-          <TripCardList
-            trips={upcomingTrip}
-            type="upcoming"
-            title="Upcoming Trip"
-            cta={true}
-            ctaText="See all"
-          />
-        </ScrollView>
-        {isSearchBarExpanded && (
-          <BlurView
-            tint="extraLight"
-            intensity={100}
-            style={{
-              position: 'absolute',
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              zIndex: 1,
-            }}
-          />
-        )}
       </View>
-    </>
+
+      <SearchBar
+        isSearchBarExpanded={isSearchBarExpanded}
+        setIsSearchBarExpanded={setIsSearchBarExpanded}
+      />
+
+      <ScrollView
+        style={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <FeaturesList />
+        <TripCardList
+          trips={upcomingTrip}
+          type="upcoming"
+          title="Upcoming Trip"
+          cta={true}
+          ctaText="See all"
+        />
+      </ScrollView>
+      {isSearchBarExpanded && (
+        <BlurView
+          tint="extraLight"
+          intensity={100}
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 1,
+          }}
+        />
+      )}
+    </View>
   );
 }
 

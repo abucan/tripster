@@ -1,12 +1,12 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CategoryTagSelector } from '@/components/CategoryTagSelector';
 import { Input } from '@/components/Input';
-import { ScreenHeader } from '@/components/ScreenHeader';
 import { TripCardList } from '@/components/TripCardList';
 import { useTripStore } from '@/lib/tripStore';
-import { StatusBar } from 'expo-status-bar';
+import { FocusAwareStatusBar } from '@/components/FocusAwareStatusBar';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ScreenHeader } from '@/components/ScreenHeader';
 
 export default function TripsScreen() {
   const {
@@ -18,11 +18,12 @@ export default function TripsScreen() {
     filterTripsByCategory,
   } = useTripStore();
 
-  return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar style="dark" />
-      <ScreenHeader title="My Trips" rightIcon="funnel-sharp" />
+  const insets = useSafeAreaInsets();
 
+  return (
+    <View style={[styles.safeArea, { top: insets.top, bottom: insets.bottom }]}>
+      <FocusAwareStatusBar barStyle="dark-content" />
+      <ScreenHeader title="My Trips" rightIcon="funnel-sharp" />
       <View style={styles.searchContainer}>
         <Input
           value={query}
@@ -49,7 +50,7 @@ export default function TripsScreen() {
           <TripCardList trips={trips} isTripsScreen type="upcoming" />
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -58,8 +59,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchContainer: {
+    marginVertical: 16,
     marginHorizontal: 20,
-    marginBottom: 20,
     gap: 16,
   },
 });

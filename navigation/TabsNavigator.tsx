@@ -17,6 +17,7 @@ import HomeScreen from '@/screens/Protected/Home';
 import ExploreScreen from '@/screens/Protected/Explore';
 import ProfileScreen from '@/screens/Protected/Profile';
 import TripsStack from './TripsStack';
+import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
@@ -67,6 +68,16 @@ export default function TabsNavigator() {
             tabBarIcon: ({ color, size }) => (
               <Compass color={color} size={size} />
             ),
+            headerShown: true,
+            title: 'Explore',
+            headerTransparent: true,
+            headerShadowVisible: false,
+            headerBackground: () => <View />,
+            headerRight: () => (
+              <TouchableOpacity onPress={() => {}}>
+                <Ionicons name={'settings-sharp'} size={20} color="black" />
+              </TouchableOpacity>
+            ),
           }}
         />
         <Tab.Screen
@@ -83,6 +94,16 @@ export default function TabsNavigator() {
           component={ProfileScreen}
           options={{
             tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
+            headerShown: false,
+            title: 'Profile',
+            headerTransparent: true,
+            headerShadowVisible: false,
+            headerBackground: () => <View />,
+            headerRight: () => (
+              <TouchableOpacity onPress={() => {}}>
+                <Ionicons name={'settings-sharp'} size={20} color="black" />
+              </TouchableOpacity>
+            ),
           }}
         />
       </Tab.Navigator>
@@ -116,10 +137,10 @@ const styles = StyleSheet.create({
     bottom: 100,
     borderRadius: 30,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.5,
-    shadowRadius: 4,
-    elevation: 5,
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowOpacity: 0.5,
+    // shadowRadius: 4,
+    // elevation: 5,
     backgroundColor: colors.light.brand,
   },
 });

@@ -1,14 +1,20 @@
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import { Button } from '@/components/Button';
 import { TripForm } from '@/components/form/TripForm';
 import { CreateTripModal } from '@/components/modals/CreateTripModal';
-import { ScreenHeader } from '@/components/ScreenHeader';
 import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
 import { useTripForm } from '@/hooks/forms/useTripForm';
-import { StatusBar } from 'expo-status-bar';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ScreenHeader } from '@/components/ScreenHeader';
+
 // TODO
 export default function CreateTripScreen() {
   const {
@@ -30,18 +36,27 @@ export default function CreateTripScreen() {
     reset,
   } = useTripForm({});
 
+  const insets = useSafeAreaInsets();
+
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar style="dark" />
+    <ScrollView
+      style={[
+        styles.safeArea,
+        {
+          top: insets.top,
+          bottom: insets.bottom,
+        },
+      ]}
+    >
+      <ScreenHeader
+        title="Create Trip"
+        leftIcon="arrow-back"
+        rightIcon="ellipsis-horizontal"
+      />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}
+        style={{ flex: 1, paddingTop: insets.top / 4 }}
       >
-        <ScreenHeader
-          title="Create Trip"
-          leftIcon="arrow-back"
-          rightIcon="ellipsis-horizontal"
-        />
         <TripForm
           control={control}
           imageUri={imageUri}
@@ -50,13 +65,8 @@ export default function CreateTripScreen() {
           errors={errors}
           handleSelectImage={handleSelectImage}
         />
-        <View
-          style={{
-            paddingHorizontal: 20,
-            paddingTop: 20,
-            backgroundColor: '#F7F7F7',
-          }}
-        >
+
+        <View style={{ marginHorizontal: 20 }}>
           <Button
             title={isSubmitting ? 'Creating Trip...' : 'Create Trip'}
             size="lg"
@@ -92,7 +102,7 @@ export default function CreateTripScreen() {
           }, 500);
         }}
       />
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({

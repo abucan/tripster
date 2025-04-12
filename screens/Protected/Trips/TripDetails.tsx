@@ -21,6 +21,8 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { TripsStackParamList } from '@/navigation/TripsStack';
 import { useTripsNavigation } from '@/hooks/useNavigation';
 
+import Animated from 'react-native-reanimated';
+
 export default function TripDetailScreen() {
   const route = useRoute<RouteProp<TripsStackParamList, 'TripDetails'>>();
   const { id } = route.params;
@@ -62,12 +64,13 @@ export default function TripDetailScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
-        <Image
+        <Animated.Image
           source={{ uri: trip.image_url }}
           resizeMode="cover"
           style={styles.image}
           onLoadStart={() => setImageLoading(true)}
           onLoadEnd={() => setImageLoading(false)}
+          sharedTransitionTag="tag"
         />
         <View style={styles.overlay} />
         <View style={styles.headerContainer}>

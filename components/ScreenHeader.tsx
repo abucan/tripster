@@ -40,21 +40,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
-    paddingVertical: 20,
   },
   backButton: {
     position: 'absolute',
     left: 20,
     padding: 10,
     borderRadius: 100,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
   moreButton: {
     position: 'absolute',
     right: 20,
     padding: 10,
     borderRadius: 100,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
   title: {
     fontSize: 20,

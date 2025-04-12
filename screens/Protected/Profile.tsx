@@ -1,18 +1,20 @@
-import { ScrollView, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ScreenHeader } from '@/components/ScreenHeader';
 
 export default function ProfileScreen() {
+  const insets = useSafeAreaInsets();
+
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={[styles.safeArea, { top: insets.top, bottom: insets.bottom }]}>
       <ScrollView
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
         <ScreenHeader title="Profile" rightIcon="settings-sharp" />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

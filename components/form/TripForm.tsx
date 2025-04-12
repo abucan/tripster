@@ -1,13 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { Controller } from 'react-hook-form';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 
 import { TripFormProps } from '@/types';
@@ -29,7 +23,7 @@ export function TripForm({
   handleSelectImage,
 }: TripFormProps) {
   return (
-    <ScrollView style={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+    <>
       <View style={styles.imageWrapper}>
         <Image
           source={imageUri ? { uri: imageUri } : DEFAULT_IMAGE}
@@ -114,7 +108,7 @@ export function TripForm({
                 value={
                   value?.startDate && value?.endDate
                     ? `${dayjs(value.startDate).format(
-                        'MMM DD, YYYY',
+                        'MMM DD, YYYY'
                       )} - ${dayjs(value.endDate).format('MMM DD, YYYY')}`
                     : ''
                 }
@@ -203,7 +197,7 @@ export function TripForm({
           }}
         />
       </View>
-    </ScrollView>
+    </>
   );
 }
 

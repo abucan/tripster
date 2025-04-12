@@ -8,7 +8,6 @@ import {
 
 import { Button } from '@/components/Button';
 import { TripForm } from '@/components/form/TripForm';
-import { ScreenHeader } from '@/components/ScreenHeader';
 import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
 import { useTripForm } from '@/hooks/forms/useTripForm';
@@ -44,11 +43,6 @@ export default function EditTripScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
-        <ScreenHeader
-          title="Edit Trip"
-          leftIcon="close"
-          rightIcon="ellipsis-horizontal"
-        />
         <TripForm
           control={control}
           imageUri={imageUri}

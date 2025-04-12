@@ -1,7 +1,6 @@
 import React from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator, SafeAreaView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SheetProvider } from 'react-native-actions-sheet';
@@ -10,6 +9,7 @@ import { ThemeContext, loadTheme, saveTheme, ThemeType } from '@/lib/theme';
 import { useAuthStore } from '@/lib/store';
 import { supabase } from '@/lib/supabase';
 import RootNavigator from './navigation/RootNavigator';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -61,7 +61,6 @@ export default function App() {
           backgroundColor: theme === 'light' ? '#fff' : '#121212',
         }}
       >
-        <StatusBar style={theme === 'light' ? 'dark' : 'light'} />
         <SafeAreaView style={{ flex: 1 }}>
           <View
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
@@ -77,8 +76,9 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeContext.Provider value={{ theme, toggleTheme }}>
         <SheetProvider>
-          <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
-          <RootNavigator />
+          <SafeAreaProvider>
+            <RootNavigator />
+          </SafeAreaProvider>
         </SheetProvider>
       </ThemeContext.Provider>
     </GestureHandlerRootView>
