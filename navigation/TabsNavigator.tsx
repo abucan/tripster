@@ -13,7 +13,6 @@ import { useTripStore } from '@/lib/tripStore';
 import ExploreScreen from '@/screens/Protected/Explore';
 import HomeScreen from '@/screens/Protected/Home';
 import ProfileScreen from '@/screens/Protected/Profile';
-import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -68,16 +67,6 @@ export default function TabsNavigator() {
             tabBarIcon: ({ color, size }) => (
               <Compass color={color} size={size} />
             ),
-            headerShown: true,
-            title: 'Explore',
-            headerTransparent: true,
-            headerShadowVisible: false,
-            headerBackground: () => <View />,
-            headerRight: () => (
-              <TouchableOpacity onPress={() => {}}>
-                <Ionicons name={'settings-sharp'} size={20} color="black" />
-              </TouchableOpacity>
-            ),
           }}
         />
         <Tab.Screen
@@ -94,16 +83,6 @@ export default function TabsNavigator() {
           component={ProfileScreen}
           options={{
             tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
-            headerShown: false,
-            title: 'Profile',
-            headerTransparent: true,
-            headerShadowVisible: false,
-            headerBackground: () => <View />,
-            headerRight: () => (
-              <TouchableOpacity onPress={() => {}}>
-                <Ionicons name={'settings-sharp'} size={20} color="black" />
-              </TouchableOpacity>
-            ),
           }}
         />
       </Tab.Navigator>

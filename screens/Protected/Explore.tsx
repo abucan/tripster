@@ -1,25 +1,19 @@
-import { SafeAreaView, StyleSheet, Text,View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { FocusAwareStatusBar } from '@/components/FocusAwareStatusBar';
+import { ScreenHeader } from '@/components/ScreenHeader';
 
 export default function ExploreScreen() {
   const insets = useSafeAreaInsets();
 
   return (
-    <View
-      style={{
-        top: insets.top,
-        bottom: insets.bottom,
-        left: insets.left,
-        right: insets.right,
-        flex: 1,
-      }}
-    >
-      <View style={{ flex: 1 }}>
-        <FocusAwareStatusBar barStyle="dark-content" />
-        <Text>Explore</Text>
-      </View>
+    <View style={[styles.safeArea, { top: insets.top, bottom: insets.bottom }]}>
+      <ScrollView
+        style={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <ScreenHeader title="Explore" rightIcon="settings-sharp" />
+      </ScrollView>
     </View>
   );
 }
@@ -27,5 +21,8 @@ export default function ExploreScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
   },
 });

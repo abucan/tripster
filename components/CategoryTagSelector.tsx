@@ -1,16 +1,5 @@
 import React from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
+import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { useTripStore } from '@/lib/tripStore';
 import { CategoryTagSelectorProps } from '@/types/index';
@@ -25,19 +14,6 @@ export function CategoryTagSelector({
   const { theme } = useTheme();
   const themeColors = colors[theme];
 
-  const translateX = useSharedValue(50);
-  const opacity = useSharedValue(0);
-
-  React.useEffect(() => {
-    opacity.value = withSpring(1);
-    translateX.value = withSpring(0);
-  }, []);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-    transform: [{ translateX: translateX.value }],
-  }));
-
   const { categories, error } = useTripStore();
 
   const handleCategoryToggle = (categoryId: string) => {
@@ -48,69 +24,65 @@ export function CategoryTagSelector({
   };
 
   return (
-    <View style={[styles.container]}>
+    <>
       {error && <Text style={styles.errorText}>{error}</Text>}
-      {/* <Text style={styles.sectionTitle}>Categories</Text> */}
-      <ScrollView
-        style={[animatedStyle]}
+      <FlatList
+        data={categories}
+        keyExtractor={(item) => item.id.toString()}
         horizontal
         showsHorizontalScrollIndicator={false}
-      >
-        {categories.map((category) => {
-          return (
-            <TouchableOpacity
-              key={category.id}
+        contentContainerStyle={styles.container}
+        renderItem={({ item: category }) => (
+          <TouchableOpacity
+            style={[
+              styles.categoryChip,
+              {
+                backgroundColor: selectedCategories.includes(
+                  category.id.toString()
+                )
+                  ? themeColors.primary
+                  : themeColors.card,
+                borderColor: themeColors.border,
+              },
+            ]}
+            onPress={() => handleCategoryToggle(category.id.toString())}
+          >
+            <FontAwesome6
+              name={category.icon as any}
+              size={16}
+              color={
+                selectedCategories.includes(category.id.toString())
+                  ? 'white'
+                  : themeColors.text
+              }
+            />
+            <Text
               style={[
-                styles.categoryChip,
+                styles.categoryText,
                 {
-                  backgroundColor: selectedCategories.includes(
-                    category.id.toString(),
-                  )
-                    ? themeColors.primary
-                    : themeColors.card,
-                  borderColor: themeColors.border,
+                  color: selectedCategories.includes(category.id.toString())
+                    ? 'white'
+                    : themeColors.text,
                 },
               ]}
-              onPress={() => handleCategoryToggle(category.id.toString())}
             >
-              <FontAwesome6
-                name={category.icon as any}
-                size={16}
-                color={
-                  selectedCategories.includes(category.id.toString())
-                    ? 'white'
-                    : themeColors.text
-                }
-              />
-              <Text
-                style={[
-                  styles.categoryText,
-                  {
-                    color: selectedCategories.includes(category.id.toString())
-                      ? 'white'
-                      : themeColors.text,
-                  },
-                ]}
-              >
-                {category.name}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
-    </View>
+              {category.name}
+            </Text>
+          </TouchableOpacity>
+        )}
+      />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // paddingHorizontal: 16,
-    // paddingVertical: 8,
-    // borderWidth: StyleSheet.hairlineWidth,
-    // borderRadius: 12,
-    // borderColor: '#6b7280',
-    // gap: 6,
-    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    marginHorizontal: 'auto',
+    gap: 4,
   },
   loadingContainer: {
     padding: 20,

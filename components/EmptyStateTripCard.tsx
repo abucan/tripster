@@ -67,7 +67,7 @@ const { width } = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    width: width - 40,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',

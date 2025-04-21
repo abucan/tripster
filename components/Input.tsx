@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native';
 
 import { TextInputProps } from '@/types/index';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,8 +15,9 @@ export function Input({
   keyboardType = 'default',
   textContentType,
   autoComplete,
+  wrapperStyle,
   ...props
-}: TextInputProps) {
+}: TextInputProps & { wrapperStyle?: ViewStyle }) {
   const [securePassword, setSecurePassword] = useState(secureTextEntry);
 
   const handlePasswordVisibility = () => {
@@ -24,7 +25,7 @@ export function Input({
   };
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, wrapperStyle]}>
       {label && <Text style={styles.label}>{label}</Text>}
       <View style={[styles.container, error && { borderColor: 'red' }]}>
         <Ionicons name={icon} size={24} style={styles.icon} />

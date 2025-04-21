@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { CategoryTagSelector } from '@/components/CategoryTagSelector';
@@ -32,6 +32,7 @@ export default function TripsScreen() {
           }}
           placeholder="Search for a trip"
           icon="search-outline"
+          wrapperStyle={{ marginHorizontal: 20 }}
         />
         <CategoryTagSelector
           selectedCategories={selectedCategories}
@@ -60,7 +61,6 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     marginVertical: 16,
-    marginHorizontal: 20,
     gap: 16,
   },
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 import { useTripsNavigation } from '@/hooks/useNavigation';
 import { useTripStore } from '@/lib/tripStore';
@@ -61,21 +61,3 @@ export const TripCardList = ({
     </View>
   );
 };
-
-export const styles = StyleSheet.create({
-  indicatorContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 5,
-    backgroundColor: '#ccc',
-    marginHorizontal: 5,
-  },
-  activeDot: {
-    backgroundColor: 'black',
-  },
-});
