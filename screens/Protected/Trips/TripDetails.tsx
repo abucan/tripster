@@ -9,19 +9,18 @@ import {
   Wallet,
 } from 'lucide-react-native';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-
-import { ScreenHeader } from '@/components/ScreenHeader';
-import { useTripStore } from '@/lib/tripStore';
-import { Trip } from '@/types';
-import { EmptyStateTripCard } from '@/components/EmptyStateTripCard';
 import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors } from '@/lib/theme';
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { TripsStackParamList } from '@/navigation/TripsStack';
-import { useTripsNavigation } from '@/hooks/useNavigation';
-
 import Animated from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { EmptyStateTripCard } from '@/components/EmptyStateTripCard';
+import { ScreenHeader } from '@/components/ScreenHeader';
+import { useTripsNavigation } from '@/hooks/useNavigation';
+import { colors } from '@/lib/theme';
+import { useTripStore } from '@/lib/tripStore';
+import { TripsStackParamList } from '@/navigation/TripsStack';
+import { Trip } from '@/types';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 export default function TripDetailScreen() {
   const route = useRoute<RouteProp<TripsStackParamList, 'TripDetails'>>();

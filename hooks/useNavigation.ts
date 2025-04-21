@@ -1,10 +1,10 @@
-import { useNavigation } from '@react-navigation/native';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import {
   ProtectedParamList,
   RootParamList,
   TabsParamList,
 } from '@/types/navigation';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type TripsTabNavigationProp = BottomTabNavigationProp<

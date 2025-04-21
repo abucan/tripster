@@ -1,12 +1,12 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { CategoryTagSelector } from '@/components/CategoryTagSelector';
+import { FocusAwareStatusBar } from '@/components/FocusAwareStatusBar';
 import { Input } from '@/components/Input';
+import { ScreenHeader } from '@/components/ScreenHeader';
 import { TripCardList } from '@/components/TripCardList';
 import { useTripStore } from '@/lib/tripStore';
-import { FocusAwareStatusBar } from '@/components/FocusAwareStatusBar';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ScreenHeader } from '@/components/ScreenHeader';
 
 export default function TripsScreen() {
   const {

@@ -1,6 +1,7 @@
-import { FocusAwareStatusBar } from '@/components/FocusAwareStatusBar';
-import { View, StyleSheet, SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, StyleSheet, Text,View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { FocusAwareStatusBar } from '@/components/FocusAwareStatusBar';
 
 export default function ExploreScreen() {
   const insets = useSafeAreaInsets();

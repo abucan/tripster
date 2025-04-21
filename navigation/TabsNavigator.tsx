@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Compass, Globe, Home, User } from 'lucide-react-native';
 import {
-  View,
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
 
-import { Home, Compass, Globe, User } from 'lucide-react-native';
 import OpenAI from '@/assets/icons/openai.svg';
 import { colors } from '@/lib/theme';
 import { useTripStore } from '@/lib/tripStore';
-
-import HomeScreen from '@/screens/Protected/Home';
 import ExploreScreen from '@/screens/Protected/Explore';
+import HomeScreen from '@/screens/Protected/Home';
 import ProfileScreen from '@/screens/Protected/Profile';
-import TripsStack from './TripsStack';
 import { Ionicons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
+import TripsStack from './TripsStack';
 
 const Tab = createBottomTabNavigator();
 

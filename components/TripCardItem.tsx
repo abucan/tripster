@@ -11,11 +11,11 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
+import { useTripsNavigation } from '@/hooks/useNavigation';
 import { TripCardItemProps } from '@/types';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 import { Button } from './Button';
-import { useTripsNavigation } from '@/hooks/useNavigation';
 
 const DELAY = 200;
 const SPRING_CONFIG = { damping: 15, stiffness: 120 };

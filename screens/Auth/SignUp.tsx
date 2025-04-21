@@ -6,11 +6,11 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Logo } from '@/components/logo/Logo';
 import { SignUpButtons } from '@/components/SignUpButtons';
+import { useRootNavigation } from '@/hooks/useNavigation';
 import { useAuthStore } from '@/lib/store';
 import { colors, useTheme } from '@/lib/theme';
 import { RegisterFormData, registerSchema } from '@/utils/schemas/auth.schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRootNavigation } from '@/hooks/useNavigation';
 
 export default function SignUpScreen() {
   const { theme } = useTheme();

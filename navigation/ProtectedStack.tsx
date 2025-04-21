@@ -1,7 +1,9 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import TabsNavigator from './TabsNavigator';
+
 import CreateTripScreen from '@/screens/Protected/CreateTrip';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import TabsNavigator from './TabsNavigator';
 
 const Stack = createNativeStackNavigator();
 

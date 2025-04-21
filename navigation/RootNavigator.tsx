@@ -1,8 +1,9 @@
 import React from 'react';
+
+import { useAuthStore } from '@/lib/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { useAuthStore } from '@/lib/store';
 import AuthStack from './AuthStack';
 import ProtectedStack from './ProtectedStack';
 

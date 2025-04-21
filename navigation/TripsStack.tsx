@@ -1,8 +1,9 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import TripsScreen from '@/screens/Protected/Trips';
-import TripDetailScreen from '@/screens/Protected/Trips/TripDetails';
 import EditTripScreen from '@/screens/Protected/Trips/EditTrip';
+import TripDetailScreen from '@/screens/Protected/Trips/TripDetails';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export type TripsStackParamList = {
   TripsIndex: undefined;

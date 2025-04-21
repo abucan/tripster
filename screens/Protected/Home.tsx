@@ -3,11 +3,11 @@ import { BlurView } from 'expo-blur';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { FeaturesList } from '@/components/FeatureList';
+import { FocusAwareStatusBar } from '@/components/FocusAwareStatusBar';
 import { LogoIcon } from '@/components/logo/LogoIcon';
 import { SearchBar } from '@/components/SearchBar';
 import { TripCardList } from '@/components/TripCardList';
 import { useTripStore } from '@/lib/tripStore';
-import { FocusAwareStatusBar } from '@/components/FocusAwareStatusBar';
 
 export default function HomeScreen() {
   const { upcomingTrip } = useTripStore();

@@ -11,8 +11,8 @@ import { TripForm } from '@/components/form/TripForm';
 import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
 import { useTripForm } from '@/hooks/forms/useTripForm';
-import { RouteProp, useRoute } from '@react-navigation/native';
 import { TripsStackParamList } from '@/navigation/TripsStack';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 export default function EditTripScreen() {
   const route = useRoute<RouteProp<TripsStackParamList, 'TripDetails'>>();

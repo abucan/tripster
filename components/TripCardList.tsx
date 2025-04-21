@@ -1,13 +1,13 @@
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
+import { useTripsNavigation } from '@/hooks/useNavigation';
 import { useTripStore } from '@/lib/tripStore';
 import { TripCardListProps } from '@/types';
 
 import { EmptyStateTripCard } from './EmptyStateTripCard';
 import { TripCardItem } from './TripCardItem';
 import { ViewTitle } from './ViewTitle';
-import { useTripsNavigation } from '@/hooks/useNavigation';
 
 export const TripCardList = ({
   trips,

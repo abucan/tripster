@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
+
 import {
   NavigationContainerRef,
   useNavigationState,
 } from '@react-navigation/native';
-
 import { Session } from '@supabase/supabase-js';
 
 const PROTECTED_GROUPS = ['(protected)'];

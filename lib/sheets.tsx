@@ -1,8 +1,8 @@
+import { Text,View } from 'react-native';
 import ActionSheet, {
   registerSheet,
   SheetDefinition,
 } from 'react-native-actions-sheet';
-import { View, Text } from 'react-native';
 
 function SelectPlanningChoiceSheet() {
   return (

@@ -1,15 +1,16 @@
 import React from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { View, ActivityIndicator, SafeAreaView } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ActivityIndicator, SafeAreaView,View } from 'react-native';
 import { SheetProvider } from 'react-native-actions-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { ThemeContext, loadTheme, saveTheme, ThemeType } from '@/lib/theme';
 import { useAuthStore } from '@/lib/store';
 import { supabase } from '@/lib/supabase';
+import { loadTheme, saveTheme, ThemeContext, ThemeType } from '@/lib/theme';
+
 import RootNavigator from './navigation/RootNavigator';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
 

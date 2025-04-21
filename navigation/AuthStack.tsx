@@ -1,9 +1,10 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaView } from 'react-native';
+
 import SignInScreen from '@/screens/Auth/SignIn';
 import SignUpScreen from '@/screens/Auth/SignUp';
 import VerifyOtpScreen from '@/screens/Auth/VerifyOtp';
-import { SafeAreaView } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 

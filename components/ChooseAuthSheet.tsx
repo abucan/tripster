@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
 
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
+import { useNavigation } from '@react-navigation/native';
 
 import { colors, useTheme } from '../lib/theme';
 

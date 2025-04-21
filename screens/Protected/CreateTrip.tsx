@@ -5,15 +5,15 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/Button';
 import { TripForm } from '@/components/form/TripForm';
 import { CreateTripModal } from '@/components/modals/CreateTripModal';
+import { ScreenHeader } from '@/components/ScreenHeader';
 import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
 import { useTripForm } from '@/hooks/forms/useTripForm';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ScreenHeader } from '@/components/ScreenHeader';
 
 // TODO
 export default function CreateTripScreen() {
