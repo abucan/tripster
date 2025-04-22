@@ -45,7 +45,7 @@ export function EmptyStateTripCard({
   }));
 
   return (
-    <Animated.View style={[styles.container, animatedStyle]}>
+    <View style={[styles.container, animatedStyle]}>
       <View style={styles.cardContainer}>
         <Ghost size={48} color="#ccc" />
         <Text style={styles.title}>{cardTitle}</Text>
@@ -59,7 +59,7 @@ export function EmptyStateTripCard({
           size="lg"
         />
       </View>
-    </Animated.View>
+    </View>
   );
 }
 

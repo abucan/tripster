@@ -44,17 +44,16 @@ export function TripCardItem({
   }));
 
   return (
-    <Animated.View style={[styles.container, animatedStyle]}>
+    <View style={[styles.container]}>
       <View style={styles.cardContainer}>
         <View style={styles.cardHeader}>
-          <Animated.Image
+          <Image
             source={
               image_url
                 ? { uri: image_url }
                 : require('@/assets/images/home_header.png')
             }
             style={styles.image}
-            sharedTransitionTag="tag"
           />
 
           <View style={styles.imageTag}>
@@ -85,7 +84,7 @@ export function TripCardItem({
           </BlurView>
         </View>
       </View>
-    </Animated.View>
+    </View>
   );
 }
 

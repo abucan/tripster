@@ -20,13 +20,13 @@ export function ScreenHeader({
           onPress={onBackPress || (() => navigation.goBack())}
           style={styles.backButton}
         >
-          <Ionicons name={leftIcon} size={20} color="black" />
+          <Ionicons name={leftIcon} size={24} color="black" />
         </TouchableOpacity>
       )}
       {title && <Text style={styles.title}>{title}</Text>}
       {rightIcon && (
         <TouchableOpacity onPress={onMorePress} style={styles.moreButton}>
-          <Ionicons name={rightIcon} size={20} color="black" />
+          <Ionicons name={rightIcon} size={24} color="black" />
         </TouchableOpacity>
       )}
     </View>
@@ -44,13 +44,13 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     left: 20,
-    padding: 10,
+    // padding: 10,
     borderRadius: 100,
   },
   moreButton: {
     position: 'absolute',
     right: 20,
-    padding: 10,
+    // padding: 10,
     borderRadius: 100,
   },
   title: {
