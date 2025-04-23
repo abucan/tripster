@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { X } from 'lucide-react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
@@ -8,31 +8,38 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-import { SearchBarProps } from '@/types';
 import { Ionicons } from '@expo/vector-icons';
 
+import { SearchBarProps } from '@/types';
 import { PlacesAutocomplete } from './PlacesAutocomplete';
-// TODO
+
 export function SearchBar({
   isSearchBarExpanded,
   setIsSearchBarExpanded,
 }: SearchBarProps) {
   const insets = useSafeAreaInsets();
   const [expanded, setExpanded] = useState(isSearchBarExpanded);
+  const [measuredHeight, setMeasuredHeight] = useState(300); // default fallback
   const height = useSharedValue(70);
   const top = useSharedValue(200);
 
+  const [suggestionHeight, setSuggestionHeight] = useState(0);
+
+  const contentRef = useRef(null);
+
   useEffect(() => {
-    height.value = withTiming(expanded ? 300 : 70, {
-      duration: 300,
-      easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-    });
+    height.value = withTiming(
+      expanded ? measuredHeight + suggestionHeight : 70,
+      {
+        duration: 300,
+        easing: Easing.out(Easing.cubic),
+      },
+    );
     top.value = withTiming(expanded ? insets.top : 200, {
       duration: 300,
-      easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+      easing: Easing.out(Easing.cubic),
     });
-  }, [expanded]);
+  }, [expanded, measuredHeight, suggestionHeight]);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -41,110 +48,114 @@ export function SearchBar({
     };
   });
 
+  useEffect(() => {
+    if (!expanded) setSuggestionHeight(0);
+  }, [expanded]);
+
   return (
-    <Animated.View style={[styles.container, animatedStyles]}>
-      {!expanded ? (
-        <View style={styles.searchBar}>
-          <Ionicons
-            name="search"
-            size={32}
-            style={styles.icon}
-            onPress={() => {
-              setExpanded(!expanded);
-              setIsSearchBarExpanded(!isSearchBarExpanded);
-            }}
-          />
-          <View style={styles.searchContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                setExpanded(!expanded);
-                setIsSearchBarExpanded(!isSearchBarExpanded);
-              }}
-            >
-              <Text style={styles.whereText}>Where to?</Text>
-            </TouchableOpacity>
-            <View style={styles.description}>
-              <Text style={styles.descriptionText}>Anywhere</Text>
-              <View style={styles.dot} />
-              <Text style={styles.descriptionText}>Anytime</Text>
-              <View style={styles.dot} />
-              <Text style={styles.descriptionText}>Any budget</Text>
-            </View>
-          </View>
-        </View>
-      ) : (
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            paddingVertical: 12,
-            gap: 12,
-            justifyContent: 'flex-start',
-          }}
-        >
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: 'Helvetica-Now-Display-Bold',
-                fontSize: 22,
-                color: 'black',
-              }}
-              onPress={() => {
-                setExpanded(!expanded);
-                setIsSearchBarExpanded(!isSearchBarExpanded);
-              }}
-            >
-              Where to?
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setExpanded(!expanded);
-                setIsSearchBarExpanded(!isSearchBarExpanded);
-              }}
-              style={styles.closeButton}
-            >
+    <>
+      {/* Hidden view to measure height */}
+      <View
+        style={styles.hiddenMeasure}
+        onLayout={(event) => {
+          const { height: h } = event.nativeEvent.layout;
+          setMeasuredHeight(h + 24); // add padding for smoother UX
+        }}
+      >
+        <View style={styles.expandedContent}>
+          <View style={styles.expandedTopRow}>
+            <Text style={styles.expandedTitle}>Where to?</Text>
+            <TouchableOpacity style={styles.closeButton}>
               <X size={20} color="black" />
             </TouchableOpacity>
           </View>
           <PlacesAutocomplete value="" onSelect={() => {}} />
         </View>
-      )}
-    </Animated.View>
+      </View>
+
+      <Animated.View style={[styles.container, animatedStyles]}>
+        {!expanded ? (
+          <View style={styles.searchBar}>
+            <Ionicons
+              name="search"
+              size={32}
+              style={styles.icon}
+              onPress={() => {
+                setExpanded(true);
+                setIsSearchBarExpanded(true);
+              }}
+            />
+            <View style={styles.searchContainer}>
+              <TouchableOpacity
+                onPress={() => {
+                  setExpanded(true);
+                  setIsSearchBarExpanded(true);
+                }}
+              >
+                <Text style={styles.whereText}>Where to?</Text>
+              </TouchableOpacity>
+              <View style={styles.description}>
+                <Text style={styles.descriptionText}>Anywhere</Text>
+                <View style={styles.dot} />
+                <Text style={styles.descriptionText}>Anytime</Text>
+                <View style={styles.dot} />
+                <Text style={styles.descriptionText}>Any budget</Text>
+              </View>
+            </View>
+          </View>
+        ) : (
+          <View style={{ flex: 1 }}>
+            <View style={styles.expandedContent}>
+              <View style={styles.expandedTopRow}>
+                <Text style={styles.expandedTitle}>Where to?</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    setExpanded(false);
+                    setIsSearchBarExpanded(false);
+                  }}
+                  style={styles.closeButton}
+                >
+                  <X size={20} color="black" />
+                </TouchableOpacity>
+              </View>
+              <View style={{ marginTop: 16 }}>
+                <PlacesAutocomplete
+                  value=""
+                  onSelect={() => {}}
+                  onHeightChange={setSuggestionHeight}
+                />
+              </View>
+            </View>
+          </View>
+        )}
+      </Animated.View>
+    </>
   );
 }
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     zIndex: 10,
     position: 'absolute',
-    display: 'flex',
-    flexDirection: 'row',
-    alignSelf: 'center',
-    top: 200,
     left: 20,
     right: 20,
-    height: 70,
     backgroundColor: 'white',
     borderRadius: 18,
     borderCurve: 'continuous',
-    boxShadow: '0px 0px 20px -10px rgba(0, 0, 0, 0.16)',
+    overflow: 'hidden',
+  },
+  hiddenMeasure: {
+    position: 'absolute',
+    opacity: 0,
+    zIndex: -1,
+    left: 1000, // off-screen
   },
   searchBar: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    height: '100%',
   },
   searchContainer: {
-    display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
   },
@@ -164,9 +175,7 @@ export const styles = StyleSheet.create({
     color: 'black',
   },
   description: {
-    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     gap: 8,
   },
@@ -181,5 +190,26 @@ export const styles = StyleSheet.create({
     borderRadius: 2,
     backgroundColor: 'gray',
     opacity: 0.5,
+  },
+  // expandedContent: {
+  //   padding: 12,
+  //   gap: 12,
+  // },
+  expandedContent: {
+    flexDirection: 'column',
+    paddingTop: 12,
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+  },
+  expandedTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 8,
+  },
+  expandedTitle: {
+    fontFamily: 'Helvetica-Now-Display-Bold',
+    fontSize: 22,
+    color: 'black',
   },
 });

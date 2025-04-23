@@ -23,7 +23,7 @@ export default function TripsScreen() {
   return (
     <View style={[styles.safeArea, { top: insets.top, bottom: insets.bottom }]}>
       <FocusAwareStatusBar barStyle="dark-content" />
-      <ScreenHeader title="My Trips" rightIcon="funnel-sharp" />
+      <ScreenHeader title="Trips" rightIcon="funnel-sharp" />
       <View style={styles.searchContainer}>
         <Input
           value={query}
@@ -34,14 +34,16 @@ export default function TripsScreen() {
           icon="search-outline"
           wrapperStyle={{ marginHorizontal: 20 }}
         />
-        <CategoryTagSelector
-          selectedCategories={selectedCategories}
-          selectedTags={[]}
-          onCategoriesChange={(item) => {
-            filterTripsByCategory(item);
-          }}
-          onTagsChange={() => {}}
-        />
+        {trips.length > 0 && (
+          <CategoryTagSelector
+            selectedCategories={selectedCategories}
+            selectedTags={[]}
+            onCategoriesChange={(item) => {
+              filterTripsByCategory(item);
+            }}
+            onTagsChange={() => {}}
+          />
+        )}
       </View>
 
       <View style={{ flex: 1 }}>

@@ -1,8 +1,12 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import debounce from 'lodash/debounce';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ScrollView } from 'react-native-actions-sheet';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { Place, PlacesAutocompleteProps } from '@/types';
 import { getIconForPlaceType } from '@/utils/icons';
@@ -14,9 +18,9 @@ const MAPBOX_ACCESS_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
 // TODO
 export function PlacesAutocomplete({
   value,
-  placeholder,
   onSelect,
-}: PlacesAutocompleteProps) {
+  onHeightChange,
+}: PlacesAutocompleteProps & { onHeightChange?: (height: number) => void }) {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -67,7 +71,7 @@ export function PlacesAutocomplete({
   const handleSelect = (place: Place) => {
     // setQuery(place.place_name);
     setSelectedSuggestion(place);
-    setShowSuggestions(false);
+    // setShowSuggestions(false);
 
     onSelect({
       name: place.place_name,
@@ -86,36 +90,20 @@ export function PlacesAutocomplete({
         placeholder="Search for a place"
         icon="search-outline"
       />
-      <ScrollView
-        style={{
-          maxHeight: 400,
-          width: '100%',
-          marginTop: 10,
+      <View
+        style={styles.listWrapper}
+        onLayout={(event) => {
+          const height = event.nativeEvent.layout.height;
+          onHeightChange?.(height);
         }}
-        showsVerticalScrollIndicator={false}
       >
-        {suggestions &&
-          suggestions?.map((item, index) => (
+        <FlatList
+          data={suggestions}
+          keyExtractor={(item, index) => `${item.place_name}-${index}`}
+          renderItem={({ item, index }) => (
             <TouchableOpacity
-              key={`${item.place_name}-${index}`}
               onPress={() => handleSelect(item)}
-              style={{
-                paddingHorizontal: 20,
-                paddingVertical: 16,
-                borderBottomWidth: suggestions.length === index + 1 ? 0 : 1,
-                borderBottomColor: '#E0E0E0',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                backgroundColor:
-                  item.place_name === selectedSuggestion?.place_name
-                    ? 'aliceblue'
-                    : 'white',
-                borderLeftWidth:
-                  item.place_name === selectedSuggestion?.place_name ? 5 : 0,
-                borderLeftColor: 'lightgray',
-                borderRadius: 10,
-              }}
+              style={styles.suggestionItem}
             >
               <View style={{ width: '70%' }}>
                 <Text
@@ -123,14 +111,14 @@ export function PlacesAutocomplete({
                   numberOfLines={1}
                   ellipsizeMode="tail"
                 >
-                  {item?.text}
+                  {item.text}
                 </Text>
                 <Text
                   style={styles.regionText}
                   numberOfLines={2}
                   ellipsizeMode="tail"
                 >
-                  {item?.place_name}
+                  {item.place_name}
                 </Text>
               </View>
               <View style={styles.placeTypeWrapper}>
@@ -138,27 +126,37 @@ export function PlacesAutocomplete({
                 <Text style={styles.placeTypeText}>{item.place_type[0]}</Text>
               </View>
             </TouchableOpacity>
-          ))}
-      </ScrollView>
-      <Button
-        title="Select"
-        size="lg"
-        disabled={!selectedSuggestion}
-        onPress={() => {}}
-        style={{
-          marginVertical: 20,
-          width: '100%',
-          alignSelf: 'center',
-        }}
-      />
+          )}
+          scrollEnabled={true}
+          showsVerticalScrollIndicator={false}
+          style={{ marginTop: 10 }}
+        />
+      </View>
+      <View style={styles.footer}>
+        <Button
+          title="Select"
+          size="lg"
+          disabled={!selectedSuggestion}
+          onPress={() => handleSelect(selectedSuggestion!)}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginHorizontal: 20,
+    width: '100%',
+    // minHeight: 60,
+    flexShrink: 1,
+  },
+  listWrapper: {
+    maxHeight: 300,
+  },
+  footer: {
+    marginTop: 12,
+    // paddingBottom: 12,
+    // paddingHorizontal: 20,
   },
   cityText: {
     fontFamily: 'Helvetica-Now-Display-Bold',
@@ -184,5 +182,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     textTransform: 'capitalize',
+  },
+  suggestionItem: {
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
 });
