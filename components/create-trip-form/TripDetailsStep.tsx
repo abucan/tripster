@@ -1,7 +1,8 @@
+import { Controller } from 'react-hook-form';
 import { View } from 'react-native';
+
 import { Button } from '../Button';
 import { MyInput } from '../form/MyInput';
-import { Controller } from 'react-hook-form';
 
 interface TripDetailsStepProps {
   control: any;

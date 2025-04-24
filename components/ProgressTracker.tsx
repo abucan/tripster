@@ -1,11 +1,12 @@
 // ProgressTracker.tsx (Plane on same line as dot, line and dot layout preserved)
 import React, { useEffect } from 'react';
+import { Plane } from 'lucide-react-native';
 import {
   Dimensions,
   StyleSheet,
-  View,
-  TouchableOpacity,
   Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import Animated, {
   Easing,
@@ -13,7 +14,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { Plane } from 'lucide-react-native';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 

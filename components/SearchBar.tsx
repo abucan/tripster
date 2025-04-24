@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef,useState } from 'react';
 import { X } from 'lucide-react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
@@ -8,9 +8,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
 
 import { SearchBarProps } from '@/types';
+import { Ionicons } from '@expo/vector-icons';
+
 import { PlacesAutocomplete } from './PlacesAutocomplete';
 
 export function SearchBar({

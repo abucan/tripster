@@ -1,3 +1,14 @@
+// new imports
+import { useRef, useState } from 'react';
+import dayjs from 'dayjs';
+import {
+  BadgeEuro,
+  Calendar,
+  MapPin,
+  NotebookIcon,
+  Tags,
+  Users,
+} from 'lucide-react-native';
 import {
   Animated,
   KeyboardAvoidingView,
@@ -11,33 +22,21 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/Button';
+import { CollapsibleCard } from '@/components/CollapsibleCard';
+import { BudgetPersonsStep } from '@/components/create-trip-form/BudgetPersonsStep';
+import { CategoriesStep } from '@/components/create-trip-form/CategoriesStep';
+import { DatesStep } from '@/components/create-trip-form/DatesStep';
+import { DestinationStep } from '@/components/create-trip-form/DestinationStep';
+import { TripDetailsStep } from '@/components/create-trip-form/TripDetailsStep';
+import { MyInput } from '@/components/form/MyInput';
 import { TripForm } from '@/components/form/TripForm';
 import { CreateTripModal } from '@/components/modals/CreateTripModal';
+import { ProgressTracker } from '@/components/ProgressTracker';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
-import { useTripForm } from '@/hooks/forms/useTripForm';
-import { MyInput } from '@/components/form/MyInput';
-
-// new imports
-import { useRef, useState } from 'react';
-import { CollapsibleCard } from '@/components/CollapsibleCard';
 import { StepperForm } from '@/components/StepperForm';
-import { TripDetailsStep } from '@/components/create-trip-form/TripDetailsStep';
-import { DestinationStep } from '@/components/create-trip-form/DestinationStep';
-import { DatesStep } from '@/components/create-trip-form/DatesStep';
-import dayjs from 'dayjs';
-import { BudgetPersonsStep } from '@/components/create-trip-form/BudgetPersonsStep';
-import { CategoriesStep } from '@/components/create-trip-form/CategoriesStep';
-import { ProgressTracker } from '@/components/ProgressTracker';
-import {
-  BadgeEuro,
-  Calendar,
-  MapPin,
-  NotebookIcon,
-  Tags,
-  Users,
-} from 'lucide-react-native';
+import { useTripForm } from '@/hooks/forms/useTripForm';
 
 // TODO
 export default function CreateTripScreen() {
@@ -81,7 +80,7 @@ export default function CreateTripScreen() {
       ]}
     >
       <ScreenHeader
-        title="Create Trip"
+        title="New Trip"
         leftIcon="arrow-back"
         rightIcon="ellipsis-horizontal"
       />
@@ -156,7 +155,11 @@ export default function CreateTripScreen() {
                   <Calendar color="#007AFF" size={20} />
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('range.startDate') && watch('range.endDate')
-                      ? `${dayjs(watch('range.startDate')).format('MMM DD')} - ${dayjs(watch('range.endDate')).format('MMM DD, YYYY')}`
+                      ? `${dayjs(watch('range.startDate')).format(
+                          'MMM DD'
+                        )} - ${dayjs(watch('range.endDate')).format(
+                          'MMM DD, YYYY'
+                        )}`
                       : 'No travel dates selected'}
                   </Text>
                 </View>

@@ -3,9 +3,9 @@ import { Controller } from 'react-hook-form';
 import { View } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 
-import { MyInput } from '@/components/form/MyInput';
 import { Button } from '@/components/Button';
 import { Counter } from '@/components/Counter';
+import { MyInput } from '@/components/form/MyInput';
 
 interface Props {
   control: any;

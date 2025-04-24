@@ -2,8 +2,8 @@ import React from 'react';
 import { Controller } from 'react-hook-form';
 import { View } from 'react-native';
 
-import { CategoryTagSelector } from '@/components/CategoryTagSelector';
 import { Button } from '@/components/Button';
+import { CategoryTagSelector } from '@/components/CategoryTagSelector';
 
 interface Props {
   control: any;

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { View } from 'react-native';
+
 import { CollapsibleCard } from './CollapsibleCard';
 
 interface Step {
@@ -21,7 +22,7 @@ export const StepperForm: React.FC<StepperFormProps> = ({
   currentStep,
   setCurrentStep,
 }) => {
-  const stepRefs = useRef<Array<any>>([]);
+  const stepRefs = useRef<any[]>([]);
 
   const goToStep = (index: number) => {
     if (index === currentStep || index < 0 || index >= steps.length) return;

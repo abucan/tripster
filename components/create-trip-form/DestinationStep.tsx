@@ -2,8 +2,8 @@ import React from 'react';
 import { Controller } from 'react-hook-form';
 import { TouchableOpacity, View } from 'react-native';
 
-import { MyInput } from '@/components/form/MyInput';
 import { Button } from '@/components/Button';
+import { MyInput } from '@/components/form/MyInput';
 
 interface Props {
   control: any;
