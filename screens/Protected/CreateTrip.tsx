@@ -21,6 +21,23 @@ import { MyInput } from '@/components/form/MyInput';
 
 // new imports
 import { useRef, useState } from 'react';
+import { CollapsibleCard } from '@/components/CollapsibleCard';
+import { StepperForm } from '@/components/StepperForm';
+import { TripDetailsStep } from '@/components/create-trip-form/TripDetailsStep';
+import { DestinationStep } from '@/components/create-trip-form/DestinationStep';
+import { DatesStep } from '@/components/create-trip-form/DatesStep';
+import dayjs from 'dayjs';
+import { BudgetPersonsStep } from '@/components/create-trip-form/BudgetPersonsStep';
+import { CategoriesStep } from '@/components/create-trip-form/CategoriesStep';
+import { ProgressTracker } from '@/components/ProgressTracker';
+import {
+  BadgeEuro,
+  Calendar,
+  MapPin,
+  NotebookIcon,
+  Tags,
+  Users,
+} from 'lucide-react-native';
 
 // TODO
 export default function CreateTripScreen() {
@@ -41,25 +58,17 @@ export default function CreateTripScreen() {
     handleDateRangeChange,
     setShowModal,
     reset,
+    watch,
   } = useTripForm({});
 
+  const firstCardRef = useRef<any>(null);
+  const secondCardRef = useRef<any>(null);
+
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const [step, setStep] = useState(1);
+
   const insets = useSafeAreaInsets();
-
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const animatedHeight = useRef(new Animated.Value(1)).current; // 1 = expanded, 0 = collapsed
-
-  const handleCollapse = () => {
-    Animated.timing(animatedHeight, {
-      toValue: 0,
-      duration: 400,
-      useNativeDriver: false, // useNativeDriver cannot animate height, so use false
-    }).start(() => setIsCollapsed(!isCollapsed));
-  };
-
-  const onNewSubmit = (data: any) => {
-    // ...your submit logic
-    handleCollapse();
-  };
 
   return (
     <ScrollView
@@ -76,124 +85,152 @@ export default function CreateTripScreen() {
         leftIcon="arrow-back"
         rightIcon="ellipsis-horizontal"
       />
-      <Animated.View
-        style={{
-          flex: 1,
-          marginHorizontal: 20,
-          gap: 16,
-          marginTop: 12,
-          padding: 16,
-          borderRadius: 18,
-          borderCurve: 'continuous',
-          boxShadow: '0px 0px 20px -10px rgba(0, 0, 0, 0.16)',
-          backgroundColor: 'white',
-
-          height: animatedHeight.interpolate({
-            inputRange: [0, 1],
-            outputRange: [100, 350],
-          }),
-          overflow: 'hidden',
-        }}
-      >
-        {!isCollapsed ? (
-          <TouchableOpacity onPress={handleCollapse}>
-            <View
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: 6,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontFamily: 'Helvetica-Now-Display-Bold',
-                }}
-              >
-                Trip Name
-              </Text>
-              <MyInput
-                onChangeText={() => {}}
-                value={''}
-                placeholder="Enter trip name"
-                label="Trip Name"
-                error={errors.title?.message}
+      <ProgressTracker currentStep={currentStep} totalSteps={5} />
+      <StepperForm
+        currentStep={currentStep}
+        setCurrentStep={setCurrentStep}
+        steps={[
+          {
+            key: 'tripDetails',
+            content: (
+              <TripDetailsStep
+                control={control}
+                errors={errors}
+                onNext={() => setStep(2)}
               />
-            </View>
-            <View
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: 6,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontFamily: 'Helvetica-Now-Display-Bold',
-                }}
-              >
-                Trip Description
-              </Text>
-              <MyInput
-                onChangeText={() => {}}
-                value={''}
-                placeholder="Enter trip description"
-                label="Trip Description"
-                error={errors.description?.message}
-                height={125}
-                isTextArea
+            ),
+            summary: (
+              <View style={{ gap: 8 }}>
+                <View
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+                >
+                  <NotebookIcon color="#007AFF" size={20} />
+                  <Text style={{ fontWeight: '600', fontSize: 16 }}>
+                    {watch('title') || 'Untitled Trip'}
+                  </Text>
+                </View>
+                <Text style={{ fontSize: 14, color: '#555', marginLeft: 28 }}>
+                  {watch('description') || 'No description provided.'}
+                </Text>
+              </View>
+            ),
+          },
+          {
+            key: 'destination',
+            content: (
+              <DestinationStep
+                control={control}
+                errors={errors}
+                destinationBottomSheetRef={destinationBottomSheetRef}
+                onNext={() => setStep(3)}
               />
-            </View>
-            <Button title="Continue" size="lg" onPress={onNewSubmit} />
-          </TouchableOpacity>
-        ) : (
-          <View>
-            <Text>{'Trip Name'}</Text>
-            <Text>{'Trip Description'}</Text>
-          </View>
-        )}
-      </Animated.View>
+            ),
+            summary: (
+              <View style={{ gap: 8 }}>
+                <View
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+                >
+                  <MapPin color="#007AFF" size={20} />
+                  <Text style={{ fontWeight: '600', fontSize: 16 }}>
+                    {watch('destination') || 'No destination selected'}
+                  </Text>
+                </View>
+              </View>
+            ),
+          },
+          {
+            key: 'dates',
+            content: (
+              <DatesStep
+                control={control}
+                errors={errors}
+                rangeBottomSheetRef={rangeBottomSheetRef}
+                onNext={() => setStep(4)}
+              />
+            ),
+            summary: (
+              <View style={{ gap: 8 }}>
+                <View
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+                >
+                  <Calendar color="#007AFF" size={20} />
+                  <Text style={{ fontWeight: '600', fontSize: 16 }}>
+                    {watch('range.startDate') && watch('range.endDate')
+                      ? `${dayjs(watch('range.startDate')).format('MMM DD')} - ${dayjs(watch('range.endDate')).format('MMM DD, YYYY')}`
+                      : 'No travel dates selected'}
+                  </Text>
+                </View>
+              </View>
+            ),
+          },
+          {
+            key: 'budgetPersons',
+            content: (
+              <BudgetPersonsStep
+                control={control}
+                errors={errors}
+                onNext={() => setStep(5)}
+              />
+            ),
+            summary: (
+              <View style={{ flexDirection: 'row', gap: 24 }}>
+                <View
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+                >
+                  <BadgeEuro color="#007AFF" size={20} />
+                  <Text style={{ fontWeight: '600', fontSize: 16 }}>
+                    {watch('budget')
+                      ? `$${watch('budget')?.toFixed(2)}`
+                      : 'No budget set'}
+                  </Text>
+                </View>
 
-      {/* <View
-        style={{
-          flex: 1,
-          marginHorizontal: 20,
-          gap: 16,
-          marginTop: 12,
-          padding: 16,
-          borderRadius: 18,
-          borderCurve: 'continuous',
-          boxShadow: '0px 0px 20px -10px rgba(0, 0, 0, 0.16)',
-          backgroundColor: 'white',
-        }}
-      >
-        <View
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: 6,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 20,
-              fontFamily: 'Helvetica-Now-Display-Bold',
-            }}
-          >
-            Trip Destination
-          </Text>
-          <MyInput
-            onChangeText={() => {}}
-            value={''}
-            placeholder="Select travel destination"
-            label="Travel Destination"
-            error={errors.destination?.message}
-            icon="chevron-down-outline"
-            editable={false}
-          />
-        </View>
-      </View> */}
+                <View
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+                >
+                  <Users color="#007AFF" size={20} />
+                  <Text style={{ fontWeight: '600', fontSize: 16 }}>
+                    {watch('persons') || 1} traveler
+                    {watch('persons') === 1 ? '' : 's'}
+                  </Text>
+                </View>
+              </View>
+            ),
+          },
+          {
+            key: 'categories',
+            content: <CategoriesStep control={control} onNext={() => {}} />,
+            summary: (
+              <View style={{ gap: 8 }}>
+                <View
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+                >
+                  <Tags color="#007AFF" size={20} />
+                  <Text style={{ fontWeight: '600', fontSize: 16 }}>
+                    Categories
+                  </Text>
+                </View>
+                <Text style={{ fontSize: 14, color: '#555', marginLeft: 28 }}>
+                  {(watch('categories') || []).join(', ') ||
+                    'No categories selected'}
+                </Text>
+              </View>
+            ),
+          },
+        ]}
+      />
+
+      <SelectDestinationSheet
+        bottomSheetRef={destinationBottomSheetRef}
+        onDestinationChange={handleDestinationChange}
+        onClose={() => destinationBottomSheetRef.current?.hide()}
+      />
+
+      <SelectDateRangeSheet
+        bottomSheetRef={rangeBottomSheetRef}
+        onDateRangeChange={handleDateRangeChange}
+        onClose={() => rangeBottomSheetRef.current?.close()}
+      />
     </ScrollView>
   );
 }

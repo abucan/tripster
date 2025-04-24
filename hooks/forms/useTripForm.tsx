@@ -36,6 +36,7 @@ export function useTripForm({
     formState: { errors, isSubmitting },
     setValue,
     reset,
+    watch,
   } = useForm<TripFormData>({
     resolver: zodResolver(tripSchema),
     defaultValues: {
@@ -116,5 +117,6 @@ export function useTripForm({
     handleDateRangeChange,
     setShowModal,
     reset,
+    watch,
   };
 }

@@ -75,6 +75,7 @@ export default function SelectDestinationSheet({
 const styles = StyleSheet.create({
   sheetContainer: {
     height: 500,
+    marginHorizontal: 20,
   },
   contentContainer: {
     marginHorizontal: 20,
