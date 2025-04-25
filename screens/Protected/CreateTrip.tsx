@@ -81,8 +81,8 @@ export default function CreateTripScreen() {
     >
       <ScreenHeader
         title="New Trip"
-        leftIcon="arrow-back"
-        rightIcon="ellipsis-horizontal"
+        leftIcon="close"
+        // rightIcon="close"
       />
       <ProgressTracker currentStep={currentStep} totalSteps={5} />
       <StepperForm
@@ -99,7 +99,7 @@ export default function CreateTripScreen() {
               />
             ),
             summary: (
-              <View style={{ gap: 8 }}>
+              <View style={{ gap: 4 }}>
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >

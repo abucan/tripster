@@ -16,8 +16,8 @@ export default function ProtectedStack() {
         component={CreateTripScreen}
         options={{
           gestureEnabled: false,
-          animation: 'flip',
-          animationDuration: 1,
+          animation: 'fade',
+          animationDuration: 100,
         }}
       />
     </Stack.Navigator>

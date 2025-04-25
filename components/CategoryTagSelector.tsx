@@ -41,7 +41,7 @@ export function CategoryTagSelector({
                   category.id.toString()
                 )
                   ? themeColors.primary
-                  : themeColors.card,
+                  : '#F7F7F7',
                 borderColor: themeColors.border,
               },
             ]}
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 8,
     marginRight: 8,
+    backgroundColor: '#F7F7F7',
   },
   categoryText: {
     fontSize: 14,

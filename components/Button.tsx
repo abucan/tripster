@@ -122,7 +122,7 @@ export function Button({
 
 const getVariantStyle = (
   variant: string,
-  theme: typeof Colors.light,
+  theme: typeof Colors.light
 ): ViewStyle => {
   switch (variant) {
     case 'default':
@@ -148,7 +148,7 @@ const getVariantStyle = (
 
 const getTextStyle = (
   variant: string,
-  theme: typeof Colors.light,
+  theme: typeof Colors.light
 ): TextStyle => {
   switch (variant) {
     case 'default':

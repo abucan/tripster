@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, {
   forwardRef,
   useEffect,
@@ -41,7 +42,7 @@ export const CollapsibleCard = forwardRef(
     const [measuredHeight, setMeasuredHeight] = useState(300); // default fallback
 
     const height = useSharedValue(
-      initiallyCollapsed ? collapsedHeight : measuredHeight,
+      initiallyCollapsed ? collapsedHeight : measuredHeight
     );
 
     useEffect(() => {
@@ -100,21 +101,24 @@ export const CollapsibleCard = forwardRef(
           <Button title="Collapse" onPress={collapse} /> */}
       </>
     );
-  },
+  }
 );
 
 const styles = StyleSheet.create({
   card: {
     overflow: 'hidden',
-    backgroundColor: 'white',
     borderRadius: 18,
+    borderCurve: 'continuous',
+    backgroundColor: 'white',
+
     marginHorizontal: 20,
     marginVertical: 8,
-    padding: 16,
-    borderCurve: 'continuous',
   },
   content: {
     flexDirection: 'column',
+    padding: 16,
+    flex: 1,
+    justifyContent: 'center',
   },
   hiddenMeasure: {
     position: 'absolute',
