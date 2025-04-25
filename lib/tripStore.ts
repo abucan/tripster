@@ -92,14 +92,14 @@ export const useTripStore = create<TripStore>((set, get) => ({
         throw new Error('User not found');
       }
 
-      const imageUrl: string | null = await get().uploadImage(
-        tripData.image_url!,
-        user.id,
-      );
+      // const imageUrl: string | null = await get().uploadImage(
+      //   tripData.image_url!,
+      //   user.id,
+      // );
 
-      if (!imageUrl) {
-        throw new Error('Image not uploaded');
-      }
+      // if (!imageUrl) {
+      //   throw new Error('Image not uploaded');
+      // }
 
       const { data: trip, error } = await supabase
         .from('trips')
@@ -112,8 +112,8 @@ export const useTripStore = create<TripStore>((set, get) => ({
           end_date: tripData.range.endDate.toISOString(),
           budget: tripData.budget,
           persons: tripData.persons,
-          image_url: imageUrl,
-          existing_image_url: imageUrl,
+          image_url: '',
+          existing_image_url: '',
         })
         .select()
         .single();

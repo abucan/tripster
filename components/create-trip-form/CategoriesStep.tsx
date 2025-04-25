@@ -7,7 +7,7 @@ import { CategoryTagSelector } from '@/components/CategoryTagSelector';
 
 interface Props {
   control: any;
-  onNext: () => void;
+  onNext?: () => void;
 }
 
 export const CategoriesStep: React.FC<Props> = ({ control, onNext }) => {

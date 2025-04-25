@@ -56,14 +56,16 @@ export function useTripForm({
   // TODO: fix the date range
   const onSubmit = async (data: TripFormData) => {
     if (!isEditing) {
+      console.log('creating');
+
       const result = await createTrip({
         ...data,
-        image_url: imageUri,
       });
       if (result) {
         setShowModal(true);
       }
     } else {
+      console.log('editing');
     }
   };
 

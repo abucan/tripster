@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import {
   LayoutChangeEvent,
+  Pressable,
   StyleSheet,
   Text,
   View,
@@ -26,6 +27,7 @@ interface CollapsibleCardProps {
   collapsedHeight?: number;
   initiallyCollapsed?: boolean;
   containerStyle?: ViewStyle;
+  onPress?: () => void;
 }
 
 export const CollapsibleCard = forwardRef(
@@ -36,13 +38,14 @@ export const CollapsibleCard = forwardRef(
       collapsedHeight = 80,
       initiallyCollapsed = false,
       containerStyle,
+      onPress,
     } = props;
 
     const [isCollapsed, setIsCollapsed] = useState(initiallyCollapsed);
     const [measuredHeight, setMeasuredHeight] = useState(300); // default fallback
 
     const height = useSharedValue(
-      initiallyCollapsed ? collapsedHeight : measuredHeight
+      initiallyCollapsed ? collapsedHeight : measuredHeight,
     );
 
     useEffect(() => {
@@ -91,17 +94,13 @@ export const CollapsibleCard = forwardRef(
         </View>
 
         <Animated.View style={[styles.card, containerStyle, animatedStyle]}>
-          <View style={styles.content}>
+          <Pressable onPress={onPress} style={styles.content}>
             {isCollapsed ? collapsedContent : children}
-          </View>
+          </Pressable>
         </Animated.View>
-
-        {/* Example Buttons (optional control UI) */}
-        {/* <Button title="Expand" onPress={expand} />
-          <Button title="Collapse" onPress={collapse} /> */}
       </>
     );
-  }
+  },
 );
 
 const styles = StyleSheet.create({

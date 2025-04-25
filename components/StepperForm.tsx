@@ -7,6 +7,8 @@ interface Step {
   key: string;
   content: React.ReactNode;
   summary: React.ReactNode;
+  onNext?: () => void;
+  onBack?: () => void;
 }
 
 interface StepperFormProps {
@@ -43,10 +45,17 @@ export const StepperForm: React.FC<StepperFormProps> = ({
           ref={(ref) => (stepRefs.current[index] = ref)}
           initiallyCollapsed={index !== initialStep}
           collapsedContent={step.summary}
+          onPress={() => {
+            if (index !== currentStep) {
+              stepRefs.current[currentStep]?.collapse();
+              stepRefs.current[index]?.expand();
+              setCurrentStep(index);
+            }
+          }}
         >
           {React.cloneElement(step.content as any, {
-            onNext: next,
-            onBack: prev,
+            onNext: step.onNext || next,
+            onBack: step.onBack || prev,
           })}
         </CollapsibleCard>
       ))}

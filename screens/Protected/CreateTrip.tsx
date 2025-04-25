@@ -156,9 +156,9 @@ export default function CreateTripScreen() {
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('range.startDate') && watch('range.endDate')
                       ? `${dayjs(watch('range.startDate')).format(
-                          'MMM DD'
+                          'MMM DD',
                         )} - ${dayjs(watch('range.endDate')).format(
-                          'MMM DD, YYYY'
+                          'MMM DD, YYYY',
                         )}`
                       : 'No travel dates selected'}
                   </Text>
@@ -202,7 +202,8 @@ export default function CreateTripScreen() {
           },
           {
             key: 'categories',
-            content: <CategoriesStep control={control} onNext={() => {}} />,
+            onNext: () => handleSubmit(onSubmit, onErrors)(),
+            content: <CategoriesStep control={control} />,
             summary: (
               <View style={{ gap: 8 }}>
                 <View
@@ -233,6 +234,20 @@ export default function CreateTripScreen() {
         bottomSheetRef={rangeBottomSheetRef}
         onDateRangeChange={handleDateRangeChange}
         onClose={() => rangeBottomSheetRef.current?.close()}
+      />
+
+      <CreateTripModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        onDonePress={() => {
+          setShowModal(false);
+          reset();
+          // add a delay to the navigation
+          setTimeout(() => {
+            // router.push('/(protected)/(tabs)/trips');
+            // TODO: use navigation
+          }, 500);
+        }}
       />
     </ScrollView>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { ActivityIndicator, SafeAreaView,View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, View } from 'react-native';
 import { SheetProvider } from 'react-native-actions-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
