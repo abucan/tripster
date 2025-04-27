@@ -78,6 +78,9 @@ export default function CreateTripScreen() {
           bottom: insets.bottom,
         },
       ]}
+      contentContainerStyle={{
+        flexGrow: 1,
+      }}
     >
       <ScreenHeader
         title="New Trip"
@@ -156,9 +159,9 @@ export default function CreateTripScreen() {
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('range.startDate') && watch('range.endDate')
                       ? `${dayjs(watch('range.startDate')).format(
-                          'MMM DD',
+                          'MMM DD'
                         )} - ${dayjs(watch('range.endDate')).format(
-                          'MMM DD, YYYY',
+                          'MMM DD, YYYY'
                         )}`
                       : 'No travel dates selected'}
                   </Text>

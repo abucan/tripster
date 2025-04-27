@@ -15,11 +15,11 @@ interface AuthStore {
   setSession: (session: Session | null) => void;
   signUp: (
     email: string,
-    password: string,
+    password: string
   ) => Promise<{ success: boolean; error?: string }>;
   signIn: (
     email: string,
-    password: string,
+    password: string
   ) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<{ success: boolean; error?: string }>;
   verifyOTP: (token: string) => Promise<{ success: boolean; error?: string }>;
@@ -30,6 +30,11 @@ interface AuthStore {
   error: string | null;
   setIsLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
+
+  createProfile: (
+    userId: string,
+    email?: string
+  ) => Promise<{ success: boolean; error?: any }>;
 }
 
 export const useAuthStore = create<AuthStore>((set, get) => ({
@@ -43,14 +48,37 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   setIsLoading: (loading: boolean) => set({ isLoading: loading }),
   setError: (error: string | null) => set({ error }),
 
+  createProfile: async (userId: string, email?: string) => {
+    if (!userId) return { success: false, error: 'Missing userId' };
+
+    const { error } = await supabase.from('profiles').insert([
+      {
+        id: userId,
+        username: email ? email.split('@')[0] : null,
+        full_name: null,
+        avatar_url: null,
+      },
+    ]);
+
+    if (error) return { success: false, error };
+    return { success: true };
+  },
+
   signUp: async (email: string, password: string) => {
     set({ isLoading: true, error: null });
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
       });
       if (error) throw error;
+
+      const { success, error: profileError } = await get().createProfile(
+        data?.user?.id!,
+        email
+      );
+      if (!success) throw profileError;
+
       set({ userEmail: email });
       return { success: true };
     } catch (error: any) {

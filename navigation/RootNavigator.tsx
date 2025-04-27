@@ -20,6 +20,8 @@ export default function RootNavigator() {
   // You can add onboarding check logic here too
   const isAuthenticated = !!session;
 
+  console.log(session);
+
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
