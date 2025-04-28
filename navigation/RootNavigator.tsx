@@ -13,14 +13,11 @@ export default function RootNavigator() {
   const { session, isLoading } = useAuthStore();
 
   if (isLoading) {
-    console.log('loading');
+    console.log('RootNavigator: loading');
     return null;
-  } // Or splash/loading
+  }
 
-  // You can add onboarding check logic here too
   const isAuthenticated = !!session;
-
-  console.log(session);
 
   return (
     <NavigationContainer>

@@ -10,6 +10,7 @@ interface AuthStore {
   session: Session | null;
   userEmail: string | null;
   isEmailVerified: boolean;
+  isAwaitingVerification: boolean;
 
   // auth actions
   setSession: (session: Session | null) => void;
@@ -30,11 +31,6 @@ interface AuthStore {
   error: string | null;
   setIsLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
-
-  createProfile: (
-    userId: string,
-    email?: string
-  ) => Promise<{ success: boolean; error?: any }>;
 }
 
 export const useAuthStore = create<AuthStore>((set, get) => ({
@@ -42,28 +38,12 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   session: null,
   userEmail: null,
   isEmailVerified: false,
+  isAwaitingVerification: false,
   isLoading: false,
   error: null,
   setSession: (session: Session | null) => set({ session }),
   setIsLoading: (loading: boolean) => set({ isLoading: loading }),
   setError: (error: string | null) => set({ error }),
-
-  createProfile: async (userId: string, email?: string) => {
-    if (!userId) return { success: false, error: 'Missing userId' };
-
-    const { error } = await supabase.from('profiles').insert([
-      {
-        id: userId,
-        username: email ? email.split('@')[0] : null,
-        full_name: null,
-        avatar_url: null,
-      },
-    ]);
-
-    if (error) return { success: false, error };
-    return { success: true };
-  },
-
   signUp: async (email: string, password: string) => {
     set({ isLoading: true, error: null });
     try {
@@ -71,13 +51,13 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         email,
         password,
       });
-      if (error) throw error;
 
-      const { success, error: profileError } = await get().createProfile(
-        data?.user?.id!,
-        email
-      );
-      if (!success) throw profileError;
+      if (error) throw error;
+      console.log(data);
+      if (!data.session) {
+        console.log('awaiting verification');
+        set({ isAwaitingVerification: true });
+      }
 
       set({ userEmail: email });
       return { success: true };

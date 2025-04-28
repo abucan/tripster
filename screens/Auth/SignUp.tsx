@@ -28,16 +28,20 @@ export default function SignUpScreen() {
     watch,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      email: 'ante.bucan.st@gmail.com',
+      password: 'antePR0123',
+      confirmPassword: 'antePR0123',
+    },
   });
 
   watch('password');
 
   const onSubmit = async (data: RegisterFormData) => {
     const result = await signUp(data.email, data.password);
-
+    console.log(result);
     if (result.success) {
-      //  router.replace('/(auth)/verify-otp');
-      // TODO
+      navigation.push('VerifyOtp');
     }
   };
 

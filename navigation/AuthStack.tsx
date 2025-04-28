@@ -5,6 +5,7 @@ import SignInScreen from '@/screens/Auth/SignIn';
 import SignUpScreen from '@/screens/Auth/SignUp';
 import VerifyOtpScreen from '@/screens/Auth/VerifyOtp';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useAuthStore } from '@/lib/store';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,8 +16,12 @@ const SafeAreaWrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 export default function AuthStack() {
+  const { isAwaitingVerification } = useAuthStore();
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      initialRouteName={isAwaitingVerification ? 'VerifyOtp' : 'SignIn'}
+      screenOptions={{ headerShown: false }}
+    >
       <Stack.Screen name="SignIn">
         {(_) => (
           <SafeAreaWrapper>
