@@ -1,22 +1,22 @@
 import {
+  Image,
   ScrollView,
   StyleSheet,
-  View,
   Text,
-  Image,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { Ionicons } from '@expo/vector-icons';
 import { useAuthStore } from '@/lib/store';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const DEFAULT_IMAGE = require('@/assets/images/home_header.png');
 
   const { user, signOut } = useAuthStore();
-  console.log(user);
 
   return (
     <View
@@ -30,29 +30,57 @@ export default function ProfileScreen() {
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
-          <ScreenHeader title="Profile" />
+          <View style={styles.headerContainer}>
+            <TouchableOpacity style={styles.backButton}>
+              <Ionicons name="chevron-back" size={24} color="#007AFF" />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Settings</Text>
+          </View>
 
-          <View style={styles.profileSection}>
-            <Image source={DEFAULT_IMAGE} style={styles.avatar} />
-            <View style={styles.userInfo}>
-              <Text style={styles.name}>Brooklyn Simmons</Text>
-              <Text style={styles.username}>@bioxlyn</Text>
+          <View style={styles.profileCard}>
+            <View style={styles.profileInitials}>
+              <Text style={styles.initialsText}>AB</Text>
+            </View>
+            <View style={styles.profileInfo}>
+              <Text style={styles.profileName}>
+                {user?.name || 'Ante Bucan'}
+              </Text>
+              <Text style={styles.profileEmail}>
+                {user?.email || 'rs7d2jschv@privaterelay.appleid.com'}
+              </Text>
             </View>
             <TouchableOpacity>
-              <Ionicons name="create-outline" size={24} color="black" />
+              <Ionicons name="chevron-forward" size={24} color="#8E8E93" />
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.settingTitle}>Settings</Text>
+          <Text style={styles.sectionTitle}>GENERAL</Text>
 
-          <View style={styles.menu}>
-            {menuItem('card-outline', 'My Trips')}
-            {menuItem('heart-outline', 'My Favorite')}
-            {menuItem('shield-checkmark-outline', 'Security')}
-            {menuItem('notifications-outline', 'Notification')}
-            {menuItem('language-outline', 'Languages')}
-            {menuItem('help-circle-outline', 'Help and Support')}
-            {menuItem('log-out-outline', 'Logout', signOut)}
+          <View style={styles.menuSection}>
+            {settingsItem('folder-outline', 'Default Goal', 'Work', true)}
+            {settingsItem('calendar-outline', 'Today')}
+            {settingsItem('grid-outline', 'Habits')}
+            {settingsItem('timer-outline', 'Focus Timer')}
+            {settingsItem('moon-outline', 'Dark Mode', 'System')}
+            {settingsItem('apps-outline', 'App Icon')}
+          </View>
+
+          <Text style={styles.sectionTitle}>CALENDARS</Text>
+
+          <View style={styles.menuSection}>
+            {settingsItem('calendar-outline', 'Default')}
+            {settingsItem('calendar-outline', 'Other')}
+            {settingsItem('calendar-outline', 'Subscribed Calendars')}
+          </View>
+
+          <View style={styles.menuSection}>
+            {settingsItem('notifications-outline', 'Alerts & Reminders')}
+          </View>
+
+          <Text style={styles.sectionTitle}>FEEDBACK</Text>
+
+          <View style={styles.menuSection}>
+            {/* Add feedback options here */}
           </View>
         </ScrollView>
       </View>
@@ -60,11 +88,32 @@ export default function ProfileScreen() {
   );
 }
 
-function menuItem(iconName: string, label: string, action?: () => void) {
+function settingsItem(
+  iconName: string,
+  label: string,
+  value?: string,
+  hasToggle?: boolean,
+) {
   return (
-    <TouchableOpacity style={styles.menuItem} onPress={action}>
-      <Ionicons name={iconName as any} size={24} style={styles.menuIcon} />
-      <Text style={styles.menuText}>{label}</Text>
+    <TouchableOpacity style={styles.settingsItem}>
+      <View style={styles.settingsItemLeft}>
+        <Ionicons
+          name={iconName as any}
+          size={24}
+          color="#007AFF"
+          style={styles.settingsIcon}
+        />
+        <Text style={styles.settingsLabel}>{label}</Text>
+      </View>
+      <View style={styles.settingsItemRight}>
+        {value && <Text style={styles.settingsValue}>{value}</Text>}
+        {hasToggle && (
+          <View style={styles.toggle}>
+            <View style={styles.toggleOn} />
+          </View>
+        )}
+        <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+      </View>
     </TouchableOpacity>
   );
 }
@@ -72,62 +121,171 @@ function menuItem(iconName: string, label: string, action?: () => void) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    // backgroundColor: 'white',
+    backgroundColor: '#F2F2F7',
   },
   container: {
     flex: 1,
   },
   scrollContainer: {
-    marginHorizontal: 20,
+    paddingBottom: 20,
   },
-  profileSection: {
+  headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 16,
-    marginBottom: 32,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
   },
-  avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginRight: 16,
+  backButton: {
+    padding: 8,
   },
-  userInfo: {
+  headerTitle: {
     flex: 1,
-  },
-  name: {
+    textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: 'Helvetica-Now-Display-Bold',
+    color: '#000',
+    marginRight: 40,
   },
-  username: {
-    fontSize: 14,
-    fontFamily: 'Helvetica-Now-Display-Regular',
-    color: 'gray',
-  },
-  settingTitle: {
-    fontSize: 16,
-    fontFamily: 'Helvetica-Now-Display-Medium',
-    color: 'gray',
-    marginBottom: 12,
-  },
-  menu: {
-    // backgroundColor: 'white',
-    // borderRadius: 10,
-    overflow: 'hidden',
-  },
-  menuItem: {
+  profileCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 20,
-    // borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#313030d',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 16,
+    marginHorizontal: 16,
+    marginVertical: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
   },
-  menuIcon: {
+  profileInitials: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#E5E5EA',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginRight: 16,
   },
-  menuText: {
+  initialsText: {
+    color: '#000',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  profileInfo: {
+    flex: 1,
+  },
+  profileName: {
+    color: '#000',
     fontSize: 18,
-    fontFamily: 'Helvetica-Now-Display-Light',
+    fontWeight: 'bold',
+  },
+  profileEmail: {
+    color: '#8E8E93',
+    fontSize: 14,
+  },
+  sectionTitle: {
+    fontSize: 14,
+    color: '#8E8E93',
+    marginHorizontal: 16,
+    marginTop: 24,
+    marginBottom: 8,
+  },
+  menuSection: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    marginHorizontal: 16,
+    overflow: 'hidden',
+    marginBottom: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  settingsItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#E5E5EA',
+  },
+  settingsItemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  settingsIcon: {
+    marginRight: 16,
+    color: '#007AFF',
+  },
+  settingsLabel: {
+    color: '#000',
+    fontSize: 16,
+  },
+  settingsItemRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  settingsValue: {
+    color: '#8E8E93',
+    fontSize: 16,
+    marginRight: 8,
+  },
+  toggle: {
+    width: 40,
+    height: 24,
+    backgroundColor: '#34C759',
+    borderRadius: 12,
+    marginRight: 8,
+    padding: 2,
+    justifyContent: 'center',
+  },
+  toggleOn: {
+    width: 20,
+    height: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignSelf: 'flex-end',
+  },
+  tabBar: {
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    paddingBottom: 20,
+    borderTopWidth: 0.5,
+    borderTopColor: '#E5E5EA',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingTop: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+  },
+  tabItem: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabLabel: {
+    color: '#8E8E93',
+    fontSize: 12,
+    marginTop: 4,
+  },
+  addButton: {
+    width: 60,
+    height: 60,
+    backgroundColor: '#007AFF',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    bottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 4,
   },
 });
