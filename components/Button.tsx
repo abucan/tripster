@@ -5,35 +5,12 @@ import {
   Text,
   TextStyle,
   TouchableOpacity,
-  useColorScheme,
   ViewStyle,
 } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 
-const Colors = {
-  light: {
-    background: '#FFFFFF',
-    text: '#09090B',
-    primary: '#02023d',
-    destructive: '#EF4444',
-    secondary: '#F4F4F5',
-    outline: '#E4E4E7',
-    ghost: 'transparent',
-    white: '#FFFFFF',
-    brand: '#3B82F6',
-  },
-  dark: {
-    background: '#09090B',
-    text: '#FFFFFF',
-    primary: '#02023d',
-    destructive: '#EF4444',
-    secondary: '#27272A',
-    outline: '#3F3F46',
-    ghost: 'transparent',
-    white: '#FFFFFF',
-    brand: '#60A5FA',
-  },
-};
+import { Colors } from '@/constants/button';
+import { useTheme } from '@/lib/theme';
 
 interface ButtonProps extends React.ComponentProps<typeof TouchableOpacity> {
   title: string;
@@ -65,8 +42,8 @@ export function Button({
   textStyle,
   ...props
 }: ButtonProps) {
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const { theme: themeVariant } = useTheme();
+  const theme = Colors[themeVariant];
 
   const buttonStyle = [
     styles.button,
@@ -124,48 +101,36 @@ const getVariantStyle = (
   variant: string,
   theme: typeof Colors.light
 ): ViewStyle => {
-  switch (variant) {
-    case 'default':
-      return { backgroundColor: theme.primary };
-    case 'destructive':
-      return { backgroundColor: theme.destructive };
-    case 'outline':
-      return {
-        backgroundColor: 'transparent',
-        borderWidth: 1,
-        borderColor: theme.outline,
-      };
-    case 'secondary':
-      return { backgroundColor: theme.secondary };
-    case 'ghost':
-      return { backgroundColor: 'transparent' };
-    case 'link':
-      return { backgroundColor: 'transparent' };
-    default:
-      return { backgroundColor: theme.primary };
-  }
+  const variantStyles: Record<string, ViewStyle> = {
+    default: { backgroundColor: theme.primary },
+    destructive: { backgroundColor: theme.destructive },
+    outline: {
+      backgroundColor: 'transparent',
+      borderWidth: 1,
+      borderColor: theme.outline,
+    },
+    secondary: { backgroundColor: theme.secondary },
+    ghost: { backgroundColor: 'transparent' },
+    link: { backgroundColor: 'transparent' },
+  };
+
+  return variantStyles[variant] || variantStyles.default;
 };
 
 const getTextStyle = (
   variant: string,
   theme: typeof Colors.light
 ): TextStyle => {
-  switch (variant) {
-    case 'default':
-    case 'destructive':
-      return { color: theme.white };
-    case 'outline':
-      return { color: 'black' };
-    case 'secondary':
-    case 'ghost':
-      return { color: theme.text };
-    case 'link':
-      return {
-        color: '#6b7280',
-      };
-    default:
-      return { color: theme.white };
-  }
+  const textStyles: Record<string, TextStyle> = {
+    default: { color: theme.white },
+    destructive: { color: theme.white },
+    outline: { color: 'black' },
+    secondary: { color: theme.text },
+    ghost: { color: theme.text },
+    link: { color: '#6b7280' },
+  };
+
+  return textStyles[variant] || textStyles.default;
 };
 
 const styles = StyleSheet.create({

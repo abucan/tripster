@@ -1,8 +1,7 @@
 import { create } from 'zustand';
 
+import * as authService from '@/services/api/auth';
 import { Session, User } from '@supabase/supabase-js';
-
-import { supabase } from './supabase';
 
 interface AuthStore {
   // user and session
@@ -47,18 +46,10 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   signUp: async (email: string, password: string) => {
     set({ isLoading: true, error: null });
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-
-      if (error) throw error;
-      console.log(data);
+      const data = await authService.signUp(email, password);
       if (!data.session) {
-        console.log('awaiting verification');
         set({ isAwaitingVerification: true });
       }
-
       set({ userEmail: email });
       return { success: true };
     } catch (error: any) {
@@ -71,17 +62,11 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   signIn: async (email: string, password: string) => {
     set({ isLoading: true, error: null });
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) throw error;
-
+      const data = await authService.signIn(email, password);
       if (data.user?.confirmed_at === null) {
         set({ error: 'Email not verified' });
         return { success: false, error: 'Email not verified' };
       }
-
       set({ user: data.user, session: data.session });
       return { success: true };
     } catch (error: any) {
@@ -94,8 +79,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   signOut: async () => {
     set({ isLoading: true, error: null });
     try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
+      await authService.signOut();
       set({ user: null, session: null });
       return { success: true };
     } catch (error: any) {
@@ -113,13 +97,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         set({ error: 'No email found' });
         return { success: false, error: 'No email found' };
       }
-
-      const { error } = await supabase.auth.verifyOtp({
-        email: state.userEmail,
-        token,
-        type: 'signup',
-      });
-      if (error) throw error;
+      await authService.verifyOTP(state.userEmail, token);
       return { success: true };
     } catch (error: any) {
       set({ error: error.message });
@@ -136,12 +114,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         set({ error: 'No email found' });
         return { success: false, error: 'No email found' };
       }
-
-      const { error } = await supabase.auth.resend({
-        type: 'signup',
-        email: state.userEmail,
-      });
-      if (error) throw error;
+      await authService.resendOTP(state.userEmail);
       return { success: true };
     } catch (error: any) {
       set({ error: error.message });

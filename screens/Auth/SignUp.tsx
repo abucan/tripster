@@ -6,9 +6,10 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Logo } from '@/components/logo/Logo';
 import { SignUpButtons } from '@/components/SignUpButtons';
+import { colors } from '@/constants/theme';
 import { useRootNavigation } from '@/hooks/useNavigation';
 import { useAuthStore } from '@/lib/store';
-import { colors, useTheme } from '@/lib/theme';
+import { useTheme } from '@/lib/theme';
 import { RegisterFormData, registerSchema } from '@/utils/schemas/auth.schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -28,11 +29,6 @@ export default function SignUpScreen() {
     watch,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
-    defaultValues: {
-      email: 'ante.bucan.st@gmail.com',
-      password: 'antePR0123',
-      confirmPassword: 'antePR0123',
-    },
   });
 
   watch('password');

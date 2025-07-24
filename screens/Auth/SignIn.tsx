@@ -6,12 +6,13 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Logo } from '@/components/logo/Logo';
 import { SignUpButtons } from '@/components/SignUpButtons';
+import { colors } from '@/constants/theme';
 import {
   useProtectedNavigation,
   useRootNavigation,
 } from '@/hooks/useNavigation';
 import { useAuthStore } from '@/lib/store';
-import { colors, useTheme } from '@/lib/theme';
+import { useTheme } from '@/lib/theme';
 import { LoginFormData, loginSchema } from '@/utils/schemas/auth.schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 

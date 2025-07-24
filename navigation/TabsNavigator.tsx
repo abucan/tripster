@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 
 import OpenAI from '@/assets/icons/openai.svg';
-import { colors } from '@/lib/theme';
+import { colors } from '@/constants/theme';
+import { useTheme } from '@/lib/theme';
 import { useTripStore } from '@/lib/tripStore';
 import ExploreScreen from '@/screens/Protected/Explore';
 import HomeScreen from '@/screens/Protected/Home';
@@ -24,6 +25,8 @@ export default function TabsNavigator() {
   const navigation = useNavigation();
   const route = useRoute();
   const { fetchTripsAndCategories, isLoading } = useTripStore();
+  const { theme } = useTheme();
+  const themeColors = colors[theme];
 
   useEffect(() => {
     fetchTripsAndCategories();
@@ -32,10 +35,35 @@ export default function TabsNavigator() {
   const isOnTripsSubpage =
     route.name === 'TripsDetail' || route.name === 'TripSettings';
 
+  const styles = StyleSheet.create({
+    loader: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    floatingButton: {
+      position: 'absolute',
+      alignSelf: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 55,
+      height: 55,
+      right: 25,
+      bottom: 100,
+      borderRadius: 30,
+      shadowColor: '#000',
+      // shadowOffset: { width: 0, height: 1 },
+      // shadowOpacity: 0.5,
+      // shadowRadius: 4,
+      // elevation: 5,
+      backgroundColor: themeColors.brand,
+    },
+  });
+
   if (isLoading) {
     return (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#000" />
+      <View style={[styles.loader, { backgroundColor: themeColors.background }]}>
+        <ActivityIndicator size="large" color={themeColors.primary} />
       </View>
     );
   }
@@ -98,28 +126,3 @@ export default function TabsNavigator() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  loader: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  floatingButton: {
-    position: 'absolute',
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 55,
-    height: 55,
-    right: 25,
-    bottom: 100,
-    borderRadius: 30,
-    shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 1 },
-    // shadowOpacity: 0.5,
-    // shadowRadius: 4,
-    // elevation: 5,
-    backgroundColor: colors.light.brand,
-  },
-});

@@ -7,16 +7,14 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useAuthStore } from '@/lib/store';
-import { supabase } from '@/lib/supabase';
-import { loadTheme, saveTheme, ThemeContext, ThemeType } from '@/lib/theme';
+import { RootProvider } from '@/providers/RootProvider';
 
 import RootNavigator from './navigation/RootNavigator';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [theme, setTheme] = React.useState<ThemeType>('light');
-  const { session, setSession, isLoading, setIsLoading } = useAuthStore();
+  const { isLoading } = useAuthStore();
 
   const [fontsLoaded] = useFonts({
     'Helvetica-Now-Display-Light': require('@/assets/fonts/HelveticaNowDisplay-Light.ttf'),
@@ -25,41 +23,12 @@ export default function App() {
     'Helvetica-Now-Display-Bold': require('@/assets/fonts/HelveticaNowDisplay-Bold.ttf'),
   });
 
-  React.useEffect(() => {
-    loadTheme().then(setTheme);
-  }, []);
-
-  React.useEffect(() => {
-    if (fontsLoaded) {
-      setIsLoading(true);
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        setSession(session);
-        setIsLoading(false);
-        SplashScreen.hideAsync();
-      });
-
-      const {
-        data: { subscription },
-      } = supabase.auth.onAuthStateChange((_event, session) => {
-        setSession(session);
-      });
-
-      return () => subscription.unsubscribe();
-    }
-  }, [fontsLoaded]);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    saveTheme(newTheme);
-  };
-
   if (isLoading || !fontsLoaded) {
     return (
       <View
         style={{
           flex: 1,
-          backgroundColor: theme === 'light' ? '#fff' : '#121212',
+          backgroundColor: '#fff',
         }}
       >
         <SafeAreaView style={{ flex: 1 }}>
@@ -75,13 +44,13 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <RootProvider>
         <SheetProvider>
           <SafeAreaProvider>
             <RootNavigator />
           </SafeAreaProvider>
         </SheetProvider>
-      </ThemeContext.Provider>
+      </RootProvider>
     </GestureHandlerRootView>
   );
 }

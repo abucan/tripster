@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native';
 
+import { colors } from '@/constants/theme';
+import { useTheme } from '@/lib/theme';
 import { TextInputProps } from '@/types/index';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -19,6 +21,8 @@ export function Input({
   ...props
 }: TextInputProps & { wrapperStyle?: ViewStyle }) {
   const [securePassword, setSecurePassword] = useState(secureTextEntry);
+  const { theme } = useTheme();
+  const themeColors = colors[theme];
 
   const handlePasswordVisibility = () => {
     setSecurePassword(!securePassword);
@@ -27,10 +31,19 @@ export function Input({
   return (
     <View style={[styles.wrapper, wrapperStyle]}>
       {label && <Text style={styles.label}>{label}</Text>}
-      <View style={[styles.container, error && { borderColor: 'red' }]}>
-        <Ionicons name={icon} size={24} style={styles.icon} />
+      <View
+        style={[
+          styles.container,
+          { borderColor: error ? 'red' : themeColors.border },
+        ]}
+      >
+        <Ionicons
+          name={icon}
+          size={24}
+          style={[styles.icon, { color: themeColors.textSecondary }]}
+        />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: themeColors.text }]}
           onChangeText={onChangeText}
           value={value}
           placeholder={placeholder}
@@ -39,7 +52,7 @@ export function Input({
           keyboardType={keyboardType}
           textContentType={textContentType}
           autoComplete={autoComplete}
-          placeholderTextColor={'#6b7280'}
+          placeholderTextColor={themeColors.textSecondary}
           {...props}
         />
         {secureTextEntry && (
@@ -47,7 +60,7 @@ export function Input({
             onPress={handlePasswordVisibility}
             name={securePassword ? 'eye-off' : 'eye'}
             size={24}
-            style={styles.icon}
+            style={[styles.icon, { color: themeColors.textSecondary }]}
           />
         )}
       </View>
@@ -70,7 +83,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 12,
-    borderColor: '#CFCFCF',
   },
   input: {
     flex: 1,
@@ -81,7 +93,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginHorizontal: 10,
-    color: 'grey',
   },
   errorText: {
     color: 'red',

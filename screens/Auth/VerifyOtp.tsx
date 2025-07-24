@@ -6,8 +6,9 @@ import { OtpInput } from 'react-native-otp-entry';
 
 import { Button } from '@/components/Button';
 import { Logo } from '@/components/logo/Logo';
+import { colors } from '@/constants/theme';
 import { useAuthStore } from '@/lib/store';
-import { colors, useTheme } from '@/lib/theme';
+import { useTheme } from '@/lib/theme';
 import {
   VerifyOtpFormData,
   verifyOTPSchema,
@@ -109,11 +110,14 @@ export default function VerifyOtpScreen() {
                       borderLeftWidth: 0,
                       borderRightWidth: 0,
                       borderRadius: 0,
-                      borderColor: 'gray',
+                      borderColor: themeColors.textSecondary,
                       opacity: 0.8,
                     },
                     containerStyle: {
                       paddingHorizontal: 8,
+                    },
+                    pinCodeTextStyle: {
+                      color: themeColors.text,
                     },
                   }}
                 />
