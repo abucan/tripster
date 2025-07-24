@@ -2,14 +2,6 @@
 import { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import {
-  BadgeEuro,
-  Calendar,
-  MapPin,
-  NotebookIcon,
-  Tags,
-  Users,
-} from 'lucide-react-native';
-import {
   Animated,
   KeyboardAvoidingView,
   Platform,
@@ -106,7 +98,7 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <NotebookIcon color="#007AFF" size={20} />
+                  <Text>NotebookIcon</Text>
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('title') || 'Untitled Trip'}
                   </Text>
@@ -132,7 +124,7 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <MapPin color="#007AFF" size={20} />
+                  <Text>MapPin</Text>
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('destination') || 'No destination selected'}
                   </Text>
@@ -155,7 +147,7 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <Calendar color="#007AFF" size={20} />
+                  <Text>Calendar</Text>
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('range.startDate') && watch('range.endDate')
                       ? `${dayjs(watch('range.startDate')).format(
@@ -183,7 +175,7 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <BadgeEuro color="#007AFF" size={20} />
+                  <Text>BadgeEuro</Text>
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('budget')
                       ? `$${watch('budget')?.toFixed(2)}`
@@ -194,7 +186,7 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <Users color="#007AFF" size={20} />
+                  <Text>Users</Text>
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('persons') || 1} traveler
                     {watch('persons') === 1 ? '' : 's'}
@@ -212,7 +204,7 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <Tags color="#007AFF" size={20} />
+                  <Text>Tags</Text>
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     Categories
                   </Text>

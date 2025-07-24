@@ -1,5 +1,4 @@
-import { useEffect, useRef,useState } from 'react';
-import { X } from 'lucide-react-native';
+import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
   Easing,
@@ -34,7 +33,7 @@ export function SearchBar({
       {
         duration: 300,
         easing: Easing.out(Easing.cubic),
-      },
+      }
     );
     top.value = withTiming(expanded ? insets.top : 200, {
       duration: 300,
@@ -67,7 +66,7 @@ export function SearchBar({
           <View style={styles.expandedTopRow}>
             <Text style={styles.expandedTitle}>Where to?</Text>
             <TouchableOpacity style={styles.closeButton}>
-              <X size={20} color="black" />
+              <Text>X</Text>
             </TouchableOpacity>
           </View>
           <PlacesAutocomplete value="" onSelect={() => {}} />
@@ -116,7 +115,7 @@ export function SearchBar({
                   }}
                   style={styles.closeButton}
                 >
-                  <X size={20} color="black" />
+                  <Text>X</Text>
                 </TouchableOpacity>
               </View>
               <View style={{ marginTop: 16 }}>

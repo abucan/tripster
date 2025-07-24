@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { CounterProps } from '@/types';
@@ -43,10 +42,10 @@ export function Counter({
         </View>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={handleIncrement}>
-            <ChevronUp width={20} height={20} stroke="#000" />
+            ChevronUp
           </TouchableOpacity>
           <TouchableOpacity onPress={handleDecrement}>
-            <ChevronDown width={20} height={20} stroke="#000" />
+            ChevronDown
           </TouchableOpacity>
         </View>
       </View>

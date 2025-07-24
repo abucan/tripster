@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Compass, Globe, Home, User } from 'lucide-react-native';
 import {
   ActivityIndicator,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -62,7 +62,9 @@ export default function TabsNavigator() {
 
   if (isLoading) {
     return (
-      <View style={[styles.loader, { backgroundColor: themeColors.background }]}>
+      <View
+        style={[styles.loader, { backgroundColor: themeColors.background }]}
+      >
         <ActivityIndicator size="large" color={themeColors.primary} />
       </View>
     );
@@ -85,32 +87,28 @@ export default function TabsNavigator() {
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarIcon: ({ color, size }) => <Home color={color} size={size} />,
+            tabBarIcon: ({ color, size }) => <Text>Home</Text>,
           }}
         />
         <Tab.Screen
           name="Explore"
           component={ExploreScreen}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <Compass color={color} size={size} />
-            ),
+            tabBarIcon: ({ color, size }) => <Text>Explore</Text>,
           }}
         />
         <Tab.Screen
           name="Trips"
           component={TripsStack}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <Globe color={color} size={size} />
-            ),
+            tabBarIcon: ({ color, size }) => <Text>Trips</Text>,
           }}
         />
         <Tab.Screen
           name="Profile"
           component={ProfileScreen}
           options={{
-            tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
+            tabBarIcon: ({ color, size }) => <Text>Profile</Text>,
           }}
         />
       </Tab.Navigator>

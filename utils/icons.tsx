@@ -1,15 +1,16 @@
-import { Building, Globe, Home, Map, MapPin } from 'lucide-react-native';
+import { Text } from 'react-native';
+
 export const getIconForPlaceType = (type: string) => {
   switch (type) {
     case 'country':
-      return <Globe size={20} color="black" />;
+      return <Text>Globe</Text>;
     case 'region':
-      return <Map size={20} color="black" />;
+      return <Text>Map</Text>;
     case 'city':
-      return <Building size={20} color="black" />;
+      return <Text>Building</Text>;
     case 'neighborhood':
-      return <Home size={20} color="black" />;
+      return <Text>Home</Text>;
     default:
-      return <MapPin size={20} color="black" />;
+      return <Text>MapPin</Text>;
   }
 };

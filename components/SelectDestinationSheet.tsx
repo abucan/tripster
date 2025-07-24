@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from 'react';
-import { X } from 'lucide-react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 
@@ -9,7 +8,7 @@ import BottomSheet, {
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 
-import { colors, useTheme } from '../lib/theme';
+import { useTheme } from '../lib/theme';
 
 import { PlacesAutocomplete } from './PlacesAutocomplete';
 // TODO
@@ -19,7 +18,7 @@ export default function SelectDestinationSheet({
   onClose,
 }: SelectDestinationSheetProps) {
   const { theme } = useTheme();
-  const themeColors = colors[theme];
+  // const themeColors = colors[theme];
 
   const snapPoints = useMemo(() => ['50%', '75%'], []);
 
@@ -27,7 +26,7 @@ export default function SelectDestinationSheet({
     (index: number) => {
       if (index === -1) onClose();
     },
-    [onClose],
+    [onClose]
   );
 
   const renderBackdrop = useCallback(
@@ -38,7 +37,7 @@ export default function SelectDestinationSheet({
         disappearsOnIndex={-1}
       />
     ),
-    [],
+    []
   );
 
   const handleDestinationChange = ({
@@ -58,11 +57,11 @@ export default function SelectDestinationSheet({
       <View style={styles.sheetContainer}>
         <View style={styles.contentContainer}>
           <View style={styles.header}>
-            <Text style={[styles.title, { color: themeColors.text }]}>
+            <Text style={[styles.title, { color: 'black' }]}>
               Select Destination
             </Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <X size={24} color={themeColors.text} />
+              <Text>X</Text>
             </TouchableOpacity>
           </View>
         </View>

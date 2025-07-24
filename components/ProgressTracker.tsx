@@ -1,6 +1,5 @@
 // ProgressTracker.tsx (Plane on same line as dot, line and dot layout preserved)
 import React, { useEffect } from 'react';
-import { Plane } from 'lucide-react-native';
 import {
   Dimensions,
   StyleSheet,
@@ -73,7 +72,7 @@ export const ProgressTracker: React.FC<ProgressTrackerProps> = ({
       </View>
 
       <Animated.View style={[styles.planeIcon, animatedPlaneStyle]}>
-        <Plane size={24} color="#007AFF" />
+        <Text>Plane</Text>
       </Animated.View>
     </View>
   );

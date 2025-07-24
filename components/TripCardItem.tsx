@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { BlurView } from 'expo-blur';
 import dayjs from 'dayjs';
-import { Calendar } from 'lucide-react-native';
 import { Dimensions, Image, StyleSheet } from 'react-native';
 import { Text, View } from 'react-native';
 import Animated, {
@@ -65,7 +64,7 @@ export function TripCardItem({
             <View style={{ gap: 2 }}>
               <Text style={styles.bodyTagTitle}>{destination}</Text>
               <View style={styles.bodyTagDateContainer}>
-                <Calendar size={16} color="#000" />
+                <Text>Calendar</Text>
                 <Text style={styles.bodyTagDate}>
                   {dayjs(start_date).format('DD MMM YYYY')} -{' '}
                   {dayjs(end_date).format('DD MMM YYYY')}

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Ghost } from 'lucide-react-native';
 import {
   ButtonProps,
   Dimensions,
@@ -47,7 +46,7 @@ export function EmptyStateTripCard({
   return (
     <View style={[styles.container, animatedStyle]}>
       <View style={styles.cardContainer}>
-        <Ghost size={48} color="#ccc" />
+        <Text>Ghost</Text>
         <Text style={styles.title}>{cardTitle}</Text>
         <Text style={styles.subtitle}>{cardDescription}</Text>
         <Button

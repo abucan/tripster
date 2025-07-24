@@ -1,15 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import {
-  Calendar,
-  HeartIcon,
-  LoaderPinwheel,
-  LucideUser,
-  MapPin,
-  PenLine,
-  Wallet,
-} from 'lucide-react-native';
-import {
   Image,
   ScrollView,
   StyleSheet,
@@ -24,7 +15,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { EmptyStateTripCard } from '@/components/EmptyStateTripCard';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { useTripsNavigation } from '@/hooks/useNavigation';
-import { colors } from '@/lib/theme';
 import { useTripStore } from '@/lib/tripStore';
 import { TripsStackParamList } from '@/navigation/TripsStack';
 import { Trip } from '@/types';
@@ -80,7 +70,7 @@ export default function TripDetailScreen() {
         <View style={styles.overlay} />
         <View style={styles.heartCutout}>
           <TouchableOpacity onPress={() => {}}>
-            <HeartIcon color="#007AFF" size={22} />
+            <Text>HeartIcon</Text>
           </TouchableOpacity>
         </View>
       </View>
