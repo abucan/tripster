@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { CounterProps } from '@/types';
+import { Feather } from '@expo/vector-icons';
 
 export function Counter({
   initialValue = 1,
@@ -42,10 +43,10 @@ export function Counter({
         </View>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={handleIncrement}>
-            ChevronUp
+          <Feather name="chevron-up" size={24} color="black" />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleDecrement}>
-            ChevronDown
+          <Feather name="chevron-down" size={24} color="black" />
           </TouchableOpacity>
         </View>
       </View>

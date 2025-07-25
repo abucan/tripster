@@ -27,7 +27,6 @@ export function useTripForm({
 
   useEffect(() => {
     setImageUri(trip?.image_url || '');
-    console.log('trip', trip?.image_url);
   }, [trip]);
 
   const {

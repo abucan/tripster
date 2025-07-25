@@ -38,7 +38,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   userEmail: null,
   isEmailVerified: false,
   isAwaitingVerification: false,
-  isLoading: false,
+  isLoading: true,
   error: null,
   setSession: (session: Session | null) => set({ session }),
   setIsLoading: (loading: boolean) => set({ isLoading: loading }),

@@ -1,13 +1,14 @@
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { colors } from '@/constants/theme';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 
-import { colors, useTheme } from '../lib/theme';
+import {  useTheme } from '../lib/theme';
 
 import { Button } from './Button';
 import { SignUpButtons } from './SignUpButtons';

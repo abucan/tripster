@@ -1,36 +1,28 @@
 // new imports
-import { useRef, useState } from 'react';
+import {  useState } from 'react';
 import dayjs from 'dayjs';
 import {
-  Animated,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Button } from '@/components/Button';
-import { CollapsibleCard } from '@/components/CollapsibleCard';
 import { BudgetPersonsStep } from '@/components/create-trip-form/BudgetPersonsStep';
 import { CategoriesStep } from '@/components/create-trip-form/CategoriesStep';
 import { DatesStep } from '@/components/create-trip-form/DatesStep';
 import { DestinationStep } from '@/components/create-trip-form/DestinationStep';
 import { TripDetailsStep } from '@/components/create-trip-form/TripDetailsStep';
-import { MyInput } from '@/components/form/MyInput';
-import { TripForm } from '@/components/form/TripForm';
 import { CreateTripModal } from '@/components/modals/CreateTripModal';
-import { ProgressTracker } from '@/components/ProgressTracker';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import SelectDateRangeSheet from '@/components/SelectDateRangeSheet';
 import SelectDestinationSheet from '@/components/SelectDestinationSheet';
 import { StepperForm } from '@/components/StepperForm';
 import { useTripForm } from '@/hooks/forms/useTripForm';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
-// TODO
 export default function CreateTripScreen() {
   const {
     control,
@@ -52,14 +44,12 @@ export default function CreateTripScreen() {
     watch,
   } = useTripForm({});
 
-  const firstCardRef = useRef<any>(null);
-  const secondCardRef = useRef<any>(null);
+  const insets = useSafeAreaInsets();
 
   const [currentStep, setCurrentStep] = useState(0);
-
   const [step, setStep] = useState(1);
 
-  const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
 
   return (
     <ScrollView
@@ -77,9 +67,8 @@ export default function CreateTripScreen() {
       <ScreenHeader
         title="New Trip"
         leftIcon="close"
-        // rightIcon="close"
+        onBackPress={() => navigation.goBack()}
       />
-      <ProgressTracker currentStep={currentStep} totalSteps={5} />
       <StepperForm
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
@@ -98,7 +87,7 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <Text>NotebookIcon</Text>
+                  <MaterialIcons name="note-add" size={24} color="black" />
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('title') || 'Untitled Trip'}
                   </Text>
@@ -124,7 +113,7 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <Text>MapPin</Text>
+                  <MaterialIcons name="location-on" size={24} color="black" />
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('destination') || 'No destination selected'}
                   </Text>
@@ -147,7 +136,7 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <Text>Calendar</Text>
+                  <MaterialIcons name="calendar-month" size={24} color="black" />
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('range.startDate') && watch('range.endDate')
                       ? `${dayjs(watch('range.startDate')).format(
@@ -175,7 +164,7 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <Text>BadgeEuro</Text>
+                  <MaterialIcons name="attach-money" size={24} color="black" />
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('budget')
                       ? `$${watch('budget')?.toFixed(2)}`
@@ -186,10 +175,9 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <Text>Users</Text>
+                  <MaterialIcons name="person" size={24} color="black" />
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
-                    {watch('persons') || 1} traveler
-                    {watch('persons') === 1 ? '' : 's'}
+                    {`${watch('persons') || 1} ${(watch('persons') || 1) === 1 ? 'traveler' : 'travelers'}`}
                   </Text>
                 </View>
               </View>
@@ -204,14 +192,13 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <Text>Tags</Text>
+                  <MaterialIcons name="category" size={24} color="black" />
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     Categories
                   </Text>
                 </View>
                 <Text style={{ fontSize: 14, color: '#555', marginLeft: 28 }}>
-                  {(watch('categories') || []).join(', ') ||
-                    'No categories selected'}
+                  {(watch('categories') || []).join(', ') || 'No categories selected'}
                 </Text>
               </View>
             ),

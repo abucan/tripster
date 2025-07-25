@@ -7,7 +7,8 @@ import { Button } from '@/components/Button';
 import { ChooseAuthSheet } from '@/components/ChooseAuthSheet';
 import { Slide } from '@/components/Slide';
 import { Slides } from '@/constants/Slides';
-import { colors, useTheme } from '@/lib/theme';
+import { colors } from '@/constants/theme';
+import { useTheme } from '@/lib/theme';
 import BottomSheet from '@gorhom/bottom-sheet';
 
 export default function Index() {
@@ -71,7 +72,7 @@ export default function Index() {
       </View>
 
       <ChooseAuthSheet
-        bottomSheetRef={authSheetRef}
+        bottomSheetRef={authSheetRef as any}
         onClose={() => authSheetRef.current?.close()}
       />
     </SafeAreaView>

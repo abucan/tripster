@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  ButtonProps,
   Dimensions,
   StyleSheet,
   Text,
@@ -12,6 +11,8 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+
+import {  MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { Button } from './Button';
 
@@ -46,7 +47,7 @@ export function EmptyStateTripCard({
   return (
     <View style={[styles.container, animatedStyle]}>
       <View style={styles.cardContainer}>
-        <Text>Ghost</Text>
+      <MaterialCommunityIcons name="ghost-outline" size={48} color="gray" />
         <Text style={styles.title}>{cardTitle}</Text>
         <Text style={styles.subtitle}>{cardDescription}</Text>
         <Button

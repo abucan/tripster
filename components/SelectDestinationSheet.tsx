@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 
 import { SelectDestinationSheetProps } from '@/types';
+import { AntDesign } from '@expo/vector-icons';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
@@ -61,7 +62,7 @@ export default function SelectDestinationSheet({
               Select Destination
             </Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <Text>X</Text>
+            <AntDesign name="closecircleo" size={24} color="black" />
             </TouchableOpacity>
           </View>
         </View>

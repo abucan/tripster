@@ -3,13 +3,14 @@ import dayjs from 'dayjs';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { DateType } from 'react-native-ui-datepicker';
 
+import { colors } from '@/constants/theme';
 import { SelectDateRangeSheetProps } from '@/types';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 
-import { colors, useTheme } from '../lib/theme';
+import {  useTheme } from '../lib/theme';
 
 import { DateRangePicker } from './DateRangePicker';
 

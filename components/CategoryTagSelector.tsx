@@ -1,11 +1,12 @@
 import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
+import { colors } from '@/constants/theme';
 import { useTripStore } from '@/lib/tripStore';
 import { CategoryTagSelectorProps } from '@/types/index';
 import { FontAwesome6 } from '@expo/vector-icons';
 
-import { colors, useTheme } from '../lib/theme';
+import {  useTheme } from '../lib/theme';
 
 export function CategoryTagSelector({
   selectedCategories,

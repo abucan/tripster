@@ -9,7 +9,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { SearchBarProps } from '@/types';
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 import { PlacesAutocomplete } from './PlacesAutocomplete';
 
@@ -65,8 +65,8 @@ export function SearchBar({
         <View style={styles.expandedContent}>
           <View style={styles.expandedTopRow}>
             <Text style={styles.expandedTitle}>Where to?</Text>
-            <TouchableOpacity style={styles.closeButton}>
-              <Text>X</Text>
+            <TouchableOpacity>
+            <AntDesign name="closecircleo" size={24} color="black" />
             </TouchableOpacity>
           </View>
           <PlacesAutocomplete value="" onSelect={() => {}} />
@@ -113,9 +113,8 @@ export function SearchBar({
                     setExpanded(false);
                     setIsSearchBarExpanded(false);
                   }}
-                  style={styles.closeButton}
                 >
-                  <Text>X</Text>
+                  <AntDesign name="closecircleo" size={24} color="black" />
                 </TouchableOpacity>
               </View>
               <View style={{ marginTop: 16 }}>
@@ -163,11 +162,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 18,
     opacity: 0.8,
     color: 'gray',
-  },
-  closeButton: {
-    padding: 8,
-    borderRadius: 100,
-    backgroundColor: 'rgba(0, 0, 0, 0.08)',
   },
   whereText: {
     fontFamily: 'Helvetica-Now-Display-Bold',

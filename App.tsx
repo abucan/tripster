@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { ActivityIndicator, SafeAreaView, View } from 'react-native';
+import { ActivityIndicator, BackHandler, SafeAreaView, View } from 'react-native';
 import { SheetProvider } from 'react-native-actions-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -23,7 +23,7 @@ export default function App() {
     'Helvetica-Now-Display-Bold': require('@/assets/fonts/HelveticaNowDisplay-Bold.ttf'),
   });
 
-  if (isLoading || !fontsLoaded) {
+  if (!fontsLoaded) {
     return (
       <View
         style={{
@@ -40,6 +40,13 @@ export default function App() {
         </SafeAreaView>
       </View>
     );
+  }
+
+  if (typeof (BackHandler as any).addEventListener !== 'function') {
+    (BackHandler as any).addEventListener = (eventName: string, handler: () => boolean | null | undefined) => ({ remove: () => {} });
+  }
+  if (typeof (BackHandler as any).removeEventListener !== 'function') {
+    (BackHandler as any).removeEventListener = (eventName: string, handler: () => boolean | null | undefined) => {};
   }
 
   return (

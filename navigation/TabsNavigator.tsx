@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -14,6 +13,7 @@ import { useTripStore } from '@/lib/tripStore';
 import ExploreScreen from '@/screens/Protected/Explore';
 import HomeScreen from '@/screens/Protected/Home';
 import ProfileScreen from '@/screens/Protected/Profile';
+import { Feather, Fontisto, MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -81,34 +81,37 @@ export default function TabsNavigator() {
             justifyContent: 'center',
             alignItems: 'center',
           },
+          tabBarIconStyle: {
+            marginBottom: 2
+          }
         }}
       >
         <Tab.Screen
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarIcon: ({ color, size }) => <Text>Home</Text>,
+            tabBarIcon: ({ color, size }) => <Feather name="home" size={size} color={color} />,
           }}
         />
         <Tab.Screen
           name="Explore"
           component={ExploreScreen}
           options={{
-            tabBarIcon: ({ color, size }) => <Text>Explore</Text>,
+            tabBarIcon: ({ color, size }) => <MaterialIcons name="explore" size={size} color={color} />,
           }}
         />
         <Tab.Screen
           name="Trips"
           component={TripsStack}
           options={{
-            tabBarIcon: ({ color, size }) => <Text>Trips</Text>,
+            tabBarIcon: ({ color, size }) => <Fontisto name="world" size={size} color={color} />,
           }}
         />
         <Tab.Screen
           name="Profile"
           component={ProfileScreen}
           options={{
-            tabBarIcon: ({ color, size }) => <Text>Profile</Text>,
+            tabBarIcon: ({ color, size }) => <Feather name="user" size={size} color={color} />,
           }}
         />
       </Tab.Navigator>
