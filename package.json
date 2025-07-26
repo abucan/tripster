@@ -50,7 +50,6 @@
     "react-native-calendars": "^1.1310.0",
     "react-native-currency-input": "^1.1.1",
     "react-native-gesture-handler": "~2.24.0",
-    "react-native-input-spinner": "^1.8.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-modal": "^13.0.1",
     "react-native-otp-entry": "^1.8.2",
