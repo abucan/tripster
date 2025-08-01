@@ -42,6 +42,7 @@ export default function App() {
     );
   }
 
+  /* prevent back button from exiting the app */
   if (typeof (BackHandler as any).addEventListener !== 'function') {
     (BackHandler as any).addEventListener = (eventName: string, handler: () => boolean | null | undefined) => ({ remove: () => {} });
   }
