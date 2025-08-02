@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { ActivityIndicator, BackHandler, SafeAreaView, View } from 'react-native';
+import {
+  ActivityIndicator,
+  BackHandler,
+  SafeAreaView,
+  View,
+} from 'react-native';
 import { SheetProvider } from 'react-native-actions-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -14,7 +19,7 @@ import RootNavigator from './navigation/RootNavigator';
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const { isLoading } = useAuthStore();
+  const { isLoading, initialize } = useAuthStore();
 
   const [fontsLoaded] = useFonts({
     'Helvetica-Now-Display-Light': require('@/assets/fonts/HelveticaNowDisplay-Light.ttf'),
@@ -22,6 +27,11 @@ export default function App() {
     'Helvetica-Now-Display-Medium': require('@/assets/fonts/HelveticaNowDisplay-Medium.ttf'),
     'Helvetica-Now-Display-Bold': require('@/assets/fonts/HelveticaNowDisplay-Bold.ttf'),
   });
+
+  useEffect(() => {
+    console.log('App: initialize');
+    initialize();
+  }, []);
 
   if (!fontsLoaded) {
     return (
@@ -43,10 +53,16 @@ export default function App() {
   }
 
   if (typeof (BackHandler as any).addEventListener !== 'function') {
-    (BackHandler as any).addEventListener = (eventName: string, handler: () => boolean | null | undefined) => ({ remove: () => {} });
+    (BackHandler as any).addEventListener = (
+      eventName: string,
+      handler: () => boolean | null | undefined
+    ) => ({ remove: () => {} });
   }
   if (typeof (BackHandler as any).removeEventListener !== 'function') {
-    (BackHandler as any).removeEventListener = (eventName: string, handler: () => boolean | null | undefined) => {};
+    (BackHandler as any).removeEventListener = (
+      eventName: string,
+      handler: () => boolean | null | undefined
+    ) => {};
   }
 
   return (

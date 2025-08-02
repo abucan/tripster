@@ -18,11 +18,12 @@ export default function RootNavigator() {
   }
 
   const isAuthenticated = !!session;
+  console.log('RootNavigator: isAuthenticated', isAuthenticated);
 
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
-        {!isAuthenticated ? (
+        {isAuthenticated ? (
           <RootStack.Screen name="Protected" component={ProtectedStack} />
         ) : (
           <RootStack.Screen name="Auth" component={AuthStack} />

@@ -13,6 +13,7 @@ interface AuthStore {
 
   // auth actions
   setSession: (session: Session | null) => void;
+  initialize: () => void;
   signUp: (
     email: string,
     password: string
@@ -41,6 +42,16 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   isLoading: true,
   error: null,
   setSession: (session: Session | null) => set({ session }),
+  initialize: () => {
+    set({ isLoading: true });
+    const { session } = get();
+    console.log('AuthStore: initialize', session);
+    if (session) {
+      console.log('AuthStore: initialize: session found');
+      set({ user: session.user, session: session });
+    }
+    set({ isLoading: false });
+  },
   setIsLoading: (loading: boolean) => set({ isLoading: loading }),
   setError: (error: string | null) => set({ error }),
   signUp: async (email: string, password: string) => {

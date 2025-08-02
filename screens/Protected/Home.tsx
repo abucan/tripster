@@ -10,9 +10,9 @@ import { TripCardList } from '@/components/TripCardList';
 import { useTripStore } from '@/lib/tripStore';
 
 export default function HomeScreen() {
-  //const { upcomingTrip } = useTripStore();
+  const { upcomingTrip } = useTripStore();
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
-  
+
   return (
     <View style={styles.wrapper}>
       <FocusAwareStatusBar barStyle="light-content" />
@@ -45,7 +45,7 @@ export default function HomeScreen() {
       >
         <FeaturesList />
         <TripCardList
-          trips={[]}
+          trips={upcomingTrip}
           type="upcoming"
           title="Upcoming Trip"
           cta={true}

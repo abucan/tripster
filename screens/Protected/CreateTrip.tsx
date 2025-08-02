@@ -1,12 +1,7 @@
 // new imports
-import {  useState } from 'react';
+import { useState } from 'react';
 import dayjs from 'dayjs';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BudgetPersonsStep } from '@/components/create-trip-form/BudgetPersonsStep';
@@ -62,6 +57,7 @@ export default function CreateTripScreen() {
       ]}
       contentContainerStyle={{
         flexGrow: 1,
+        gap: 16,
       }}
     >
       <ScreenHeader
@@ -136,7 +132,11 @@ export default function CreateTripScreen() {
                 <View
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
                 >
-                  <MaterialIcons name="calendar-month" size={24} color="black" />
+                  <MaterialIcons
+                    name="calendar-month"
+                    size={24}
+                    color="black"
+                  />
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
                     {watch('range.startDate') && watch('range.endDate')
                       ? `${dayjs(watch('range.startDate')).format(
@@ -177,7 +177,9 @@ export default function CreateTripScreen() {
                 >
                   <MaterialIcons name="person" size={24} color="black" />
                   <Text style={{ fontWeight: '600', fontSize: 16 }}>
-                    {`${watch('persons') || 1} ${(watch('persons') || 1) === 1 ? 'traveler' : 'travelers'}`}
+                    {`${watch('persons') || 1} ${
+                      (watch('persons') || 1) === 1 ? 'traveler' : 'travelers'
+                    }`}
                   </Text>
                 </View>
               </View>
@@ -198,7 +200,8 @@ export default function CreateTripScreen() {
                   </Text>
                 </View>
                 <Text style={{ fontSize: 14, color: '#555', marginLeft: 28 }}>
-                  {(watch('categories') || []).join(', ') || 'No categories selected'}
+                  {(watch('categories') || []).join(', ') ||
+                    'No categories selected'}
                 </Text>
               </View>
             ),
